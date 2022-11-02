@@ -38,6 +38,7 @@ public class SceneManager
                 CurrentScene = new MainMenuScene();
                 break;
             case Scene.Game:
+                CurrentScene = new GameScene();
                 break;
         }
 

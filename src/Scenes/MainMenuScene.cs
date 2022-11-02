@@ -14,45 +14,55 @@ public class MainMenuScene : IScene
         projection = CameraProjection.CAMERA_PERSPECTIVE,
     };
 
-    private int _renderWidth = GetScreenWidth() / 4;
-    private int _renderHeight = GetScreenHeight() / 4;
-    private int _screenWidth = GetScreenWidth();
-    private int _screenHeight = GetScreenHeight();
+    private RenderTexture2D _renderTexture = LoadRenderTexture(ScreenInfo.RenderWidth, ScreenInfo.RenderHeight);
 
-    private RenderTexture2D _renderTexture = LoadRenderTexture(GetScreenWidth() / 4, GetScreenHeight() / 4);
-
-    private Model model;
+    private Model _model;
+    private Texture2D _cursor;
 
     public void Init()
     {
-        SetCameraMode(_camera, CameraMode.CAMERA_ORBITAL);
-        model = ResourceManager.Instance.Models["test"];
+        _model = ResourceManager.Instance.Models["test"];
         var texture = ResourceManager.Instance.Textures["wall"];
-        Raylib.SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
+        Raylib.SetMaterialTexture(ref _model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
+
+        _cursor = ResourceManager.Instance.Textures["cursor"];
+
+        SetCameraMode(_camera, CameraMode.CAMERA_ORBITAL);
+        HideCursor();
     }
 
     public void Update(float deltaTime)
     {
-        Raylib.UpdateCamera(ref _camera);
-        Raylib.BeginDrawing();
+        UpdateCamera(ref _camera);
+        BeginDrawing();
         {
-            Raylib.BeginTextureMode(_renderTexture);
+            BeginTextureMode(_renderTexture);
             {
-                Raylib.ClearBackground(Color.WHITE);
-                Raylib.DrawText("MAN OR MOUSE?", 12, 12, 20, Color.BLACK);
+                ClearBackground(Color.WHITE);
+                DrawText("MAN OR MOUSE?", 12, 12, 20, Color.BLACK);
+                DrawText("Click to Start", 12, 50, 20, Color.BLACK);
 
-                Raylib.BeginMode3D(_camera);
+                BeginMode3D(_camera);
                 {
-                    Raylib.DrawModel(model, new Vector3(0, 0, 0), 1, Color.WHITE);
+                    DrawModel(_model, new Vector3(0, 0, 0), 1, Color.WHITE);
                 }
-                Raylib.EndMode3D();
-            }
-            Raylib.EndTextureMode();
+                EndMode3D();
 
-            DrawTexturePro(_renderTexture.texture, new Rectangle(0, 0, -_renderWidth, _renderHeight), new Rectangle(_screenWidth, _screenHeight, _screenWidth, _screenHeight), new Vector2(0, 0), 180, Color.WHITE);
+                DrawTextureEx(_cursor, new Vector2(GetMouseX() / ScreenInfo.Crunch, GetMouseY() / ScreenInfo.Crunch), 0.0f, 0.5f, Color.WHITE);
+            }
+            EndTextureMode();
+
+            DrawTexturePro(
+                _renderTexture.texture,
+                new Rectangle(0, 0, -ScreenInfo.RenderWidth, ScreenInfo.RenderHeight),
+                new Rectangle(ScreenInfo.ScreenWidth, ScreenInfo.ScreenHeight, ScreenInfo.ScreenWidth, ScreenInfo.ScreenHeight),
+                new Vector2(0, 0),
+                180,
+                Color.WHITE
+            );
             DrawFPS(10, 10);
         }
-        Raylib.EndDrawing();
+        EndDrawing();
     }
 
     public void Deinit() { }

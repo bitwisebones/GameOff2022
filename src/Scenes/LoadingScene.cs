@@ -1,5 +1,6 @@
 
 using Raylib_cs;
+using static Raylib_cs.Raylib;
 
 public class LoadingScene : IScene
 {
@@ -9,17 +10,17 @@ public class LoadingScene : IScene
     {
         var progress = ResourceManager.Instance.LoadNext();
 
-        Raylib.BeginDrawing();
+        BeginDrawing();
         {
-            Raylib.ClearBackground(Color.WHITE);
+            ClearBackground(Color.WHITE);
             var text = $"Progress: {progress.FilesLoaded}/{progress.TotalFiles}";
-            Raylib.DrawText(text, 12, 12, 20, Color.BLACK);
+            DrawText(text, 12, 12, 20, Color.BLACK);
         }
-        Raylib.EndDrawing();
+        EndDrawing();
 
         if (progress.FilesLoaded == progress.TotalFiles)
         {
-            SceneManager.Instance.GoTo(Scene.MainMenu);
+            SceneManager.Instance.GoTo(Scene.Game);
         }
     }
 
