@@ -1,5 +1,6 @@
 
 using Raylib_cs;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using static Raylib_cs.Raylib;
@@ -35,29 +36,37 @@ public class ResourceManager
         _texturePaths = Directory.GetFiles("Resources/Textures");
         _modelPaths = Directory.GetFiles("Resources/Models");
         _totalFiles = _soundPaths.Length + _texturePaths.Length + _modelPaths.Length;
+
+        Console.WriteLine($"{_soundPaths.Length}, {_texturePaths.Length}, {_modelPaths.Length}");
     }
 
     public Progress LoadNext()
     {
-        if (_index < _soundPaths.Length)
+        if (_index < _soundPaths.Length - 1)
         {
-            var sound = LoadSound(_soundPaths[_index]);
-            Sounds.Add(FormatFileName(_soundPaths[_index]), sound);
-            return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index++ };
+            var idx = _index;
+            var sound = LoadSound(_soundPaths[idx]);
+            Sounds.Add(FormatFileName(_soundPaths[idx]), sound);
+            _index++;
+            return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
         }
 
         if (_index - _soundPaths.Length < _texturePaths.Length)
         {
-            var texture = LoadTexture(_texturePaths[_index]);
-            Textures.Add(FormatFileName(_texturePaths[_index]), texture);
-            return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index++ };
+            var idx = _index - _soundPaths.Length;
+            var texture = LoadTexture(_texturePaths[idx]);
+            Textures.Add(FormatFileName(_texturePaths[idx]), texture);
+            _index++;
+            return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
         }
 
         if (_index - _soundPaths.Length - _texturePaths.Length < _modelPaths.Length)
         {
-            var model = LoadModel(_modelPaths[_index]);
-            Models.Add(FormatFileName(_modelPaths[_index]), model);
-            return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index++ };
+            var idx = _index - _soundPaths.Length - _texturePaths.Length;
+            var model = LoadModel(_modelPaths[idx]);
+            Models.Add(FormatFileName(_modelPaths[idx]), model);
+            _index++;
+            return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
         }
 
         return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
@@ -65,7 +74,9 @@ public class ResourceManager
 
     private string FormatFileName(string fileName)
     {
-        return fileName.Split(".")[0];
+        var name = Path.GetFileName(fileName).Split(".")[0];
+        Console.WriteLine($"Loading {name}");
+        return name;
     }
 }
 

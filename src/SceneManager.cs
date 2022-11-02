@@ -27,6 +27,8 @@ public class SceneManager
 
     public void GoTo(Scene scene)
     {
+        CurrentScene.Deinit();
+
         switch (scene)
         {
             case Scene.Loading:
@@ -38,5 +40,7 @@ public class SceneManager
             case Scene.Game:
                 break;
         }
+
+        CurrentScene.Init();
     }
 }

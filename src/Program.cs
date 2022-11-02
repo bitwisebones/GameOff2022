@@ -2,13 +2,15 @@
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 
-namespace GameOff2022 // Note: actual namespace depends on the project name.
+namespace GameOff2022
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Raylib.InitWindow(800, 480, "Mouse or Man?");
+            Raylib.InitWindow(1920, 1080, "Mouse or Man?");
+
+            SetTargetFPS(60);
 
             float deltaTime = 0;
             float lastFrameTime = 0;
