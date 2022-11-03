@@ -1,6 +1,4 @@
-﻿using System;
-using Raylib_cs;
-using static Raylib_cs.Raylib;
+﻿using static Raylib_cs.Raylib;
 
 namespace GameOff2022
 {
@@ -8,13 +6,13 @@ namespace GameOff2022
     {
         static void Main(string[] args)
         {
-            Raylib.InitWindow(1920, 1080, "Mouse or Man?");
+            InitWindow(1920, 1080, "Mouse or Man?");
 
             SetTargetFPS(60);
 
             float deltaTime = 0;
             float lastFrameTime = 0;
-            while (!Raylib.WindowShouldClose())
+            while (!WindowShouldClose())
             {
                 SceneManager.Instance.CurrentScene.Update(deltaTime);
 
@@ -22,7 +20,7 @@ namespace GameOff2022
                 lastFrameTime = GetFrameTime();
             }
 
-            Raylib.CloseWindow();
+            CloseWindow();
         }
     }
 }
