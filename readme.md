@@ -2,6 +2,10 @@
 
 ## _Mouse or Man?_
 
+Repo contents:
+- /src (the game's source code and resources)
+- /design (design docs/notes - !! WARNING ~~ SPOLIERS !!)
+
 ### General Thoughts/Ideas
 - Grid-based movement
 - Play as a Weremouse (man that can transform into a mouse)
@@ -13,5 +17,7 @@
 - [Raylib](https://www.raylib.com/index.html)
 - [Blender](https://www.blender.org/)
 - [Aseprite](https://www.aseprite.org/)
+- [Paint.NET](https://www.getpaint.net/)
+- [Name generator](https://www.fantasynamegenerators.com/)
 
 Work in progress!
