@@ -1,5 +1,4 @@
 
-using System.Linq;
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
@@ -23,32 +22,26 @@ public class GameStage : IStage
 
     private RenderTexture2D _renderTexture = LoadRenderTexture(GetScreenWidth() / 4, GetScreenHeight() / 4);
 
-    private Vector3 _playerGridPos = new Vector3(1, 0, 1);
-    private Direction _playerDir = Direction.East;
     private PlayerMode _playerMode = PlayerMode.Man;
     private float _cameraHeight => _playerMode == PlayerMode.Man ? 1f : 0.15f;
 
-    private Model _model;
+    private Scene _activeScene = new TownScene();
 
-    private NavigationGrid _navGrid = new NavigationGrid();
-
-    public unsafe void Init()
+    public void Init()
     {
-        _model = ResourceManager.Instance.Models["town"];
-        var texture = ResourceManager.Instance.Textures["town"];
-        SetMaterialTexture(ref _model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
-
-        _navGrid.Build("town");
-
         HideCursor();
+        SceneManager.Instance.SceneStack.Push(new TownScene());
     }
 
     public void Update(float deltaTime)
     {
+
         if (IsKeyPressed(KeyboardKey.KEY_SPACE))
         {
             _playerMode = _playerMode == PlayerMode.Mouse ? PlayerMode.Man : PlayerMode.Mouse;
         }
+
+        SceneManager.Instance.Update(deltaTime);
 
         UpdatePlayer();
         UpdateCamera();
@@ -61,9 +54,9 @@ public class GameStage : IStage
 
                 BeginMode3D(_camera);
                 {
-                    // _navGrid.DebugDraw();
+                    _activeScene.NavigationGrid.DebugDraw();
                     // DebugDrawCardinalDirections();
-                    DrawModel(_model, new Vector3(0, 0, 0), 1, Color.WHITE);
+                    DrawModel(_activeScene.LevelModel, new Vector3(0, 0, 0), 1, Color.WHITE);
                 }
                 EndMode3D();
 
@@ -88,7 +81,7 @@ public class GameStage : IStage
 
     private unsafe bool CanMoveForward()
     {
-        var dirVector = _playerDir switch
+        var dirVector = _activeScene.PlayerDirection switch
         {
             Direction.North => new Vector3(0, 0, -1),
             Direction.South => new Vector3(0, 0, 1),
@@ -96,13 +89,13 @@ public class GameStage : IStage
             _ => new Vector3(-1, 0, 0),
         };
 
-        var potentialPos = _playerGridPos + dirVector;
-        return _navGrid.CanNavigateToGridPos(potentialPos, _playerMode);
+        var potentialPos = _activeScene.PlayerGridPos + dirVector;
+        return _activeScene.NavigationGrid.CanNavigateToGridPos(potentialPos, _playerMode);
     }
 
     private unsafe bool CanMoveBackward()
     {
-        var dirVector = _playerDir switch
+        var dirVector = _activeScene.PlayerDirection switch
         {
             Direction.North => new Vector3(0, 0, 1),
             Direction.South => new Vector3(0, 0, -1),
@@ -110,8 +103,8 @@ public class GameStage : IStage
             _ => new Vector3(1, 0, 0),
         };
 
-        var potentialPos = _playerGridPos + dirVector;
-        return _navGrid.CanNavigateToGridPos(potentialPos, _playerMode);
+        var potentialPos = _activeScene.PlayerGridPos + dirVector;
+        return _activeScene.NavigationGrid.CanNavigateToGridPos(potentialPos, _playerMode);
     }
 
     private void UpdatePlayer()
@@ -122,21 +115,23 @@ public class GameStage : IStage
             {
                 return;
             }
-            switch (_playerDir)
+            var pos = _activeScene.PlayerGridPos;
+            switch (_activeScene.PlayerDirection)
             {
                 case Direction.North:
-                    _playerGridPos.Z -= 1;
+                    pos.Z -= 1;
                     break;
                 case Direction.South:
-                    _playerGridPos.Z += 1;
+                    pos.Z += 1;
                     break;
                 case Direction.East:
-                    _playerGridPos.X += 1;
+                    pos.X += 1;
                     break;
                 case Direction.West:
-                    _playerGridPos.X -= 1;
+                    pos.X -= 1;
                     break;
             }
+            _activeScene.PlayerGridPos = pos;
         }
 
         if (IsKeyPressed(KeyboardKey.KEY_S))
@@ -145,45 +140,48 @@ public class GameStage : IStage
             {
                 return;
             }
-            switch (_playerDir)
+
+            var pos = _activeScene.PlayerGridPos;
+            switch (_activeScene.PlayerDirection)
             {
                 case Direction.North:
-                    _playerGridPos.Z += 1;
+                    pos.Z += 1;
                     break;
                 case Direction.South:
-                    _playerGridPos.Z -= 1;
+                    pos.Z -= 1;
                     break;
                 case Direction.East:
-                    _playerGridPos.X -= 1;
+                    pos.X -= 1;
                     break;
                 case Direction.West:
-                    _playerGridPos.X += 1;
+                    pos.X += 1;
                     break;
             }
+            _activeScene.PlayerGridPos = pos;
         }
 
         if (IsKeyPressed(KeyboardKey.KEY_D))
         {
-            _playerDir += 1;
-            if (_playerDir > Direction.West)
+            _activeScene.PlayerDirection += 1;
+            if (_activeScene.PlayerDirection > Direction.West)
             {
-                _playerDir = Direction.North;
+                _activeScene.PlayerDirection = Direction.North;
             }
         }
 
         if (IsKeyPressed(KeyboardKey.KEY_A))
         {
-            _playerDir -= 1;
-            if (_playerDir < Direction.North)
+            _activeScene.PlayerDirection -= 1;
+            if (_activeScene.PlayerDirection < Direction.North)
             {
-                _playerDir = Direction.West;
+                _activeScene.PlayerDirection = Direction.West;
             }
         }
     }
 
     private void UpdateCamera()
     {
-        var playerWorldPos = Grid.ToWorld(_playerGridPos);
+        var playerWorldPos = Grid.ToWorld(_activeScene.PlayerGridPos);
         var deltaX = _camera.position.X - playerWorldPos.X;
         var deltaZ = _camera.position.Z - playerWorldPos.Z;
 
@@ -191,7 +189,7 @@ public class GameStage : IStage
         _camera.position.Z -= deltaZ;
         _camera.position.Y = _cameraHeight;
 
-        var target = _playerDir switch
+        var target = _activeScene.PlayerDirection switch
         {
             Direction.North => new Vector3(playerWorldPos.X, _cameraHeight, playerWorldPos.Z - 1),
             Direction.South => new Vector3(playerWorldPos.X, _cameraHeight, playerWorldPos.Z + 1),
