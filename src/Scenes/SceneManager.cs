@@ -16,11 +16,17 @@ public class SceneManager
 
     private SceneManager() { }
 
-    public Stack<Scene> SceneStack { get; } = new Stack<Scene>();
+    public Stack<IScene> SceneStack { get; } = new Stack<IScene>();
 
-    public void Update(float deltaTime)
+    public RootGameState Update(float deltaTime, RootGameState gameState)
     {
         var scene = SceneStack.Peek();
-        scene.Update(deltaTime);
+        return scene.Update(deltaTime, gameState);
+    }
+
+    public void Render(float deltaTime, ref RenderBundle renderBundle)
+    {
+        var scene = SceneStack.Peek();
+        scene.Render(deltaTime, ref renderBundle);
     }
 }
