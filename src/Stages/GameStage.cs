@@ -54,7 +54,7 @@ public class GameStage : IStage
 
                 BeginMode3D(_camera);
                 {
-                    _activeScene.NavigationGrid.DebugDraw();
+                    // _activeScene.NavigationGrid.DebugDraw();
                     // DebugDrawCardinalDirections();
                     DrawModel(_activeScene.LevelModel, new Vector3(0, 0, 0), 1, Color.WHITE);
                 }

@@ -2,6 +2,18 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "run",
+            "type": "shell",
+            "options": {
+                "cwd": "src"
+            },
+            "command": "dotnet run",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
             "label": "build",
             "command": "dotnet",
             "type": "process",
