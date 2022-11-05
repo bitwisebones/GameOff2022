@@ -1,4 +1,4 @@
-# SPOLER WARNING!
+# SPOILER WARNING!
 
 This directory contains design docs and notes that will spoil the game!
 
