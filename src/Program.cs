@@ -14,7 +14,7 @@ namespace GameOff2022
             float lastFrameTime = 0;
             while (!WindowShouldClose())
             {
-                SceneManager.Instance.CurrentScene.Update(deltaTime);
+                StageManager.Instance.CurrentScene.Update(deltaTime);
 
                 deltaTime = GetFrameTime() - lastFrameTime;
                 lastFrameTime = GetFrameTime();

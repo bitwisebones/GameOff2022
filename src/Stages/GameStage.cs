@@ -10,7 +10,7 @@ public enum PlayerMode
     Mouse,
 }
 
-public class GameScene : IScene
+public class GameStage : IStage
 {
     private Camera3D _camera = new Camera3D()
     {
@@ -23,10 +23,10 @@ public class GameScene : IScene
 
     private RenderTexture2D _renderTexture = LoadRenderTexture(GetScreenWidth() / 4, GetScreenHeight() / 4);
 
-    private Vector3 _playerGridPos = new Vector3(0, 0, 1);
+    private Vector3 _playerGridPos = new Vector3(1, 0, 1);
     private Direction _playerDir = Direction.East;
     private PlayerMode _playerMode = PlayerMode.Man;
-    private float _cameraHeight => _playerMode == PlayerMode.Man ? 1.5f : 0.15f;
+    private float _cameraHeight => _playerMode == PlayerMode.Man ? 1f : 0.15f;
 
     private Model _model;
 
@@ -34,11 +34,11 @@ public class GameScene : IScene
 
     public unsafe void Init()
     {
-        _model = ResourceManager.Instance.Models["test"];
-        var texture = ResourceManager.Instance.Textures["wall"];
+        _model = ResourceManager.Instance.Models["town"];
+        var texture = ResourceManager.Instance.Textures["town"];
         SetMaterialTexture(ref _model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
 
-        _navGrid.Build("test");
+        _navGrid.Build("town");
 
         HideCursor();
     }
@@ -57,12 +57,12 @@ public class GameScene : IScene
         {
             BeginTextureMode(_renderTexture);
             {
-                ClearBackground(new Color(0, 128, 128, 255));
+                ClearBackground(Color.BLACK);
 
                 BeginMode3D(_camera);
                 {
-                    //_navGrid.DebugDraw();
-                    //DebugDrawCardinalDirections();
+                    // _navGrid.DebugDraw();
+                    // DebugDrawCardinalDirections();
                     DrawModel(_model, new Vector3(0, 0, 0), 1, Color.WHITE);
                 }
                 EndMode3D();

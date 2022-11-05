@@ -1,5 +1,5 @@
 
-public interface IScene
+public interface IStage
 {
     void Init();
     void Update(float deltaTime);

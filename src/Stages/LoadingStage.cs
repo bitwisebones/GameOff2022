@@ -2,7 +2,7 @@
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 
-public class LoadingScene : IScene
+public class LoadingStage : IStage
 {
     public void Init() { }
 
@@ -20,7 +20,7 @@ public class LoadingScene : IScene
 
         if (progress.FilesLoaded == progress.TotalFiles)
         {
-            SceneManager.Instance.GoTo(Scene.Game);
+            StageManager.Instance.GoTo(Scene.Game);
         }
     }
 

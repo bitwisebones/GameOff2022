@@ -3,7 +3,7 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 
-public class MainMenuScene : IScene
+public class MainMenuStage : IStage
 {
     private Camera3D _camera = new Camera3D()
     {
