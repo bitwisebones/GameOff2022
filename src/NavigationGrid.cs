@@ -35,7 +35,7 @@ public class NavigationGrid
         return mode switch
         {
             PlayerMode.Man => _navGrid.ContainsKey(idx),
-            PlayerMode.Mouse => _navGrid.ContainsKey(idx) || _navGridMouse.ContainsKey(idx),
+            _ => _navGrid.ContainsKey(idx) || _navGridMouse.ContainsKey(idx),
         };
     }
 

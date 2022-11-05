@@ -93,7 +93,7 @@ public class GameScene : IScene
             Direction.North => new Vector3(0, 0, -1),
             Direction.South => new Vector3(0, 0, 1),
             Direction.East => new Vector3(1, 0, 0),
-            Direction.West => new Vector3(-1, 0, 0),
+            _ => new Vector3(-1, 0, 0),
         };
 
         var potentialPos = _playerGridPos + dirVector;
@@ -107,7 +107,7 @@ public class GameScene : IScene
             Direction.North => new Vector3(0, 0, 1),
             Direction.South => new Vector3(0, 0, -1),
             Direction.East => new Vector3(-1, 0, 0),
-            Direction.West => new Vector3(1, 0, 0),
+            _ => new Vector3(1, 0, 0),
         };
 
         var potentialPos = _playerGridPos + dirVector;
@@ -196,7 +196,7 @@ public class GameScene : IScene
             Direction.North => new Vector3(playerWorldPos.X, _cameraHeight, playerWorldPos.Z - 1),
             Direction.South => new Vector3(playerWorldPos.X, _cameraHeight, playerWorldPos.Z + 1),
             Direction.East => new Vector3(playerWorldPos.X + 1, _cameraHeight, playerWorldPos.Z),
-            Direction.West => new Vector3(playerWorldPos.X - 1, _cameraHeight, playerWorldPos.Z),
+            _ => new Vector3(playerWorldPos.X - 1, _cameraHeight, playerWorldPos.Z),
         };
 
         _camera.target = target;
