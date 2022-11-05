@@ -1,5 +1,5 @@
 
-public enum Scene
+public enum Stage
 {
     Loading,
     MainMenu,
@@ -25,19 +25,19 @@ public class StageManager
 
     public IStage CurrentScene { get; private set; } = new LoadingStage();
 
-    public void GoTo(Scene scene)
+    public void GoTo(Stage scene)
     {
         CurrentScene.Deinit();
 
         switch (scene)
         {
-            case Scene.Loading:
+            case Stage.Loading:
                 CurrentScene = new LoadingStage();
                 break;
-            case Scene.MainMenu:
+            case Stage.MainMenu:
                 CurrentScene = new MainMenuStage();
                 break;
-            case Scene.Game:
+            case Stage.Game:
                 CurrentScene = new GameStage();
                 break;
         }

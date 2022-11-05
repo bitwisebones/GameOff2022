@@ -20,7 +20,7 @@ public class LoadingStage : IStage
 
         if (progress.FilesLoaded == progress.TotalFiles)
         {
-            StageManager.Instance.GoTo(Scene.Game);
+            StageManager.Instance.GoTo(Stage.Game);
         }
     }
 
