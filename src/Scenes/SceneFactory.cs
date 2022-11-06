@@ -19,100 +19,13 @@ public static class SceneFactory
             switch (e.EntityType)
             {
                 case EntityType.Model:
-                    var texA = ResourceManager.Instance.Textures[e.Texture!];
-                    var model = ResourceManager.Instance.Models[e.Model!];
-                    SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texA);
-
-                    var bb = GetModelBoundingBox(model);
-                    var bx = new BoundingBox
-                    {
-                        max = bb.max + Grid.ToWorld(e.GridPos) + e.LocalPos,
-                        min = bb.min + Grid.ToWorld(e.GridPos) + e.LocalPos,
-                    };
-
-                    entities.Add(new Entity
-                    {
-                        Name = e.Name,
-                        EntityType = e.EntityType,
-                        Model = model,
-                        Texture = texA,
-                        Position = Grid.ToWorld(e.GridPos) + e.LocalPos,
-                        Dimensions = Vector3.One,
-                        IsInteractable = e.IsInteractable,
-                        BoundingBox = bx
-                    });
+                    entities.Add(BuildModelEntity(e));
                     break;
                 case EntityType.Billboard:
-                    var texB = ResourceManager.Instance.Textures[e.Texture!];
-                    var pos = Grid.ToWorld(e.GridPos) + e.LocalPos;
-                    var width = texB.width / 64;
-                    var height = texB.height / 64;
-                    var bb3 = new BoundingBox
-                    {
-                        min = pos + new Vector3(-width / 2, -height / 2, -width / 2),
-                        max = pos + new Vector3(width / 2, height / 2, width / 2),
-                    };
-                    var entityB = new Entity
-                    {
-                        Name = e.Name,
-                        Texture = texB,
-                        Position = pos,
-                        Dimensions = new Vector3(width, height, 0),
-                        EntityType = e.EntityType,
-                        IsInteractable = e.IsInteractable,
-                        BoundingBox = bb3,
-                        Scale = e.Scale,
-                    };
-
-                    if (e.IsInteractable)
-                    {
-                        var texQ = ResourceManager.Instance.Textures[e.Texture! + "_hover"];
-                        entityB.HoverTexture = texQ;
-                    }
-
-                    entities.Add(entityB);
+                    entities.Add(BuildBillboardEntity(e));
                     break;
                 case EntityType.Quad:
-                    var texC = ResourceManager.Instance.Textures[e.Texture!];
-                    var xDim = _xDimDirs.Contains(e.Side) ? texC.width / 64 : 0.1f;
-                    var zDim = _zDimDirs.Contains(e.Side) ? texC.width / 64 : 0.1f;
-                    var modelB = LoadModelFromMesh(GenMeshCube(xDim, 2, zDim));
-                    SetMaterialTexture(ref modelB, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texC);
-
-                    var bb2 = GetModelBoundingBox(modelB);
-                    var bx2 = new BoundingBox
-                    {
-                        max = bb2.max + Grid.ToWorld(e.GridPos) + e.LocalPos,
-                        min = bb2.min + Grid.ToWorld(e.GridPos) + e.LocalPos,
-                    };
-
-                    var offset = e.Side switch
-                    {
-                        Direction.North => new Vector3(0, 0, -1),
-                        Direction.South => new Vector3(0, 0, 1),
-                        Direction.East => new Vector3(1, 0, 0),
-                        Direction.West => new Vector3(-1, 0, 0),
-                        _ => new Vector3(0, 0, 0),
-                    };
-
-                    var entityC = new Entity
-                    {
-                        Name = e.Name,
-                        EntityType = EntityType.Quad,
-                        Model = modelB,
-                        Texture = texC,
-                        Position = Grid.ToWorld(e.GridPos) + e.LocalPos + offset,
-                        IsInteractable = e.IsInteractable,
-                        BoundingBox = bx2
-                    };
-
-                    if (e.IsInteractable)
-                    {
-                        var texQ = ResourceManager.Instance.Textures[e.Texture! + "_hover"];
-                        entityC.HoverTexture = texQ;
-                    }
-
-                    entities.Add(entityC);
+                    entities.Add(BuildQuadEntity(e));
                     break;
             }
         }
@@ -122,5 +35,110 @@ public static class SceneFactory
             NavigationGrid = navGrid,
             Entities = entities,
         };
+    }
+
+    private static Entity BuildModelEntity(EntityData data)
+    {
+        var texture = ResourceManager.Instance.Textures[data.Texture!];
+        var model = ResourceManager.Instance.Models[data.Model!];
+        SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
+
+        var boundingBox = GetModelBoundingBox(model);
+        var translatedBox = new BoundingBox
+        {
+            max = boundingBox.max + Grid.ToWorld(data.GridPos) + data.LocalPos,
+            min = boundingBox.min + Grid.ToWorld(data.GridPos) + data.LocalPos,
+        };
+
+        return new Entity
+        {
+            Name = data.Name,
+            EntityType = data.EntityType,
+            Model = model,
+            Texture = texture,
+            Position = Grid.ToWorld(data.GridPos) + data.LocalPos,
+            Dimensions = Vector3.One,
+            IsInteractable = data.IsInteractable,
+            BoundingBox = translatedBox
+        };
+    }
+
+    private static Entity BuildBillboardEntity(EntityData data)
+    {
+        var texture = ResourceManager.Instance.Textures[data.Texture!];
+        var position = Grid.ToWorld(data.GridPos) + data.LocalPos;
+        var width = texture.width / 64;
+        var height = texture.height / 64;
+
+        var boundingBox = new BoundingBox
+        {
+            min = position + new Vector3(-width / 2, -height / 2, -width / 2),
+            max = position + new Vector3(width / 2, height / 2, width / 2),
+        };
+
+        var entity = new Entity
+        {
+            Name = data.Name,
+            Texture = texture,
+            Position = position,
+            Dimensions = new Vector3(width, height, 0),
+            EntityType = data.EntityType,
+            IsInteractable = data.IsInteractable,
+            BoundingBox = boundingBox,
+            Scale = data.Scale,
+        };
+
+        if (data.IsInteractable)
+        {
+            var hoverTexture = ResourceManager.Instance.Textures[data.Texture! + "_hover"];
+            entity.HoverTexture = hoverTexture;
+        }
+
+        return entity;
+    }
+
+    private static Entity BuildQuadEntity(EntityData data)
+    {
+        var texture = ResourceManager.Instance.Textures[data.Texture!];
+        var xDim = _xDimDirs.Contains(data.Side) ? texture.width / 64 : 0.1f;
+        var yDim = texture.height / 64;
+        var zDim = _zDimDirs.Contains(data.Side) ? texture.width / 64 : 0.1f;
+        var model = LoadModelFromMesh(GenMeshCube(xDim, yDim, zDim));
+        SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
+
+        var boundingBox = GetModelBoundingBox(model);
+        var translatedBox = new BoundingBox
+        {
+            max = boundingBox.max + Grid.ToWorld(data.GridPos) + data.LocalPos,
+            min = boundingBox.min + Grid.ToWorld(data.GridPos) + data.LocalPos,
+        };
+
+        var offset = data.Side switch
+        {
+            Direction.North => new Vector3(0, 0, -1),
+            Direction.South => new Vector3(0, 0, 1),
+            Direction.East => new Vector3(1, 0, 0),
+            Direction.West => new Vector3(-1, 0, 0),
+            _ => new Vector3(0, 0, 0),
+        };
+
+        var entity = new Entity
+        {
+            Name = data.Name,
+            EntityType = EntityType.Quad,
+            Model = model,
+            Texture = texture,
+            Position = Grid.ToWorld(data.GridPos) + data.LocalPos + offset,
+            IsInteractable = data.IsInteractable,
+            BoundingBox = translatedBox
+        };
+
+        if (data.IsInteractable)
+        {
+            var hoverTexture = ResourceManager.Instance.Textures[data.Texture! + "_hover"];
+            entity.HoverTexture = hoverTexture;
+        }
+
+        return entity;
     }
 }
