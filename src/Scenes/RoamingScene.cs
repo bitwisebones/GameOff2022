@@ -6,9 +6,8 @@ using static Raylib_cs.Raylib;
 // Player can walk around and click on things
 public class RoamingScene : IScene
 {
-    public Model LevelModel { get; set; }
     public NavigationGrid? NavigationGrid { get; set; }
-    public List<Interactable> Interactables { get; set; } = new List<Interactable>();
+    public List<Entity> Entities { get; set; } = new List<Entity>();
 
     private Camera3D _camera = new Camera3D()
     {
@@ -47,37 +46,32 @@ public class RoamingScene : IScene
                 {
                     // NavigationGrid!.DebugDraw();
                     // DebugDrawCardinalDirections();
-                    foreach (var interactable in Interactables)
+                    foreach (var entity in Entities)
                     {
-                        if (interactable.IsBillboard)
+                        switch (entity.EntityType)
                         {
-                            DrawBillboardPro(
-                                _camera,
-                                interactable.Texture,
-                                new Rectangle { x = 0, y = 0, width = interactable.Width, height = interactable.Height },
-                                interactable.Position,
-                                new Vector3(0, 1, 0),
-                                //new Vector2(interactable.Width, interactable.Height),
-                                new Vector2(1, 1),
-                                new Vector2(0, 0),
-                                0f,
-                                Color.WHITE
-                            );
-                        }
-                        else
-                        {
-                            DrawCubeTexture(
-                                interactable.Texture,
-                                interactable.Position,
-                                interactable.Width,
-                                interactable.Height,
-                                interactable.Width,
-                                Color.WHITE
-                            );
+                            case EntityType.Model:
+                                DrawModel(entity.Model, entity.Position, 1, Color.WHITE);
+                                break;
+                            case EntityType.Billboard:
+                                DrawBillboardPro(
+                                    _camera,
+                                    entity.Texture,
+                                    new Rectangle { x = 0, y = 0, width = entity.Dimensions.X * 64, height = entity.Dimensions.Y * 64 },
+                                    entity.Position,
+                                    new Vector3(0, 1, 0),
+                                    new Vector2(entity.Dimensions.X, entity.Dimensions.Y),
+                                    new Vector2(0, 0),
+                                    0f,
+                                    Color.WHITE
+                                );
+                                break;
+                            case EntityType.Quad:
+                                DrawModelEx(entity.Model, entity.Position, new Vector3(1, 0, 0), 180, Vector3.One, Color.WHITE);
+                                break;
                         }
                     }
 
-                    DrawModel(LevelModel, new Vector3(0, 0, 0), 1, Color.WHITE);
                 }
                 EndMode3D();
 

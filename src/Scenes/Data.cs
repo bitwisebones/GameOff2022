@@ -9,23 +9,29 @@ public static class Scenes
         PlayerSpawnDirection = Direction.South,
         PlayerSpawnGridPos = new Vector3(1, 0, 1),
         SceneType = SceneType.Roaming,
-        Interactables = new List<InteractableData>{
-            new InteractableData{
-                Name = "test",
-                Texture = "wall",
-                GridPos = new Vector3(1, 0, 1),
-                Side = Direction.South,
-                LocalPos = new Vector3(0, 0, 0),
-                IsBillboard = false,
+        Entities = new List<EntityData>{
+            new EntityData{
+                Name = "town_terrain",
+                EntityType = EntityType.Model,
+                Texture = "town",
+                Model = "town",
+                GridPos = new Vector3(-0.5f, -0.5f, -0.5f),
+                LocalPos = Vector3.Zero,
             },
-            // new InteractableData{
-            //     Name = "other",
-            //     Texture = "wall",
-            //     GridPos = new Vector3(5, 0, 5),
-            //     Side = Direction.South,
-            //     LocalPos = new Vector3(0, 0, 0),
-            //     IsBillboard = true,
-            // }
+            new EntityData{
+                Name = "test",
+                EntityType = EntityType.Quad,
+                Texture = "wall",
+                GridPos = new Vector3(5, 0, 2),
+                Side = Direction.East,
+            },
+            new EntityData{
+                Name = "other",
+                EntityType = EntityType.Billboard,
+                Texture = "wall",
+                GridPos = new Vector3(6, 0, 9),
+                LocalPos = new Vector3(0, 0, 0),
+            }
         }
     };
 }

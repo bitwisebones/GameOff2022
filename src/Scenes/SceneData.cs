@@ -16,18 +16,26 @@ public class SceneData
     public SceneType SceneType { get; set; }
     public Vector3 PlayerSpawnGridPos { get; set; }
     public Direction PlayerSpawnDirection { get; set; }
-    public List<InteractableData>? Interactables { get; set; }
+    public List<EntityData>? Entities { get; set; }
+}
+
+public enum EntityType
+{
+    Model,
+    Billboard,
+    Quad,
 }
 
 [Serializable]
-public class InteractableData
+public class EntityData
 {
     public string? Name { get; set; }
+    public EntityType EntityType { get; set; }
     public string? Texture { get; set; }
+    public string? Model { get; set; }
     public Vector3 GridPos { get; set; }
     public Direction Side { get; set; }
     public Vector3 LocalPos { get; set; }
-    public bool IsBillboard { get; set; }
 }
 
 public class RenderBundle
