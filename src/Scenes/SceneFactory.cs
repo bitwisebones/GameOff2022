@@ -1,4 +1,5 @@
 
+using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 
@@ -13,10 +14,27 @@ public static class SceneFactory
         var navGrid = new NavigationGrid();
         navGrid.Build(data.Name!);
 
+        var interactables = new List<Interactable>();
+        foreach (var iData in data.Interactables)
+        {
+            var tex = ResourceManager.Instance.Textures[iData.Texture];
+            var interactable = new Interactable
+            {
+                Name = iData.Name,
+                Texture = tex,
+                Position = Grid.ToWorld(iData.GridPos),
+                IsBillboard = iData.IsBillboard,
+                Width = tex.width,
+                Height = tex.height,
+            };
+            interactables.Add(interactable);
+        }
+
         return new RoamingScene
         {
             LevelModel = model,
             NavigationGrid = navGrid,
+            Interactables = interactables,
         };
     }
 }
