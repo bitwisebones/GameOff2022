@@ -38,6 +38,7 @@ public class EntityData
     public Vector3 LocalPos { get; set; }
     public bool IsInteractable { get; set; }
     public Vector3 Scale { get; set; }
+    public string? HoverText { get; set; }
 }
 
 public class RenderBundle

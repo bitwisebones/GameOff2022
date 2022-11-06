@@ -19,14 +19,6 @@ public static class Scenes
                 LocalPos = Vector3.Zero,
             },
             new EntityData{
-                Name = "test",
-                EntityType = EntityType.Quad,
-                Texture = "wall",
-                GridPos = new Vector3(5, 0, 2),
-                Side = Direction.East,
-                IsInteractable = true,
-            },
-            new EntityData{
                 Name = "person",
                 EntityType = EntityType.Billboard,
                 Texture = "person",
@@ -34,6 +26,16 @@ public static class Scenes
                 LocalPos = new Vector3(0, -0.25f, 0),
                 IsInteractable = true,
                 Scale = new Vector3(1.5f, 1.5f, 0),
+            },
+            new EntityData{
+                Name = "inn_door",
+                EntityType = EntityType.Quad,
+                Texture = "door_a",
+                GridPos = new Vector3(4, 0, 12),
+                IsInteractable = true,
+                Side = Direction.South,
+                LocalPos = new Vector3(0, -0.25f, 0),
+                HoverText = "Enter The Inn"
             }
         }
     };

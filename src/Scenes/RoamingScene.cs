@@ -52,7 +52,7 @@ public class RoamingScene : IScene
                         {
                             case EntityType.Model:
                                 DrawModel(entity.Model, entity.Position, 1, Color.WHITE);
-                                DrawBoundingBox(entity.BoundingBox, Color.BLUE);
+                                // DrawBoundingBox(entity.BoundingBox, Color.BLUE);
                                 break;
                             case EntityType.Billboard:
                                 var t = _hovered == entity ? entity.HoverTexture : entity.Texture;
@@ -64,18 +64,25 @@ public class RoamingScene : IScene
                                     new Vector2(entity.Scale.X, entity.Scale.Y),
                                     Color.WHITE
                                 );
-                                DrawBoundingBox(entity.BoundingBox, Color.BLUE);
+                                // DrawBoundingBox(entity.BoundingBox, Color.BLUE);
                                 break;
                             case EntityType.Quad:
                                 DrawModelEx(entity.Model, entity.Position, new Vector3(1, 0, 0), 180, Vector3.One, Color.WHITE);
-                                DrawBoundingBox(entity.BoundingBox, Color.BLUE);
+                                // DrawBoundingBox(entity.BoundingBox, Color.BLUE);
                                 break;
                         }
                     }
+
                 }
                 EndMode3D();
 
-                DrawTextureEx(ResourceManager.Instance.Textures["cursor"], new Vector2(GetMouseX() / ScreenInfo.Crunch, GetMouseY() / ScreenInfo.Crunch), 0.0f, 0.5f, Color.WHITE);
+                if (_hovered != null && _hovered.HoverText != null && !string.IsNullOrEmpty(_hovered.HoverText))
+                {
+                    DrawText(_hovered.HoverText, GetMouseX() / ScreenInfo.Crunch + 20, GetMouseY() / ScreenInfo.Crunch + 20, 16, Color.WHITE);
+                }
+
+                var cursorTexture = _hovered == null ? "cursor" : "cursor_hover";
+                DrawTextureEx(ResourceManager.Instance.Textures[cursorTexture], new Vector2(GetMouseX() / ScreenInfo.Crunch, GetMouseY() / ScreenInfo.Crunch), 0.0f, 0.5f, Color.WHITE);
             }
             EndTextureMode();
 
@@ -226,7 +233,7 @@ public class RoamingScene : IScene
             var collisionA = GetRayCollisionBox(ray, entity.BoundingBox);
             if (collisionA.hit)
             {
-                // DrawCube(collisionA.point, 1, 1, 1, Color.MAGENTA);
+                // DrawCube(collisionA.point, 0.1f, 0.1f, 0.1f, Color.MAGENTA);
                 switch (entity.EntityType)
                 {
                     case EntityType.Model:

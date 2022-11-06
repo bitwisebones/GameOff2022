@@ -59,7 +59,8 @@ public static class SceneFactory
             Position = Grid.ToWorld(data.GridPos) + data.LocalPos,
             Dimensions = Vector3.One,
             IsInteractable = data.IsInteractable,
-            BoundingBox = translatedBox
+            BoundingBox = translatedBox,
+            HoverText = data.HoverText,
         };
     }
 
@@ -85,6 +86,7 @@ public static class SceneFactory
             IsInteractable = data.IsInteractable,
             BoundingBox = boundingBox,
             Scale = data.Scale,
+            HoverText = data.HoverText,
         };
 
         if (data.IsInteractable)
@@ -99,10 +101,11 @@ public static class SceneFactory
     private static Entity BuildQuadEntity(EntityData data)
     {
         var texture = ResourceManager.Instance.Textures[data.Texture!];
-        var xDim = _xDimDirs.Contains(data.Side) ? texture.width / 64 : 0.1f;
-        var yDim = texture.height / 64;
-        var zDim = _zDimDirs.Contains(data.Side) ? texture.width / 64 : 0.1f;
+        var xDim = _xDimDirs.Contains(data.Side) ? texture.width / 64.0f : 0.05f;
+        var yDim = texture.height / 64.0f;
+        var zDim = _zDimDirs.Contains(data.Side) ? texture.width / 64.0f : 0.05f;
         var model = LoadModelFromMesh(GenMeshCube(xDim, yDim, zDim));
+        Console.WriteLine($"{data.Name}:: {xDim}, {yDim}, {zDim}");
         SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
 
         var offset = data.Side switch
@@ -129,7 +132,8 @@ public static class SceneFactory
             Texture = texture,
             Position = Grid.ToWorld(data.GridPos) + data.LocalPos + offset,
             IsInteractable = data.IsInteractable,
-            BoundingBox = translatedBox
+            BoundingBox = translatedBox,
+            HoverText = data.HoverText,
         };
 
         if (data.IsInteractable)
