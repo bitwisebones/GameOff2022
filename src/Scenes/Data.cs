@@ -24,13 +24,16 @@ public static class Scenes
                 Texture = "wall",
                 GridPos = new Vector3(5, 0, 2),
                 Side = Direction.East,
+                IsInteractable = true,
             },
             new EntityData{
-                Name = "other",
+                Name = "person",
                 EntityType = EntityType.Billboard,
-                Texture = "wall",
+                Texture = "person",
                 GridPos = new Vector3(6, 0, 9),
-                LocalPos = new Vector3(0, 0, 0),
+                LocalPos = new Vector3(0, -0.25f, 0),
+                IsInteractable = true,
+                Scale = new Vector3(1.5f, 1.5f, 0),
             }
         }
     };

@@ -10,4 +10,8 @@ public class Entity
     public Model Model { get; set; }
     public Vector3 Position { get; set; }
     public Vector3 Dimensions { get; set; }
+    public bool IsInteractable { get; set; }
+    public Texture2D HoverTexture { get; set; }
+    public Vector3 Scale { get; set; }
+    public BoundingBox BoundingBox { get; set; }
 }

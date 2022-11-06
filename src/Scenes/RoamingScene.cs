@@ -9,6 +9,8 @@ public class RoamingScene : IScene
     public NavigationGrid? NavigationGrid { get; set; }
     public List<Entity> Entities { get; set; } = new List<Entity>();
 
+    private Entity? _hovered;
+
     private Camera3D _camera = new Camera3D()
     {
         position = new Vector3(0, 2, 0),
@@ -24,12 +26,8 @@ public class RoamingScene : IScene
         {
             gameState.PlayerMode = gameState.PlayerMode == PlayerMode.Mouse ? PlayerMode.Man : PlayerMode.Mouse;
         }
-
-        var playerGridPos = gameState.PlayerGridPos;
-        var playerDirection = gameState.PlayerDirection;
-        var playerMode = gameState.PlayerMode;
         UpdatePlayer(gameState);
-        UpdateCamera(playerGridPos, playerDirection, playerMode);
+        UpdateCamera(gameState.PlayerGridPos, gameState.PlayerDirection, gameState.PlayerMode);
 
         return gameState;
     }
@@ -44,6 +42,8 @@ public class RoamingScene : IScene
 
                 BeginMode3D(_camera);
                 {
+
+                    CheckForHover();
                     // NavigationGrid!.DebugDraw();
                     // DebugDrawCardinalDirections();
                     foreach (var entity in Entities)
@@ -54,15 +54,13 @@ public class RoamingScene : IScene
                                 DrawModel(entity.Model, entity.Position, 1, Color.WHITE);
                                 break;
                             case EntityType.Billboard:
-                                DrawBillboardPro(
+                                var t = _hovered == entity ? entity.HoverTexture : entity.Texture;
+                                DrawBillboardRec(
                                     _camera,
-                                    entity.Texture,
-                                    new Rectangle { x = 0, y = 0, width = entity.Dimensions.X * 64, height = entity.Dimensions.Y * 64 },
+                                    t,
+                                    new Rectangle { x = 0, y = 0, width = entity.Texture.width, height = entity.Texture.height },
                                     entity.Position,
-                                    new Vector3(0, 1, 0),
-                                    new Vector2(entity.Dimensions.X, entity.Dimensions.Y),
-                                    new Vector2(0, 0),
-                                    0f,
+                                    new Vector2(entity.Scale.X, entity.Scale.Y),
                                     Color.WHITE
                                 );
                                 break;
@@ -71,7 +69,6 @@ public class RoamingScene : IScene
                                 break;
                         }
                     }
-
                 }
                 EndMode3D();
 
@@ -213,6 +210,46 @@ public class RoamingScene : IScene
         };
 
         _camera.target = target;
+    }
+
+    private unsafe void CheckForHover()
+    {
+        var ray = GetMouseRay(GetMousePosition(), _camera);
+        var es = Entities.Where(e => e.IsInteractable);
+        var oldHovered = _hovered;
+        _hovered = null;
+        foreach (var entity in es)
+        {
+            var collisionA = GetRayCollisionBox(ray, entity.BoundingBox);
+            if (collisionA.hit)
+            {
+                // DrawCube(collisionA.point, 1, 1, 1, Color.MAGENTA);
+                switch (entity.EntityType)
+                {
+                    case EntityType.Model:
+                    case EntityType.Quad:
+                        _hovered = entity;
+                        var model = entity.Model;
+                        var texture = entity.HoverTexture;
+                        SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
+                        break;
+                    case EntityType.Billboard:
+                        _hovered = entity;
+                        break;
+                }
+            }
+        }
+
+        if (_hovered == null && oldHovered != null || (_hovered != null && oldHovered != null && _hovered != oldHovered))
+        {
+            if (oldHovered.EntityType != EntityType.Billboard)
+            {
+                var model = oldHovered.Model;
+                var texture = oldHovered.Texture;
+                SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
+            }
+        }
+
     }
 
     private void DebugDrawCardinalDirections()

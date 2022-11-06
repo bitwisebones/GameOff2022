@@ -36,6 +36,8 @@ public class EntityData
     public Vector3 GridPos { get; set; }
     public Direction Side { get; set; }
     public Vector3 LocalPos { get; set; }
+    public bool IsInteractable { get; set; }
+    public Vector3 Scale { get; set; }
 }
 
 public class RenderBundle
