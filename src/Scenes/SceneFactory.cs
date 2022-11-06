@@ -67,13 +67,13 @@ public static class SceneFactory
     {
         var texture = ResourceManager.Instance.Textures[data.Texture!];
         var position = Grid.ToWorld(data.GridPos) + data.LocalPos;
-        var width = texture.width / 64;
-        var height = texture.height / 64;
+        var width = (texture.width / 64 * data.Scale.X) / 4.0f;
+        var height = (texture.height / 64 * data.Scale.Y) / 4.0f;
 
         var boundingBox = new BoundingBox
         {
-            min = position + new Vector3(-width / 2, -height / 2, -width / 2),
-            max = position + new Vector3(width / 2, height / 2, width / 2),
+            min = position + new Vector3(-width, -height, -width),
+            max = position + new Vector3(width, height, width),
         };
 
         var entity = new Entity
@@ -81,7 +81,6 @@ public static class SceneFactory
             Name = data.Name,
             Texture = texture,
             Position = position,
-            Dimensions = new Vector3(width, height, 0),
             EntityType = data.EntityType,
             IsInteractable = data.IsInteractable,
             BoundingBox = boundingBox,
@@ -106,13 +105,6 @@ public static class SceneFactory
         var model = LoadModelFromMesh(GenMeshCube(xDim, yDim, zDim));
         SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
 
-        var boundingBox = GetModelBoundingBox(model);
-        var translatedBox = new BoundingBox
-        {
-            max = boundingBox.max + Grid.ToWorld(data.GridPos) + data.LocalPos,
-            min = boundingBox.min + Grid.ToWorld(data.GridPos) + data.LocalPos,
-        };
-
         var offset = data.Side switch
         {
             Direction.North => new Vector3(0, 0, -1),
@@ -120,6 +112,13 @@ public static class SceneFactory
             Direction.East => new Vector3(1, 0, 0),
             Direction.West => new Vector3(-1, 0, 0),
             _ => new Vector3(0, 0, 0),
+        };
+
+        var boundingBox = GetModelBoundingBox(model);
+        var translatedBox = new BoundingBox
+        {
+            max = boundingBox.max + Grid.ToWorld(data.GridPos) + data.LocalPos + offset,
+            min = boundingBox.min + Grid.ToWorld(data.GridPos) + data.LocalPos + offset,
         };
 
         var entity = new Entity

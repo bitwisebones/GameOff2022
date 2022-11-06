@@ -52,6 +52,7 @@ public class RoamingScene : IScene
                         {
                             case EntityType.Model:
                                 DrawModel(entity.Model, entity.Position, 1, Color.WHITE);
+                                DrawBoundingBox(entity.BoundingBox, Color.BLUE);
                                 break;
                             case EntityType.Billboard:
                                 var t = _hovered == entity ? entity.HoverTexture : entity.Texture;
@@ -63,9 +64,11 @@ public class RoamingScene : IScene
                                     new Vector2(entity.Scale.X, entity.Scale.Y),
                                     Color.WHITE
                                 );
+                                DrawBoundingBox(entity.BoundingBox, Color.BLUE);
                                 break;
                             case EntityType.Quad:
                                 DrawModelEx(entity.Model, entity.Position, new Vector3(1, 0, 0), 180, Vector3.One, Color.WHITE);
+                                DrawBoundingBox(entity.BoundingBox, Color.BLUE);
                                 break;
                         }
                     }
