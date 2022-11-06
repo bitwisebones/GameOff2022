@@ -16,15 +16,15 @@ public static class SceneFactory
         var entities = new List<Entity>();
         foreach (var e in data.Entities!)
         {
-            switch (e.EntityType)
+            switch (e.RenderType)
             {
-                case EntityType.Model:
+                case RenderType.Model:
                     entities.Add(BuildModelEntity(e));
                     break;
-                case EntityType.Billboard:
+                case RenderType.Billboard:
                     entities.Add(BuildBillboardEntity(e));
                     break;
-                case EntityType.Quad:
+                case RenderType.Quad:
                     entities.Add(BuildQuadEntity(e));
                     break;
             }
@@ -34,6 +34,7 @@ public static class SceneFactory
         {
             NavigationGrid = navGrid,
             Entities = entities,
+            SceneData = data,
         };
     }
 
@@ -53,7 +54,7 @@ public static class SceneFactory
         return new Entity
         {
             Name = data.Name,
-            EntityType = data.EntityType,
+            EntityType = data.RenderType,
             Model = model,
             Texture = texture,
             Position = Grid.ToWorld(data.GridPos) + data.LocalPos,
@@ -82,7 +83,7 @@ public static class SceneFactory
             Name = data.Name,
             Texture = texture,
             Position = position,
-            EntityType = data.EntityType,
+            EntityType = data.RenderType,
             IsInteractable = data.IsInteractable,
             BoundingBox = boundingBox,
             Scale = data.Scale,
@@ -127,7 +128,7 @@ public static class SceneFactory
         var entity = new Entity
         {
             Name = data.Name,
-            EntityType = EntityType.Quad,
+            EntityType = RenderType.Quad,
             Model = model,
             Texture = texture,
             Position = Grid.ToWorld(data.GridPos) + data.LocalPos + offset,

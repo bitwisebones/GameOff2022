@@ -17,13 +17,14 @@ public class GameStage : IStage
         HideCursor();
 
         var townScene = SceneFactory.Build(Scenes.Town);
-        SceneManager.Instance.SceneStack.Push(townScene);
+        SceneManager.Instance.Push(townScene);
 
         _gameState = new RootGameState
         {
             PlayerDirection = Scenes.Town.PlayerSpawnDirection,
             PlayerGridPos = Scenes.Town.PlayerSpawnGridPos,
             PlayerMode = PlayerMode.Man,
+            CurrentArea = Area.Town,
         };
 
         _renderBundle.RenderTexture = LoadRenderTexture(GetScreenWidth() / 4, GetScreenHeight() / 4);

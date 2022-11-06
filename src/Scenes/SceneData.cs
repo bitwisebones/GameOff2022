@@ -19,18 +19,19 @@ public class SceneData
     public List<EntityData>? Entities { get; set; }
 }
 
-public enum EntityType
+public enum RenderType
 {
     Model,
     Billboard,
     Quad,
 }
 
+
 [Serializable]
 public class EntityData
 {
     public string? Name { get; set; }
-    public EntityType EntityType { get; set; }
+    public RenderType RenderType { get; set; }
     public string? Texture { get; set; }
     public string? Model { get; set; }
     public Vector3 GridPos { get; set; }
