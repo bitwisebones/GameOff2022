@@ -1,6 +1,4 @@
 
-using System.Numerics;
-using Raylib_cs;
 using static Raylib_cs.Raylib;
 
 public enum PlayerMode
@@ -18,21 +16,13 @@ public class GameStage : IStage
     {
         HideCursor();
 
-        var x = new SceneData
-        {
-            Name = "town",
-            PlayerSpawnDirection = Direction.South,
-            PlayerSpawnGridPos = new Vector3(1, 0, 1),
-            SceneType = SceneType.Roaming,
-        };
-
-        var townScene = SceneFactory.Build(x);
+        var townScene = SceneFactory.Build(Scenes.Town);
         SceneManager.Instance.SceneStack.Push(townScene);
 
         _gameState = new RootGameState
         {
-            PlayerDirection = x.PlayerSpawnDirection,
-            PlayerGridPos = x.PlayerSpawnGridPos,
+            PlayerDirection = Scenes.Town.PlayerSpawnDirection,
+            PlayerGridPos = Scenes.Town.PlayerSpawnGridPos,
             PlayerMode = PlayerMode.Man,
         };
 

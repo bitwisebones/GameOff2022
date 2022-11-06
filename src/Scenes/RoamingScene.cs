@@ -44,8 +44,8 @@ public class RoamingScene : IScene
 
                 BeginMode3D(_camera);
                 {
-                    NavigationGrid!.DebugDraw();
-                    DebugDrawCardinalDirections();
+                    // NavigationGrid!.DebugDraw();
+                    // DebugDrawCardinalDirections();
                     DrawModel(LevelModel, new Vector3(0, 0, 0), 1, Color.WHITE);
                 }
                 EndMode3D();
