@@ -23,4 +23,5 @@ public class RootGameState
     public Vector3 PlayerGridPos { get; set; }
     public Direction PlayerDirection { get; set; }
     public Area CurrentArea { get; set; }
+    public List<string> Inventory { get; set; } = new List<string>();
 }

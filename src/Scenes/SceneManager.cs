@@ -18,16 +18,20 @@ public class SceneManager
 
     private Stack<IScene> _sceneStack { get; } = new Stack<IScene>();
 
+    // Only top scene gets updated
     public RootGameState Update(float deltaTime, RootGameState gameState)
     {
         var scene = _sceneStack.Peek();
         return scene.Update(deltaTime, gameState);
     }
 
-    public void Render(float deltaTime, ref RenderBundle renderBundle)
+    // All scenes in the stack are rendered
+    public void Render(float deltaTime, ref RenderBundle renderBundle, RootGameState gameState)
     {
-        var scene = _sceneStack.Peek();
-        scene.Render(deltaTime, ref renderBundle);
+        foreach (var scene in _sceneStack)
+        {
+            scene.Render(deltaTime, ref renderBundle, gameState);
+        }
     }
 
     public void Push(IScene scene)

@@ -15,4 +15,5 @@ public class Entity
     public Vector3 Scale { get; set; }
     public BoundingBox BoundingBox { get; set; }
     public string? HoverText { get; set; }
+    public InteractionType InteractionType { get; set; }
 }

@@ -25,6 +25,7 @@ public class GameStage : IStage
             PlayerGridPos = Scenes.Town.PlayerSpawnGridPos,
             PlayerMode = PlayerMode.Man,
             CurrentArea = Area.Town,
+            Inventory = new List<string>(),
         };
 
         _renderBundle.RenderTexture = LoadRenderTexture(GetScreenWidth() / 4, GetScreenHeight() / 4);
@@ -35,7 +36,7 @@ public class GameStage : IStage
         var renderBundle = _renderBundle;
         var gameState = _gameState!;
         var newGameState = SceneManager.Instance.Update(deltaTime, gameState);
-        SceneManager.Instance.Render(deltaTime, ref renderBundle);
+        SceneManager.Instance.Render(deltaTime, ref renderBundle, gameState);
         _gameState = newGameState;
     }
 

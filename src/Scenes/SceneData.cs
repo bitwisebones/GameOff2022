@@ -9,6 +9,15 @@ public enum SceneType
     CutScene1,
 }
 
+public enum InteractionType
+{
+    None = 0,
+    Door,
+    Person,
+    Flavor,
+    Item,
+}
+
 [Serializable]
 public class SceneData
 {
@@ -40,6 +49,7 @@ public class EntityData
     public bool IsInteractable { get; set; }
     public Vector3 Scale { get; set; }
     public string? HoverText { get; set; }
+    public InteractionType InteractionType { get; set; }
 }
 
 public class RenderBundle

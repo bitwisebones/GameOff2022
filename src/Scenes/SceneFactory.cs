@@ -62,6 +62,7 @@ public static class SceneFactory
             IsInteractable = data.IsInteractable,
             BoundingBox = translatedBox,
             HoverText = data.HoverText,
+            InteractionType = data.InteractionType,
         };
     }
 
@@ -88,6 +89,7 @@ public static class SceneFactory
             BoundingBox = boundingBox,
             Scale = data.Scale,
             HoverText = data.HoverText,
+            InteractionType = data.InteractionType,
         };
 
         if (data.IsInteractable)
@@ -105,7 +107,7 @@ public static class SceneFactory
         var xDim = _xDimDirs.Contains(data.Side) ? texture.width / 64.0f : 0.05f;
         var yDim = texture.height / 64.0f;
         var zDim = _zDimDirs.Contains(data.Side) ? texture.width / 64.0f : 0.05f;
-        var model = LoadModelFromMesh(GenMeshCube(xDim, yDim, zDim));
+        var model = LoadModelFromMesh(GenMeshCube(xDim * data.Scale.X, yDim * data.Scale.Y, zDim * data.Scale.Z));
         Console.WriteLine($"{data.Name}:: {xDim}, {yDim}, {zDim}");
         SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
 
@@ -135,6 +137,7 @@ public static class SceneFactory
             IsInteractable = data.IsInteractable,
             BoundingBox = translatedBox,
             HoverText = data.HoverText,
+            InteractionType = data.InteractionType,
         };
 
         if (data.IsInteractable)

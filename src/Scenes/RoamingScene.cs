@@ -11,6 +11,7 @@ public class RoamingScene : IScene
     public List<Entity> Entities { get; set; } = new List<Entity>();
 
     private Entity? _hovered;
+    private bool _isInventoryOpen;
 
     private Camera3D _camera = new Camera3D()
     {
@@ -27,6 +28,11 @@ public class RoamingScene : IScene
         {
             gameState.PlayerMode = gameState.PlayerMode == PlayerMode.Mouse ? PlayerMode.Man : PlayerMode.Mouse;
         }
+        if (IsKeyPressed(KeyboardKey.KEY_TAB))
+        {
+            _isInventoryOpen = !_isInventoryOpen;
+        }
+
         CheckForHover();
         CheckClicks(gameState);
         UpdatePlayer(gameState);
@@ -35,7 +41,7 @@ public class RoamingScene : IScene
         return gameState;
     }
 
-    public void Render(float deltaTime, ref RenderBundle renderBundle)
+    public void Render(float deltaTime, ref RenderBundle renderBundle, RootGameState gameState)
     {
         BeginDrawing();
         {
@@ -73,10 +79,26 @@ public class RoamingScene : IScene
                                 break;
                         }
                     }
-
                 }
                 EndMode3D();
 
+                if (_isInventoryOpen)
+                {
+                    var margin = 10;
+                    DrawRectangle(margin, 0, GetScreenWidth() / ScreenInfo.Crunch - margin * 2, 64, Color.BLACK);
+                    var i = 0;
+                    foreach (var item in gameState.Inventory)
+                    {
+                        if (IsHoveringInventoryItem(i * 64 + margin))
+                        {
+                            DrawRectangle(i * 64 + margin, 0, 64, 64, Color.GRAY);
+                        }
+
+                        var texture = ResourceManager.Instance.Textures[item];
+                        DrawTexture(texture, i * 64 + margin, 0, Color.WHITE);
+                        i += 1;
+                    }
+                }
 
                 var cursorTexture = _hovered == null ? "cursor" : "cursor_hover";
                 DrawTextureEx(ResourceManager.Instance.Textures[cursorTexture], new Vector2(GetMouseX() / ScreenInfo.Crunch, GetMouseY() / ScreenInfo.Crunch), 0.0f, 0.5f, Color.WHITE);
@@ -130,6 +152,7 @@ public class RoamingScene : IScene
 
     private void UpdatePlayer(RootGameState gameState)
     {
+        var moved = false;
         if (IsKeyPressed(KeyboardKey.KEY_W))
         {
             if (!CanMoveForward(gameState))
@@ -152,6 +175,7 @@ public class RoamingScene : IScene
                     pos.X -= 1;
                     break;
             }
+            moved = true;
             gameState.PlayerGridPos = pos;
         }
 
@@ -178,11 +202,13 @@ public class RoamingScene : IScene
                     pos.X += 1;
                     break;
             }
+            moved = true;
             gameState.PlayerGridPos = pos;
         }
 
         if (IsKeyPressed(KeyboardKey.KEY_D))
         {
+            moved = true;
             gameState.PlayerDirection += 1;
             if (gameState.PlayerDirection > Direction.West)
             {
@@ -192,11 +218,17 @@ public class RoamingScene : IScene
 
         if (IsKeyPressed(KeyboardKey.KEY_A))
         {
+            moved = true;
             gameState.PlayerDirection -= 1;
             if (gameState.PlayerDirection < Direction.North)
             {
                 gameState.PlayerDirection = Direction.West;
             }
+        }
+
+        if (moved && _isInventoryOpen)
+        {
+            _isInventoryOpen = false;
         }
     }
 
@@ -267,20 +299,40 @@ public class RoamingScene : IScene
     {
         if (IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON) && _hovered != null)
         {
-            var newArea = _hovered.Name switch
+            switch (_hovered.InteractionType)
             {
-                Const.ChurchDoor => Area.Church,
-                Const.InnDoor => Area.Inn,
-                Const.TownDoor => Area.Town,
-                _ => throw new NotImplementedException($"{_hovered.Name} not implemented in RoamingScene->CheckClicks"),
-            };
-
-            var newScene = Scenes.GetScene(newArea, gameState.CurrentArea);
-            SceneManager.Instance.Replace(newScene);
-            gameState.PlayerDirection = newScene.SceneData.PlayerSpawnDirection;
-            gameState.PlayerGridPos = newScene.SceneData.PlayerSpawnGridPos;
-            gameState.CurrentArea = newArea;
+                case InteractionType.Door:
+                    var newArea = _hovered.Name switch
+                    {
+                        Doors.Church => Area.Church,
+                        Doors.Inn => Area.Inn,
+                        Doors.Town => Area.Town,
+                        _ => throw new NotImplementedException($"{_hovered.Name} not implemented in RoamingScene->CheckClicks"),
+                    };
+                    var newScene = Scenes.GetScene(newArea, gameState.CurrentArea);
+                    SceneManager.Instance.Replace(newScene);
+                    gameState.PlayerDirection = newScene.SceneData.PlayerSpawnDirection;
+                    gameState.PlayerGridPos = newScene.SceneData.PlayerSpawnGridPos;
+                    gameState.CurrentArea = newArea;
+                    break;
+                case InteractionType.Person:
+                    break;
+                case InteractionType.Flavor:
+                    break;
+                case InteractionType.Item:
+                    gameState.Inventory.Add(_hovered.Name!);
+                    Entities.Remove(_hovered);
+                    _hovered = null;
+                    break;
+            }
         }
+    }
+
+    private bool IsHoveringInventoryItem(int x)
+    {
+        var mouseX = GetMouseX() / ScreenInfo.Crunch;
+        var mouseY = GetMouseY() / ScreenInfo.Crunch;
+        return mouseX > x && mouseX < x + 64 && mouseY > 0 && mouseY < 64;
     }
 
     private void DebugDrawCardinalDirections()

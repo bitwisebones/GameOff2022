@@ -1,12 +1,16 @@
 
 using System.Numerics;
 
-public static class Const
+public static class Doors
 {
-    public const string InnDoor = "inn_door";
-    public const string ChurchDoor = "church_door";
-    public const string TownDoor = "town_door";
+    public const string Inn = "inn_door";
+    public const string Church = "church_door";
+    public const string Town = "town_door";
+}
 
+public static class Items
+{
+    public const string Key = "key";
 }
 
 public static class Scenes
@@ -35,26 +39,44 @@ public static class Scenes
                 IsInteractable = true,
                 Scale = new Vector3(1.5f, 1.5f, 0),
                 HoverText = "Talk to Person",
+                InteractionType = InteractionType.Person,
             },
             new EntityData{
-                Name = Const.InnDoor,
+                Name = Doors.Inn,
                 RenderType = RenderType.Quad,
                 Texture = "door_a",
                 GridPos = new Vector3(4, 0, 12),
                 IsInteractable = true,
                 Side = Direction.South,
                 LocalPos = new Vector3(0, -0.25f, 0),
-                HoverText = "Enter The Inn"
+                HoverText = "Enter The Inn",
+                Scale = new Vector3(1, 1, 1),
+                InteractionType = InteractionType.Door,
             },
             new EntityData{
-                Name = Const.ChurchDoor,
+                Name = Doors.Church,
                 RenderType = RenderType.Quad,
                 Texture = "door_a",
                 GridPos = new Vector3(7, 0, 5),
                 IsInteractable = true,
                 Side = Direction.North,
                 LocalPos = new Vector3(0, -0.25f, 0),
-                HoverText = "Enter The Church"
+                HoverText = "Enter The Church",
+                Scale = new Vector3(1, 1, 1),
+                InteractionType = InteractionType.Door,
+            },
+            new EntityData
+            {
+                Name = "key",
+                RenderType = RenderType.Quad,
+                Texture = "key",
+                GridPos = new Vector3(9, 0, 11),
+                Side = Direction.South,
+                IsInteractable = true,
+                HoverText = "A small brass skeleton key",
+                LocalPos = new Vector3(0, -0.75f, 0),
+                Scale = new Vector3(0.5f, 0.5f, 0.5f),
+                InteractionType = InteractionType.Item,
             }
         }
     };
@@ -76,14 +98,16 @@ public static class Scenes
                 LocalPos = Vector3.Zero,
             },
             new EntityData{
-                Name = Const.TownDoor,
+                Name = Doors.Town,
                 RenderType = RenderType.Quad,
                 Texture = "door_a",
                 GridPos = new Vector3(3, 0, 7),
                 IsInteractable = true,
                 Side = Direction.South,
                 LocalPos = new Vector3(0, -0.25f, 0),
-                HoverText = "Exit The Church"
+                HoverText = "Exit The Church",
+                Scale = new Vector3(1, 1, 1),
+                InteractionType = InteractionType.Door,
             }
         }
     };
@@ -105,14 +129,16 @@ public static class Scenes
                 LocalPos = Vector3.Zero,
             },
             new EntityData{
-                Name = Const.TownDoor,
+                Name = Doors.Town,
                 RenderType = RenderType.Quad,
                 Texture = "door_a",
                 GridPos = new Vector3(2, 0, 3),
                 IsInteractable = true,
                 Side = Direction.South,
                 LocalPos = new Vector3(0, -0.25f, 0),
-                HoverText = "Exit The Inn"
+                HoverText = "Exit The Inn",
+                Scale = new Vector3(1, 1, 1),
+                InteractionType = InteractionType.Door,
             }
         }
     };
