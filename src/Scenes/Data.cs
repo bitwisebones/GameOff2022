@@ -1,18 +1,6 @@
 
 using System.Numerics;
 
-public static class Doors
-{
-    public const string Inn = "inn_door";
-    public const string Church = "church_door";
-    public const string Town = "town_door";
-}
-
-public static class Items
-{
-    public const string Key = "key";
-}
-
 public static class Scenes
 {
     public static SceneData Town = new SceneData
@@ -22,61 +10,53 @@ public static class Scenes
         PlayerSpawnGridPos = new Vector3(1, 0, 1),
         SceneType = SceneType.Roaming,
         Entities = new List<EntityData>{
-            new EntityData{
+            new TerrainData{
                 Name = "town_terrain",
-                RenderType = RenderType.Model,
-                Texture = "town",
-                Model = "town",
                 GridPos = new Vector3(-0.5f, -0.5f, -0.5f),
                 LocalPos = Vector3.Zero,
+                ModelName = "town",
+                TextureName = "town",
+                AreaKind = AreaKind.Town,
             },
-            new EntityData{
-                Name = "person",
-                RenderType = RenderType.Billboard,
-                Texture = "person",
+            new PersonData{
+                Name = "blacksmith",
                 GridPos = new Vector3(6, 0, 9),
                 LocalPos = new Vector3(0, -0.25f, 0),
-                IsInteractable = true,
+                TextureName = "person",
                 Scale = new Vector3(1.5f, 1.5f, 0),
                 HoverText = "Talk to Person",
-                InteractionType = InteractionType.Person,
+                PersonKind = PersonKind.Blacksmith,
             },
-            new EntityData{
-                Name = Doors.Inn,
-                RenderType = RenderType.Quad,
-                Texture = "door_a",
+            new DoorData{
+                Name = "inn_door",
                 GridPos = new Vector3(4, 0, 12),
-                IsInteractable = true,
-                Side = Direction.South,
                 LocalPos = new Vector3(0, -0.25f, 0),
+                TextureName = "door_a",
+                Side = Direction.South,
                 HoverText = "Enter The Inn",
                 Scale = new Vector3(1, 1, 1),
-                InteractionType = InteractionType.Door,
+                DoorKind = DoorKind.Inn,
             },
-            new EntityData{
-                Name = Doors.Church,
-                RenderType = RenderType.Quad,
-                Texture = "door_a",
+            new DoorData{
+                Name = "church_door",
                 GridPos = new Vector3(7, 0, 5),
-                IsInteractable = true,
-                Side = Direction.North,
                 LocalPos = new Vector3(0, -0.25f, 0),
+                TextureName = "door_a",
+                Side = Direction.North,
                 HoverText = "Enter The Church",
                 Scale = new Vector3(1, 1, 1),
-                InteractionType = InteractionType.Door,
+                DoorKind = DoorKind.Church,
             },
-            new EntityData
+            new ItemData
             {
-                Name = "key",
-                RenderType = RenderType.Quad,
-                Texture = "key",
+                Name = "blacksmith_key",
                 GridPos = new Vector3(9, 0, 11),
-                Side = Direction.South,
-                IsInteractable = true,
-                HoverText = "A small brass skeleton key",
                 LocalPos = new Vector3(0, -0.75f, 0),
+                TextureName = "key",
+                Side = Direction.South,
+                HoverText = "A small brass skeleton key",
                 Scale = new Vector3(0.5f, 0.5f, 0.5f),
-                InteractionType = InteractionType.Item,
+                ItemKind = ItemKind.BlacksmithKey,
             }
         }
     };
@@ -89,25 +69,23 @@ public static class Scenes
         PlayerSpawnGridPos = new Vector3(3, 0, 7),
         Entities = new List<EntityData>()
         {
-            new EntityData{
+            new TerrainData{
                 Name = "church_terrain",
-                RenderType = RenderType.Model,
-                Texture = "town",
-                Model = "church",
                 GridPos = new Vector3(-0.5f, -0.5f, -0.5f),
                 LocalPos = Vector3.Zero,
+                TextureName = "town",
+                ModelName = "church",
+                AreaKind = AreaKind.Church,
             },
-            new EntityData{
-                Name = Doors.Town,
-                RenderType = RenderType.Quad,
-                Texture = "door_a",
+            new DoorData{
+                Name = "town_door",
                 GridPos = new Vector3(3, 0, 7),
-                IsInteractable = true,
-                Side = Direction.South,
                 LocalPos = new Vector3(0, -0.25f, 0),
+                TextureName = "door_a",
+                Side = Direction.South,
                 HoverText = "Exit The Church",
                 Scale = new Vector3(1, 1, 1),
-                InteractionType = InteractionType.Door,
+                DoorKind = DoorKind.Town,
             }
         }
     };
@@ -120,43 +98,50 @@ public static class Scenes
         PlayerSpawnGridPos = new Vector3(0, 0, 0),
         Entities = new List<EntityData>
         {
-            new EntityData{
+            new TerrainData{
                 Name = "inn_terrain",
-                RenderType = RenderType.Model,
-                Texture = "town",
-                Model = "inn",
                 GridPos = new Vector3(-0.5f, -0.5f, -0.5f),
                 LocalPos = Vector3.Zero,
+                TextureName = "town",
+                ModelName = "inn",
+                AreaKind = AreaKind.Inn,
             },
-            new EntityData{
-                Name = Doors.Town,
-                RenderType = RenderType.Quad,
-                Texture = "door_a",
+            new DoorData{
+                Name = "town_door",
                 GridPos = new Vector3(2, 0, 3),
-                IsInteractable = true,
-                Side = Direction.South,
                 LocalPos = new Vector3(0, -0.25f, 0),
+                TextureName = "door_a",
+                Side = Direction.South,
                 HoverText = "Exit The Inn",
                 Scale = new Vector3(1, 1, 1),
-                InteractionType = InteractionType.Door,
+                DoorKind = DoorKind.Town,
             }
         }
     };
 
-    public static Dictionary<(Area, Area), (Vector3, Direction)> Transitions = new Dictionary<(Area, Area), (Vector3, Direction)>()
+    public static Dictionary<(AreaKind, AreaKind), (Vector3, Direction)> Transitions = new Dictionary<(AreaKind, AreaKind), (Vector3, Direction)>()
     {
-        {(Area.Town, Area.Church), (new Vector3(3, 0, 7), Direction.North)},
-        {(Area.Church, Area.Town), (new Vector3(7, 0, 5), Direction.South)},
-        {(Area.Town, Area.Inn), (new Vector3(2, 0, 3), Direction.North)},
-        {(Area.Inn, Area.Town), (new Vector3(4, 0, 12), Direction.North)},
+        {(AreaKind.Town, AreaKind.Church), (new Vector3(3, 0, 7), Direction.North)},
+        {(AreaKind.Church, AreaKind.Town), (new Vector3(7, 0, 5), Direction.South)},
+        {(AreaKind.Town, AreaKind.Inn), (new Vector3(2, 0, 3), Direction.North)},
+        {(AreaKind.Inn, AreaKind.Town), (new Vector3(4, 0, 12), Direction.North)},
     };
 
-    public static IScene GetScene(Area newArea, Area currentArea, RootGameState gameState)
+    public static (IScene, Vector3, Direction) GetScene(AreaKind newArea, AreaKind currentArea, RootGameState gameState)
     {
         var scene = gameState.Scenes[newArea];
         var (pos, dir) = Transitions[(currentArea, newArea)];
-        scene.SceneData.PlayerSpawnDirection = dir;
-        scene.SceneData.PlayerSpawnGridPos = pos;
-        return scene;
+        return (scene, pos, dir);
+    }
+
+    public static AreaKind GetAreaFromDoor(DoorKind door)
+    {
+        return door switch
+        {
+            DoorKind.Church => AreaKind.Church,
+            DoorKind.Inn => AreaKind.Inn,
+            DoorKind.Town => AreaKind.Town,
+            _ => throw new NotImplementedException($"{door} in GetAreaFromDoor"),
+        };
     }
 }

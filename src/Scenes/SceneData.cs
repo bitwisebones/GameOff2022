@@ -9,15 +9,6 @@ public enum SceneType
     CutScene1,
 }
 
-public enum InteractionType
-{
-    None = 0,
-    Door,
-    Person,
-    Flavor,
-    Item,
-}
-
 [Serializable]
 public class SceneData
 {
@@ -28,29 +19,44 @@ public class SceneData
     public List<EntityData>? Entities { get; set; }
 }
 
-public enum RenderType
-{
-    Model,
-    Billboard,
-    Quad,
-}
-
-
 [Serializable]
 public class EntityData
 {
     public string? Name { get; set; }
-    public RenderType RenderType { get; set; }
-    public string? Texture { get; set; }
-    public string? Model { get; set; }
     public Vector3 GridPos { get; set; }
-    public Direction Side { get; set; }
     public Vector3 LocalPos { get; set; }
-    public bool IsInteractable { get; set; }
+    public string? TextureName { get; set; }
+}
+
+public class TerrainData : EntityData
+{
+    public string? ModelName { get; set; }
+    public AreaKind AreaKind { get; set; }
+}
+
+public class PersonData : EntityData
+{
     public Vector3 Scale { get; set; }
     public string? HoverText { get; set; }
-    public InteractionType InteractionType { get; set; }
+    public PersonKind PersonKind { get; set; }
 }
+
+public class DoorData : EntityData
+{
+    public Vector3 Scale { get; set; }
+    public Direction Side { get; set; }
+    public string? HoverText { get; set; }
+    public DoorKind DoorKind { get; set; }
+}
+
+public class ItemData : EntityData
+{
+    public Direction Side { get; set; }
+    public Vector3 Scale { get; set; }
+    public string? HoverText { get; set; }
+    public ItemKind ItemKind { get; set; }
+}
+
 
 public class RenderBundle
 {

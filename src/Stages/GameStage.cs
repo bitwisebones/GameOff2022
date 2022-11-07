@@ -21,17 +21,17 @@ public class GameStage : IStage
             PlayerDirection = Scenes.Town.PlayerSpawnDirection,
             PlayerGridPos = Scenes.Town.PlayerSpawnGridPos,
             PlayerMode = PlayerMode.Man,
-            CurrentArea = Area.Town,
-            Inventory = new List<string>(),
-            Scenes = new Dictionary<Area, IScene>
+            CurrentArea = AreaKind.Town,
+            Inventory = new List<ItemKind>(),
+            Scenes = new Dictionary<AreaKind, IScene>
             {
-                {Area.Town, SceneFactory.Build(Scenes.Town)},
-                {Area.Church, SceneFactory.Build(Scenes.Church)},
-                {Area.Inn, SceneFactory.Build(Scenes.Inn)},
+                {AreaKind.Town, SceneFactory.Build(Scenes.Town)},
+                {AreaKind.Church, SceneFactory.Build(Scenes.Church)},
+                {AreaKind.Inn, SceneFactory.Build(Scenes.Inn)},
             },
         };
 
-        var townScene = _gameState.Scenes[Area.Town];
+        var townScene = _gameState.Scenes[AreaKind.Town];
         SceneManager.Instance.Push(townScene);
 
         _renderBundle.RenderTexture = LoadRenderTexture(GetScreenWidth() / 4, GetScreenHeight() / 4);

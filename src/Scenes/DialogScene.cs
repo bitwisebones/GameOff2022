@@ -3,8 +3,6 @@ using static Raylib_cs.Raylib;
 
 public class DialogScene : IScene
 {
-    public SceneData SceneData { get; set; }
-
     public RootGameState Update(float deltaTime, RootGameState gameState)
     {
         if (IsKeyPressed(KeyboardKey.KEY_ONE))

@@ -6,7 +6,6 @@ using static Raylib_cs.Raylib;
 // Player can walk around and click on things
 public class RoamingScene : IScene
 {
-    public SceneData SceneData { get; set; }
     public NavigationGrid? NavigationGrid { get; set; }
     public List<Entity> Entities { get; set; } = new List<Entity>();
 
@@ -57,26 +56,30 @@ public class RoamingScene : IScene
                     // DebugDrawCardinalDirections();
                     foreach (var entity in Entities)
                     {
-                        switch (entity.EntityType)
+                        switch (entity)
                         {
-                            case RenderType.Model:
-                                DrawModel(entity.Model, entity.Position, 1, Color.WHITE);
+                            case Terrain tn:
+                                DrawModel(tn.Model, tn.Position, 1, Color.WHITE);
                                 // DrawBoundingBox(entity.BoundingBox, Color.BLUE);
                                 break;
-                            case RenderType.Billboard:
-                                var t = _hovered == entity ? entity.HoverTexture : entity.Texture;
+                            case Person p:
+                                var t = _hovered == p ? p.HoverTexture : p.Texture;
                                 DrawBillboardRec(
                                     _camera,
                                     t,
-                                    new Rectangle { x = 0, y = 0, width = entity.Texture.width, height = entity.Texture.height },
-                                    entity.Position,
-                                    new Vector2(entity.Scale.X, entity.Scale.Y),
+                                    new Rectangle { x = 0, y = 0, width = p.Texture.width, height = p.Texture.height },
+                                    p.Position,
+                                    new Vector2(p.Scale.X, p.Scale.Y),
                                     Color.WHITE
                                 );
                                 // DrawBoundingBox(entity.BoundingBox, Color.BLUE);
                                 break;
-                            case RenderType.Quad:
-                                DrawModelEx(entity.Model, entity.Position, new Vector3(1, 0, 0), 180, Vector3.One, Color.WHITE);
+                            case Door d:
+                                DrawModelEx(d.Model, d.Position, new Vector3(1, 0, 0), 180, Vector3.One, Color.WHITE);
+                                // DrawBoundingBox(entity.BoundingBox, Color.BLUE);
+                                break;
+                            case Item i:
+                                DrawModelEx(i.Model, i.Position, new Vector3(1, 0, 0), 180, Vector3.One, Color.WHITE);
                                 // DrawBoundingBox(entity.BoundingBox, Color.BLUE);
                                 break;
                         }
@@ -119,11 +122,11 @@ public class RoamingScene : IScene
                 Color.WHITE
             );
 
-            if (_hovered != null && _hovered.HoverText != null && !string.IsNullOrEmpty(_hovered.HoverText))
+            if (_hovered != null && _hovered.GetHoverText() != null && !string.IsNullOrEmpty(_hovered.GetHoverText()))
             {
                 if (_isActive)
                 {
-                    DrawText(_hovered.HoverText, GetMouseX() + 80, GetMouseY() + 50, 36, Color.WHITE);
+                    DrawText(_hovered.GetHoverText(), GetMouseX() + 80, GetMouseY() + 50, 36, Color.WHITE);
                 }
             }
             DrawFPS(10, 10);
@@ -264,29 +267,40 @@ public class RoamingScene : IScene
         _camera.target = target;
     }
 
+    private bool IsInteractable(Entity e) => e switch
+    {
+        Terrain => false,
+        _ => true,
+    };
+
     private unsafe void CheckForHover()
     {
         var ray = GetMouseRay(GetMousePosition(), _camera);
-        var es = Entities.Where(e => e.IsInteractable);
+        var es = Entities.Where(e => IsInteractable(e));
         var oldHovered = _hovered;
         _hovered = null;
         foreach (var entity in es)
         {
-            var collisionA = GetRayCollisionBox(ray, entity.BoundingBox);
+            var collisionA = GetRayCollisionBox(ray, entity.GetBoundingBox());
             if (collisionA.hit && collisionA.distance < 3.5f)
             {
                 // DrawCube(collisionA.point, 0.1f, 0.1f, 0.1f, Color.MAGENTA);
-                switch (entity.EntityType)
+                switch (entity)
                 {
-                    case RenderType.Model:
-                    case RenderType.Quad:
-                        _hovered = entity;
-                        var model = entity.Model;
-                        var texture = entity.HoverTexture;
+                    case Person p:
+                        _hovered = p;
+                        break;
+                    case Door d:
+                        _hovered = d;
+                        var model = d.Model;
+                        var texture = d.HoverTexture;
                         SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
                         break;
-                    case RenderType.Billboard:
-                        _hovered = entity;
+                    case Item i:
+                        _hovered = i;
+                        var itemModel = i.Model;
+                        var itemTexture = i.HoverTexture;
+                        SetMaterialTexture(ref itemModel, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref itemTexture);
                         break;
                 }
             }
@@ -294,11 +308,18 @@ public class RoamingScene : IScene
 
         if (_hovered == null && oldHovered != null || (_hovered != null && oldHovered != null && _hovered != oldHovered))
         {
-            if (oldHovered.EntityType != RenderType.Billboard)
+            switch (oldHovered)
             {
-                var model = oldHovered.Model;
-                var texture = oldHovered.Texture;
-                SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
+                case Door d:
+                    var doorModel = d.Model;
+                    var doorTexture = d.Texture;
+                    SetMaterialTexture(ref doorModel, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref doorTexture);
+                    break;
+                case Item i:
+                    var itemModel = i.Model;
+                    var itemTexture = i.Texture;
+                    SetMaterialTexture(ref itemModel, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref itemTexture);
+                    break;
             }
         }
 
@@ -309,30 +330,23 @@ public class RoamingScene : IScene
         if (IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON) && _hovered != null)
         {
             _isInventoryOpen = false;
-            switch (_hovered.InteractionType)
+            switch (_hovered)
             {
-                case InteractionType.Door:
-                    var newArea = _hovered.Name switch
-                    {
-                        Doors.Church => Area.Church,
-                        Doors.Inn => Area.Inn,
-                        Doors.Town => Area.Town,
-                        _ => throw new NotImplementedException($"{_hovered.Name} not implemented in RoamingScene->CheckClicks"),
-                    };
-                    var newScene = Scenes.GetScene(newArea, gameState.CurrentArea, gameState);
+                case Door d:
+                    var newArea = Scenes.GetAreaFromDoor(d.DoorKind);
+                    var (newScene, gridPos, dir) = Scenes.GetScene(newArea, gameState.CurrentArea, gameState);
                     SceneManager.Instance.Replace(newScene);
-                    gameState.PlayerDirection = newScene.SceneData.PlayerSpawnDirection;
-                    gameState.PlayerGridPos = newScene.SceneData.PlayerSpawnGridPos;
+                    gameState.PlayerDirection = dir;
+                    gameState.PlayerGridPos = gridPos;
                     gameState.CurrentArea = newArea;
                     break;
-                case InteractionType.Person:
+                case Person p:
+                    // gameState.CurrentConversationTarget = _hovered.Name;
                     var dialogScene = new DialogScene();
                     SceneManager.Instance.Push(dialogScene);
                     break;
-                case InteractionType.Flavor:
-                    break;
-                case InteractionType.Item:
-                    gameState.Inventory.Add(_hovered.Name!);
+                case Item i:
+                    gameState.Inventory.Add(i.ItemKind);
                     Entities.Remove(_hovered);
                     _hovered = null;
                     break;
