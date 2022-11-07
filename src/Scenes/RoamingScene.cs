@@ -309,7 +309,7 @@ public class RoamingScene : IScene
                         Doors.Town => Area.Town,
                         _ => throw new NotImplementedException($"{_hovered.Name} not implemented in RoamingScene->CheckClicks"),
                     };
-                    var newScene = Scenes.GetScene(newArea, gameState.CurrentArea);
+                    var newScene = Scenes.GetScene(newArea, gameState.CurrentArea, gameState);
                     SceneManager.Instance.Replace(newScene);
                     gameState.PlayerDirection = newScene.SceneData.PlayerSpawnDirection;
                     gameState.PlayerGridPos = newScene.SceneData.PlayerSpawnGridPos;

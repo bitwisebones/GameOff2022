@@ -16,9 +16,6 @@ public class GameStage : IStage
     {
         HideCursor();
 
-        var townScene = SceneFactory.Build(Scenes.Town);
-        SceneManager.Instance.Push(townScene);
-
         _gameState = new RootGameState
         {
             PlayerDirection = Scenes.Town.PlayerSpawnDirection,
@@ -26,7 +23,16 @@ public class GameStage : IStage
             PlayerMode = PlayerMode.Man,
             CurrentArea = Area.Town,
             Inventory = new List<string>(),
+            Scenes = new Dictionary<Area, IScene>
+            {
+                {Area.Town, SceneFactory.Build(Scenes.Town)},
+                {Area.Church, SceneFactory.Build(Scenes.Church)},
+                {Area.Inn, SceneFactory.Build(Scenes.Inn)},
+            },
         };
+
+        var townScene = _gameState.Scenes[Area.Town];
+        SceneManager.Instance.Push(townScene);
 
         _renderBundle.RenderTexture = LoadRenderTexture(GetScreenWidth() / 4, GetScreenHeight() / 4);
     }

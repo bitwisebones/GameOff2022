@@ -151,16 +151,9 @@ public static class Scenes
         {(Area.Inn, Area.Town), (new Vector3(4, 0, 12), Direction.North)},
     };
 
-    public static IScene GetScene(Area newArea, Area currentArea)
+    public static IScene GetScene(Area newArea, Area currentArea, RootGameState gameState)
     {
-        var scene = newArea switch
-        {
-            Area.Town => SceneFactory.Build(Scenes.Town),
-            Area.Church => SceneFactory.Build(Scenes.Church),
-            Area.Inn => SceneFactory.Build(Scenes.Inn),
-            _ => throw new NotImplementedException(),
-        };
-
+        var scene = gameState.Scenes[newArea];
         var (pos, dir) = Transitions[(currentArea, newArea)];
         scene.SceneData.PlayerSpawnDirection = dir;
         scene.SceneData.PlayerSpawnGridPos = pos;
