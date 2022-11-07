@@ -10,6 +10,8 @@ public class RoamingScene : IScene
     public NavigationGrid? NavigationGrid { get; set; }
     public List<Entity> Entities { get; set; } = new List<Entity>();
 
+    private bool _isActive => SceneManager.Instance.Peek() == this;
+
     private Entity? _hovered;
     private bool _isInventoryOpen;
 
@@ -100,8 +102,11 @@ public class RoamingScene : IScene
                     }
                 }
 
-                var cursorTexture = _hovered == null ? "cursor" : "cursor_hover";
-                DrawTextureEx(ResourceManager.Instance.Textures[cursorTexture], new Vector2(GetMouseX() / ScreenInfo.Crunch, GetMouseY() / ScreenInfo.Crunch), 0.0f, 0.5f, Color.WHITE);
+                if (_isActive)
+                {
+                    var cursorTexture = _hovered == null ? "cursor" : "cursor_hover";
+                    DrawTextureEx(ResourceManager.Instance.Textures[cursorTexture], new Vector2(GetMouseX() / ScreenInfo.Crunch, GetMouseY() / ScreenInfo.Crunch), 0.0f, 0.5f, Color.WHITE);
+                }
             }
             EndTextureMode();
 
@@ -113,9 +118,13 @@ public class RoamingScene : IScene
                 180,
                 Color.WHITE
             );
+
             if (_hovered != null && _hovered.HoverText != null && !string.IsNullOrEmpty(_hovered.HoverText))
             {
-                DrawText(_hovered.HoverText, GetMouseX() + 80, GetMouseY() + 50, 36, Color.WHITE);
+                if (_isActive)
+                {
+                    DrawText(_hovered.HoverText, GetMouseX() + 80, GetMouseY() + 50, 36, Color.WHITE);
+                }
             }
             DrawFPS(10, 10);
         }
@@ -299,6 +308,7 @@ public class RoamingScene : IScene
     {
         if (IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON) && _hovered != null)
         {
+            _isInventoryOpen = false;
             switch (_hovered.InteractionType)
             {
                 case InteractionType.Door:
@@ -316,6 +326,8 @@ public class RoamingScene : IScene
                     gameState.CurrentArea = newArea;
                     break;
                 case InteractionType.Person:
+                    var dialogScene = new DialogScene();
+                    SceneManager.Instance.Push(dialogScene);
                     break;
                 case InteractionType.Flavor:
                     break;

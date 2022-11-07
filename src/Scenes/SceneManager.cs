@@ -49,4 +49,9 @@ public class SceneManager
         Pop();
         Push(scene);
     }
+
+    public IScene Peek()
+    {
+        return _sceneStack.Peek();
+    }
 }
