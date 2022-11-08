@@ -5,7 +5,7 @@ using Raylib_cs;
 public enum SceneType
 {
     Roaming,
-    Dialog,
+    Dialogue,
     CutScene1,
 }
 
@@ -16,7 +16,7 @@ public class SceneData
     public SceneType SceneType { get; set; }
     public Vector3 PlayerSpawnGridPos { get; set; }
     public Direction PlayerSpawnDirection { get; set; }
-    public List<EntityData>? Entities { get; set; }
+    public List<EntityData> Entities { get; set; } = new List<EntityData>();
 }
 
 [Serializable]

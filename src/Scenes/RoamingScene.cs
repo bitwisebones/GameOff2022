@@ -23,8 +23,10 @@ public class RoamingScene : IScene
         projection = CameraProjection.CAMERA_PERSPECTIVE,
     };
 
-    public RootGameState Update(float deltaTime, RootGameState gameState)
+    public void Update(float deltaTime)
     {
+        var gameState = RootGameState.Instance;
+
         if (IsKeyPressed(KeyboardKey.KEY_SPACE))
         {
             gameState.PlayerMode = gameState.PlayerMode == PlayerMode.Mouse ? PlayerMode.Man : PlayerMode.Mouse;
@@ -38,11 +40,9 @@ public class RoamingScene : IScene
         CheckClicks(gameState);
         UpdatePlayer(gameState);
         UpdateCamera(gameState.PlayerGridPos, gameState.PlayerDirection, gameState.PlayerMode);
-
-        return gameState;
     }
 
-    public void Render(float deltaTime, ref RenderBundle renderBundle, RootGameState gameState)
+    public void Render(float deltaTime, ref RenderBundle renderBundle)
     {
         BeginDrawing();
         {
@@ -92,14 +92,15 @@ public class RoamingScene : IScene
                     var margin = 10;
                     DrawRectangle(margin, 0, GetScreenWidth() / ScreenInfo.Crunch - margin * 2, 64, Color.BLACK);
                     var i = 0;
-                    foreach (var item in gameState.Inventory)
+                    foreach (var item in RootGameState.Instance.Inventory)
                     {
                         if (IsHoveringInventoryItem(i * 64 + margin))
                         {
                             DrawRectangle(i * 64 + margin, 0, 64, 64, Color.GRAY);
                         }
 
-                        var texture = ResourceManager.Instance.Textures[item];
+                        var itemData = RootGameState.Instance.ItemCache[item];
+                        var texture = ResourceManager.Instance.Textures[itemData.TextureName!];
                         DrawTexture(texture, i * 64 + margin, 0, Color.WHITE);
                         i += 1;
                     }
@@ -334,16 +335,16 @@ public class RoamingScene : IScene
             {
                 case Door d:
                     var newArea = Scenes.GetAreaFromDoor(d.DoorKind);
-                    var (newScene, gridPos, dir) = Scenes.GetScene(newArea, gameState.CurrentArea, gameState);
+                    var (newScene, gridPos, dir) = Scenes.GetScene(newArea, gameState.CurrentArea);
                     SceneManager.Instance.Replace(newScene);
                     gameState.PlayerDirection = dir;
                     gameState.PlayerGridPos = gridPos;
                     gameState.CurrentArea = newArea;
                     break;
                 case Person p:
-                    // gameState.CurrentConversationTarget = _hovered.Name;
-                    var dialogScene = new DialogScene();
-                    SceneManager.Instance.Push(dialogScene);
+                    gameState.CurrentConversationTarget = p.PersonKind;
+                    var dialogueScene = new DialogueScene();
+                    SceneManager.Instance.Push(dialogueScene);
                     break;
                 case Item i:
                     gameState.Inventory.Add(i.ItemKind);
