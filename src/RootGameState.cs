@@ -47,6 +47,8 @@ public class RootGameState
             {AreaKind.Tailor, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Tailor])},
             {AreaKind.Blacksmith, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Blacksmith])},
             {AreaKind.FarmHouse, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.FarmHouse])},
+            {AreaKind.ManorHouse, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.ManorHouse])},
+            {AreaKind.Sewer, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Sewer])},
         };
 
         ItemCache = new Dictionary<ItemKind, ItemData>();
@@ -63,6 +65,5 @@ public class RootGameState
                 }
             }
         }
-
     }
 }

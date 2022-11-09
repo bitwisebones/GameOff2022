@@ -214,6 +214,16 @@ public static class Scenes
                         HoverText = "To the Farm",
                         Scale = new Vector3(1, 1, 1),
                         DoorKind = DoorKind.Farm,
+                    },
+                    new DoorData{
+                        Name = "sewer_door",
+                        GridPos = new Vector3(10, 0, 3),
+                        LocalPos = new Vector3(0, -0.25f, 0),
+                        TextureName = "door_a",
+                        Side = Direction.West,
+                        HoverText = "Enter the Sewers",
+                        Scale = new Vector3(1, 1, 1),
+                        DoorKind = DoorKind.Sewer,
                     }
                 }
             }
@@ -299,6 +309,16 @@ public static class Scenes
                         Scale = new Vector3(1, 1, 1),
                         DoorKind = DoorKind.Woods,
                     },
+                    new DoorData{
+                        Name = "manorhouse_door",
+                        GridPos = new Vector3(13, 0, 7),
+                        LocalPos = new Vector3(0, -0.25f, 0),
+                        TextureName = "door_a",
+                        Side = Direction.West,
+                        HoverText = "Enter the Manor",
+                        Scale = new Vector3(1, 1, 1),
+                        DoorKind = DoorKind.ManorHouse,
+                    }
                 }
             }
         },
@@ -382,6 +402,80 @@ public static class Scenes
                     }
                 }
             }
+        },
+        {
+            AreaKind.ManorHouse,
+            new SceneData{
+                Name = "manorhouse",
+                SceneType = SceneType.Roaming,
+                Entities = new List<EntityData>{
+                    new TerrainData{
+                        Name = "manorhouse_terrain",
+                        GridPos = new Vector3(-0.5f, -0.5f, -0.5f),
+                        LocalPos = Vector3.Zero,
+                        TextureName = "town",
+                        ModelName = "manorhouse",
+                        AreaKind = AreaKind.ManorHouse,
+                    },
+                    new DoorData{
+                        Name = "manorgrounds_door",
+                        GridPos = new Vector3(12, 0, 7),
+                        LocalPos = new Vector3(0, -0.25f, 0),
+                        TextureName = "door_a",
+                        Side = Direction.East,
+                        HoverText = "Exit the Manor",
+                        Scale = new Vector3(1, 1, 1),
+                        DoorKind = DoorKind.ManorGrounds,
+                    },
+                    new DoorData{
+                        Name = "sewer_door",
+                        GridPos = new Vector3(6, 0, 4),
+                        LocalPos = new Vector3(0, -0.25f, 0),
+                        TextureName = "door_a",
+                        Side = Direction.East,
+                        HoverText = "Exit the Manor",
+                        Scale = new Vector3(1, 1, 1),
+                        DoorKind = DoorKind.Sewer,
+                    }
+                }
+            }
+        },
+        {
+            AreaKind.Sewer,
+            new SceneData{
+                Name = "sewers",
+                SceneType = SceneType.Roaming,
+                Entities = new List<EntityData>{
+                    new TerrainData{
+                        Name = "sewer_terrain",
+                        GridPos = new Vector3(-0.5f, -0.5f, -0.5f),
+                        LocalPos = Vector3.Zero,
+                        TextureName = "town",
+                        ModelName = "sewers",
+                        AreaKind = AreaKind.Sewer,
+                    },
+                    new DoorData{
+                        Name = "woods_door",
+                        GridPos = new Vector3(15, 0, 0),
+                        LocalPos = new Vector3(0, -0.25f, 0),
+                        TextureName = "door_a",
+                        Side = Direction.East,
+                        HoverText = "Exit the Sewers",
+                        Scale = new Vector3(1, 1, 1),
+                        DoorKind = DoorKind.Woods,
+                    },
+                    new DoorData{
+                        Name = "manorhouse_door",
+                        GridPos = new Vector3(0, 0, 15),
+                        LocalPos = new Vector3(0, -0.25f, 0),
+                        TextureName = "door_a",
+                        Side = Direction.West,
+                        HoverText = "Exit the Sewers",
+                        Scale = new Vector3(1, 1, 1),
+                        DoorKind = DoorKind.ManorHouse,
+                    }
+                }
+            }
         }
     };
 
@@ -403,6 +497,10 @@ public static class Scenes
         {(AreaKind.Woods, AreaKind.Town), (new Vector3(1, 0, 1), Direction.South)},
         {(AreaKind.Woods, AreaKind.ManorGrounds), (new Vector3(1, 0, 1), Direction.South)},
         {(AreaKind.Woods, AreaKind.Farm), (new Vector3(2, 0, 0), Direction.South)},
+        {(AreaKind.Woods, AreaKind.Sewer), (new Vector3(15, 0, 0), Direction.West)},
+
+        {(AreaKind.Sewer, AreaKind.ManorHouse), (new Vector3(6, 0, 4), Direction.West)},
+        {(AreaKind.Sewer, AreaKind.Woods), (new Vector3(10, 0, 3), Direction.East)},
 
         {(AreaKind.Farm, AreaKind.Woods), (new Vector3(15, 0, 15), Direction.North)},
         {(AreaKind.Farm, AreaKind.Town), (new Vector3(13, 0, 8), Direction.West)},
@@ -411,8 +509,9 @@ public static class Scenes
 
         {(AreaKind.ManorGrounds, AreaKind.Town), (new Vector3(1, 0, 9), Direction.East)},
         {(AreaKind.ManorGrounds, AreaKind.Woods), (new Vector3(0, 0, 15), Direction.North)},
-        {(AreaKind.ManorGrounds, AreaKind.ManorHouse), (new Vector3(0, 0, 0), Direction.West)}, // @TODO
-
+        {(AreaKind.ManorGrounds, AreaKind.ManorHouse), (new Vector3(12, 0, 7), Direction.West)},
+        {(AreaKind.ManorHouse, AreaKind.ManorGrounds), (new Vector3(13, 0, 7), Direction.East)},
+        {(AreaKind.ManorHouse, AreaKind.Sewer), (new Vector3(0, 0, 15), Direction.East)},
     };
 
     public static (IScene, Vector3, Direction) GetScene(AreaKind newArea, AreaKind currentArea)
@@ -435,6 +534,8 @@ public static class Scenes
             DoorKind.Tailor => AreaKind.Tailor,
             DoorKind.Woods => AreaKind.Woods,
             DoorKind.Farmhouse => AreaKind.FarmHouse,
+            DoorKind.Sewer => AreaKind.Sewer,
+            DoorKind.ManorHouse => AreaKind.ManorHouse,
             _ => throw new NotImplementedException($"{door} in GetAreaFromDoor"),
         };
     }

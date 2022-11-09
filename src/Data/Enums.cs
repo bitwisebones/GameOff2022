@@ -41,7 +41,9 @@ public enum DoorKind
     Woods,
     Farm,
     ManorGrounds,
-    Farmhouse
+    Farmhouse,
+    Sewer,
+    ManorHouse,
 }
 
 public enum ItemKind
