@@ -21,6 +21,7 @@ public class ResourceManager
     private string[] _texturePaths;
     private string[] _modelPaths;
     private string[] _imagePaths;
+    private string[] _fontPaths;
     private int _index = 0;
     private int _totalFiles;
 
@@ -28,6 +29,7 @@ public class ResourceManager
     public Dictionary<string, Texture2D> Textures { get; } = new Dictionary<string, Texture2D>();
     public Dictionary<string, Model> Models { get; } = new Dictionary<string, Model>();
     public Dictionary<string, Image> Images { get; } = new Dictionary<string, Image>();
+    public Dictionary<string, Font> Fonts { get; set; } = new Dictionary<string, Font>();
 
     private ResourceManager()
     {
@@ -35,9 +37,10 @@ public class ResourceManager
         _texturePaths = Directory.GetFiles("Resources/Textures");
         _modelPaths = Directory.GetFiles("Resources/Models");
         _imagePaths = Directory.GetFiles("Resources/Images");
-        _totalFiles = _soundPaths.Length + _texturePaths.Length + _modelPaths.Length + _imagePaths.Length;
+        _fontPaths = Directory.GetFiles("Resources/Fonts");
+        _totalFiles = _soundPaths.Length + _texturePaths.Length + _modelPaths.Length + _imagePaths.Length + _fontPaths.Length;
 
-        Console.WriteLine($"{_soundPaths.Length}, {_texturePaths.Length}, {_modelPaths.Length}, {_imagePaths.Length}");
+        Console.WriteLine($"{_soundPaths.Length}, {_texturePaths.Length}, {_modelPaths.Length}, {_imagePaths.Length}, {_fontPaths.Length}");
     }
 
     public Progress LoadNext()
@@ -74,6 +77,15 @@ public class ResourceManager
             var idx = _index - _soundPaths.Length - _texturePaths.Length - _modelPaths.Length;
             var image = LoadImage(_imagePaths[idx]);
             Images.Add(FormatFileName(_imagePaths[idx]), image);
+            _index++;
+            return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
+        }
+
+        if (_index - _soundPaths.Length - _texturePaths.Length - _modelPaths.Length - _imagePaths.Length < _fontPaths.Length)
+        {
+            var idx = _index - _soundPaths.Length - _texturePaths.Length - _modelPaths.Length - _imagePaths.Length;
+            var font = LoadFont(_fontPaths[idx]);
+            Fonts.Add(FormatFileName(_fontPaths[idx]), font);
             _index++;
             return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
         }

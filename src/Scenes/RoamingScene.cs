@@ -10,9 +10,12 @@ public class RoamingScene : IScene
     public List<Entity> Entities { get; set; } = new List<Entity>();
 
     private bool _isActive => SceneManager.Instance.Peek() == this;
+    private bool _isDebug = false;
+
 
     private Entity? _hovered;
     private bool _isInventoryOpen;
+    private RenderTexture2D _renderTexture = LoadRenderTexture(GetScreenWidth() / 4, GetScreenHeight() / 4);
 
     private Camera3D _camera = new Camera3D()
     {
@@ -35,6 +38,10 @@ public class RoamingScene : IScene
         {
             _isInventoryOpen = !_isInventoryOpen;
         }
+        if (IsKeyPressed(KeyboardKey.KEY_GRAVE))
+        {
+            _isDebug = !_isDebug;
+        }
 
         CheckForHover();
         CheckClicks(gameState);
@@ -42,97 +49,105 @@ public class RoamingScene : IScene
         UpdateCamera(gameState.PlayerGridPos, gameState.PlayerDirection, gameState.PlayerMode);
     }
 
-    public void Render(float deltaTime, ref RenderBundle renderBundle)
+    public void Render(float deltaTime)
     {
-        BeginDrawing();
+        BeginTextureMode(_renderTexture);
         {
-            BeginTextureMode(renderBundle.RenderTexture);
-            {
-                ClearBackground(Color.BLACK);
+            ClearBackground(Color.BLACK);
 
-                BeginMode3D(_camera);
+            BeginMode3D(_camera);
+            {
+                if (_isDebug)
                 {
-                    // NavigationGrid!.DebugDraw();
-                    // DebugDrawCardinalDirections();
-                    foreach (var entity in Entities)
+                    NavigationGrid!.DebugDraw();
+                    DebugDrawCardinalDirections();
+                }
+                foreach (var entity in Entities)
+                {
+                    switch (entity)
                     {
-                        switch (entity)
-                        {
-                            case Terrain tn:
-                                DrawModel(tn.Model, tn.Position, 1, Color.WHITE);
-                                // DrawBoundingBox(entity.BoundingBox, Color.BLUE);
-                                break;
-                            case Person p:
-                                var t = _hovered == p ? p.HoverTexture : p.Texture;
-                                DrawBillboardRec(
-                                    _camera,
-                                    t,
-                                    new Rectangle { x = 0, y = 0, width = p.Texture.width, height = p.Texture.height },
-                                    p.Position,
-                                    new Vector2(p.Scale.X, p.Scale.Y),
-                                    Color.WHITE
-                                );
-                                // DrawBoundingBox(entity.BoundingBox, Color.BLUE);
-                                break;
-                            case Door d:
-                                DrawModelEx(d.Model, d.Position, new Vector3(1, 0, 0), 180, Vector3.One, Color.WHITE);
-                                // DrawBoundingBox(entity.BoundingBox, Color.BLUE);
-                                break;
-                            case Item i:
-                                DrawModelEx(i.Model, i.Position, new Vector3(1, 0, 0), 180, Vector3.One, Color.WHITE);
-                                // DrawBoundingBox(entity.BoundingBox, Color.BLUE);
-                                break;
-                        }
+                        case Terrain tn:
+                            DrawModel(tn.Model, tn.Position, 1, Color.WHITE);
+                            break;
+                        case Person p:
+                            var t = _hovered == p ? p.HoverTexture : p.Texture;
+                            DrawBillboardRec(
+                                _camera,
+                                t,
+                                new Rectangle { x = 0, y = 0, width = p.Texture.width, height = p.Texture.height },
+                                p.Position,
+                                new Vector2(p.Scale.X, p.Scale.Y),
+                                Color.WHITE
+                            );
+                            if (_isDebug)
+                            {
+                                DrawBoundingBox(p.GetBoundingBox(), Color.BLUE);
+                            }
+                            break;
+                        case Door d:
+                            DrawModelEx(d.Model, d.Position, new Vector3(1, 0, 0), 180, Vector3.One, Color.WHITE);
+                            if (_isDebug)
+                            {
+                                DrawBoundingBox(d.GetBoundingBox(), Color.BLUE);
+                            }
+                            break;
+                        case Item i:
+                            DrawModelEx(i.Model, i.Position, new Vector3(1, 0, 0), 180, Vector3.One, Color.WHITE);
+                            if (_isDebug)
+                            {
+                                DrawBoundingBox(i.GetBoundingBox(), Color.BLUE);
+                            }
+                            break;
                     }
                 }
-                EndMode3D();
-
-                if (_isInventoryOpen)
-                {
-                    var margin = 10;
-                    DrawRectangle(margin, 0, GetScreenWidth() / ScreenInfo.Crunch - margin * 2, 64, Color.BLACK);
-                    var i = 0;
-                    foreach (var item in RootGameState.Instance.Inventory)
-                    {
-                        if (IsHoveringInventoryItem(i * 64 + margin))
-                        {
-                            DrawRectangle(i * 64 + margin, 0, 64, 64, Color.GRAY);
-                        }
-
-                        var itemData = RootGameState.Instance.ItemCache[item];
-                        var texture = ResourceManager.Instance.Textures[itemData.TextureName!];
-                        DrawTexture(texture, i * 64 + margin, 0, Color.WHITE);
-                        i += 1;
-                    }
-                }
-
-                if (_isActive)
-                {
-                    var cursorTexture = _hovered == null ? "cursor" : "cursor_hover";
-                    DrawTextureEx(ResourceManager.Instance.Textures[cursorTexture], new Vector2(GetMouseX() / ScreenInfo.Crunch, GetMouseY() / ScreenInfo.Crunch), 0.0f, 0.5f, Color.WHITE);
-                }
             }
-            EndTextureMode();
+            EndMode3D();
 
-            DrawTexturePro(
-                renderBundle.RenderTexture.texture,
-                new Rectangle(0, 0, -ScreenInfo.RenderWidth, ScreenInfo.RenderHeight),
-                new Rectangle(ScreenInfo.ScreenWidth, ScreenInfo.ScreenHeight, ScreenInfo.ScreenWidth, ScreenInfo.ScreenHeight),
-                new Vector2(0, 0),
-                180,
-                Color.WHITE
-            );
-
-            if (_hovered != null && _hovered.GetHoverText() != null && !string.IsNullOrEmpty(_hovered.GetHoverText()))
+            if (_isInventoryOpen)
             {
-                if (_isActive)
+                var margin = 10;
+                DrawRectangle(margin, 0, GetScreenWidth() / ScreenInfo.Crunch - margin * 2, 64, Color.BLACK);
+                var i = 0;
+                foreach (var item in RootGameState.Instance.Inventory)
                 {
-                    DrawText(_hovered.GetHoverText(), GetMouseX() + 80, GetMouseY() + 50, 36, Color.WHITE);
+                    if (IsHoveringInventoryItem(i * 64 + margin))
+                    {
+                        DrawRectangle(i * 64 + margin, 0, 64, 64, Color.GRAY);
+                    }
+
+                    var itemData = RootGameState.Instance.ItemCache[item];
+                    var texture = ResourceManager.Instance.Textures[itemData.TextureName!];
+                    DrawTexture(texture, i * 64 + margin, 0, Color.WHITE);
+                    i += 1;
                 }
             }
-            DrawFPS(10, 10);
+
+            if (_isActive)
+            {
+                var cursorTexture = _hovered == null ? "cursor" : "cursor_hover";
+                DrawTextureEx(ResourceManager.Instance.Textures[cursorTexture], new Vector2(GetMouseX() / ScreenInfo.Crunch, GetMouseY() / ScreenInfo.Crunch), 0.0f, 0.5f, Color.WHITE);
+            }
         }
-        EndDrawing();
+        EndTextureMode();
+
+        DrawTexturePro(
+            _renderTexture.texture,
+            new Rectangle(0, 0, -ScreenInfo.RenderWidth, ScreenInfo.RenderHeight),
+            new Rectangle(ScreenInfo.ScreenWidth, ScreenInfo.ScreenHeight, ScreenInfo.ScreenWidth, ScreenInfo.ScreenHeight),
+            new Vector2(0, 0),
+            180,
+            Color.WHITE
+        );
+
+        if (_hovered != null && _hovered.GetHoverText() != null && !string.IsNullOrEmpty(_hovered.GetHoverText()))
+        {
+            if (_isActive)
+            {
+                var hoverTextPos = new Vector2(GetMouseX() + 80, GetMouseY() + 50);
+                DrawTextEx(ResourceManager.Instance.Fonts["alagard"], _hovered.GetHoverText(), hoverTextPos, 36, 1, Color.WHITE);
+            }
+        }
+        // DrawFPS(10, 10);
     }
 
     private bool CanMoveForward(RootGameState gameState)
@@ -285,7 +300,6 @@ public class RoamingScene : IScene
             var collisionA = GetRayCollisionBox(ray, entity.GetBoundingBox());
             if (collisionA.hit && collisionA.distance < 3.5f)
             {
-                // DrawCube(collisionA.point, 0.1f, 0.1f, 0.1f, Color.MAGENTA);
                 switch (entity)
                 {
                     case Person p:

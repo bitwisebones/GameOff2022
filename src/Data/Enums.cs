@@ -36,6 +36,12 @@ public enum DoorKind
     Inn,
     Church,
     Town,
+    Blacksmith,
+    Tailor,
+    Woods,
+    Farm,
+    ManorGrounds,
+    Farmhouse
 }
 
 public enum ItemKind

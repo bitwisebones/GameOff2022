@@ -30,9 +30,8 @@ public class RootGameState
     public void Init()
     {
         var startingScene = Scenes.SceneDataSource[AreaKind.Town];
-
-        PlayerDirection = startingScene.PlayerSpawnDirection;
-        PlayerGridPos = startingScene.PlayerSpawnGridPos;
+        PlayerDirection = Direction.South;
+        PlayerGridPos = new Vector3(1, 0, 1);
         PlayerMode = PlayerMode.Man;
         CurrentArea = AreaKind.Town;
         Inventory = new List<ItemKind>();
@@ -42,6 +41,12 @@ public class RootGameState
             {AreaKind.Town, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Town])},
             {AreaKind.Church, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Church])},
             {AreaKind.Inn, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Inn])},
+            {AreaKind.Woods, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Woods])},
+            {AreaKind.Farm, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Farm])},
+            {AreaKind.ManorGrounds, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.ManorGrounds])},
+            {AreaKind.Tailor, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Tailor])},
+            {AreaKind.Blacksmith, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Blacksmith])},
+            {AreaKind.FarmHouse, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.FarmHouse])},
         };
 
         ItemCache = new Dictionary<ItemKind, ItemData>();

@@ -26,11 +26,11 @@ public class SceneManager
     }
 
     // All scenes in the stack are rendered
-    public void Render(float deltaTime, ref RenderBundle renderBundle)
+    public void Render(float deltaTime)
     {
-        foreach (var scene in _sceneStack)
+        foreach (var scene in _sceneStack.Reverse())
         {
-            scene.Render(deltaTime, ref renderBundle);
+            scene.Render(deltaTime);
         }
     }
 

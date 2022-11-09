@@ -1,10 +1,4 @@
 
-public enum DialogueResult
-{
-    NextMessage,
-    Quit,
-}
-
 public class DialogueNode
 {
     public int Id { get; set; }
@@ -22,12 +16,41 @@ public class DialogueLink
 
 public class Dialogue
 {
-    public DialogueNode FarmerDialogue = new DialogueNode
+    public static DialogueNode GetDialogue(PersonKind person)
     {
-        Id = 1,
-        Text = "What do you want?",
-        Links = new List<DialogueLink>{
-            new DialogueLink{ Text = "Goodbye!", DestinationId = -1 }
+        switch (person)
+        {
+            case PersonKind.Blacksmith:
+                return BlacksmithDialogue[1];
         }
+
+        return BlacksmithDialogue[1];
+    }
+
+    public static DialogueLink Goodbye() => new DialogueLink { Text = "Goodbye.", DestinationId = -1 };
+
+    public static Dictionary<int, DialogueNode> BlacksmithDialogue = new Dictionary<int, DialogueNode>
+    {
+        { 1, new DialogueNode {
+                Id = 1,
+                Text = "What do you want?",
+                Links = new List<DialogueLink>{
+                    new DialogueLink{ Text = "How are you today?", DestinationId = 2},
+                    new DialogueLink{ Text = "Goodbye!", DestinationId = -1},
+                }
+        }},
+        {2, new DialogueNode {
+            Id = 2,
+            Text = "Harumph!",
+            Links = new List<DialogueLink>{
+                new DialogueLink{
+                    Text = "Are you looking for a key?",
+                    DestinationId = -1,
+                    IsValid = () => RootGameState.Instance.Inventory.Contains(ItemKind.BlacksmithKey),
+                    OnChosen = () => RootGameState.Instance.Inventory.Remove(ItemKind.BlacksmithKey),
+                },
+                Goodbye(),
+            }
+        }},
     };
 }

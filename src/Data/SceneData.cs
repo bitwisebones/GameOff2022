@@ -14,8 +14,6 @@ public class SceneData
 {
     public string? Name { get; set; }
     public SceneType SceneType { get; set; }
-    public Vector3 PlayerSpawnGridPos { get; set; }
-    public Direction PlayerSpawnDirection { get; set; }
     public List<EntityData> Entities { get; set; } = new List<EntityData>();
 }
 
@@ -55,10 +53,4 @@ public class ItemData : EntityData
     public Vector3 Scale { get; set; }
     public string? HoverText { get; set; }
     public ItemKind ItemKind { get; set; }
-}
-
-
-public class RenderBundle
-{
-    public RenderTexture2D RenderTexture { get; set; }
 }

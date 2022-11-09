@@ -9,8 +9,6 @@ public enum PlayerMode
 
 public class GameStage : IStage
 {
-    private RenderBundle _renderBundle = new RenderBundle();
-
     public void Init()
     {
         HideCursor();
@@ -19,15 +17,16 @@ public class GameStage : IStage
 
         var townScene = RootGameState.Instance.SceneCache[AreaKind.Town];
         SceneManager.Instance.Push(townScene);
-
-        _renderBundle.RenderTexture = LoadRenderTexture(GetScreenWidth() / 4, GetScreenHeight() / 4);
     }
 
     public void Update(float deltaTime)
     {
-        var renderBundle = _renderBundle;
         SceneManager.Instance.Update(deltaTime);
-        SceneManager.Instance.Render(deltaTime, ref renderBundle);
+        BeginDrawing();
+        {
+            SceneManager.Instance.Render(deltaTime);
+        }
+        EndDrawing();
     }
 
     public void Deinit() { }

@@ -45,16 +45,16 @@ public class NavigationGrid
         {
             var gridPos = Grid.FromIndex(k);
             var worldPos = Grid.ToWorld(gridPos);
-            worldPos.Y = -0.4f;
-            DrawCube(worldPos, 1, 1, 1, Color.MAGENTA);
+            worldPos.Y = 0f;
+            DrawCube(worldPos, 1, 0.1f, 1, Color.MAGENTA);
         }
 
         foreach (var k in _navGridMouse.Keys)
         {
             var gridPos = Grid.FromIndex(k);
             var worldPos = Grid.ToWorld(gridPos);
-            worldPos.Y = -0.4f;
-            DrawCube(worldPos, 1, 1, 1, Color.RED);
+            worldPos.Y = 0f;
+            DrawCube(worldPos, 1, 0.1f, 1, Color.RED);
         }
     }
 }
