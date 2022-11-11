@@ -15,7 +15,6 @@ public abstract class Entity
 public class Terrain : Entity
 {
     public Model Model { get; set; }
-    public AreaKind AreaKind { get; set; }
 
     public override BoundingBox GetBoundingBox() => new BoundingBox(Vector3.Zero, Vector3.Zero);
     public override string GetHoverText() => "";

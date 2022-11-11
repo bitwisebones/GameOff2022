@@ -18,16 +18,13 @@ public static class Scenes
                         LocalPos = Vector3.Zero,
                         ModelName = "town",
                         TextureName = "town",
-                        AreaKind = AreaKind.Town,
                     },
-                    new PersonData{
-                        Name = "blacksmith",
-                        GridPos = new Vector3(6, 0, 9),
-                        LocalPos = new Vector3(0, -0.25f, 0),
-                        TextureName = "person",
-                        Scale = new Vector3(1.5f, 1.5f, 0),
-                        HoverText = "Talk to Person",
-                        PersonKind = PersonKind.Blacksmith,
+                    new TerrainData{
+                        Name = "churchbuilding",
+                        GridPos = new Vector3(3.5f, -0.5f, -3.5f),
+                        LocalPos = Vector3.Zero,
+                        ModelName = "church",
+                        TextureName = "church",
                     },
                     new DoorData{
                         Name = "inn_door",
@@ -42,8 +39,8 @@ public static class Scenes
                     new DoorData{
                         Name = "church_door",
                         GridPos = new Vector3(7, 0, 5),
-                        LocalPos = new Vector3(0, -0.25f, 0),
-                        TextureName = "door_a",
+                        LocalPos = new Vector3(0, 0.25f, 0.05f),
+                        TextureName = "churchdoor",
                         Side = Direction.North,
                         HoverText = "Enter the Church",
                         Scale = new Vector3(1, 1, 1),
@@ -109,6 +106,15 @@ public static class Scenes
                         HoverText = "A small brass skeleton key",
                         Scale = new Vector3(0.5f, 0.5f, 0.5f),
                         ItemKind = ItemKind.BlacksmithKey,
+                    },
+                    new PersonData{
+                        Name = "gravedigger",
+                        GridPos = new Vector3(2, 0, 2),
+                        LocalPos = new Vector3(0, -0.25f, 0),
+                        TextureName = "person",
+                        Scale = new Vector3(1.5f, 1.5f, 0),
+                        HoverText = "Talk to Rudy Duncan",
+                        PersonKind = PersonKind.Gravedigger,
                     }
                 }
             }
@@ -127,7 +133,6 @@ public static class Scenes
                         LocalPos = Vector3.Zero,
                         TextureName = "town",
                         ModelName = "inn",
-                        AreaKind = AreaKind.Inn,
                     },
                     new DoorData{
                         Name = "town_door",
@@ -138,6 +143,24 @@ public static class Scenes
                         HoverText = "Exit The Inn",
                         Scale = new Vector3(1, 1, 1),
                         DoorKind = DoorKind.Town,
+                    },
+                    new PersonData{
+                        Name = "inn_keeper",
+                        GridPos = new Vector3(1, 0, 0),
+                        LocalPos = new Vector3(0, -0.25f, 0),
+                        TextureName = "person",
+                        Scale = new Vector3(1.5f, 1.5f, 0),
+                        HoverText = "Talk to Meredith Farnsby",
+                        PersonKind = PersonKind.InnKeeper,
+                    },
+                    new PersonData{
+                        Name = "inn_keepers_husband",
+                        GridPos = new Vector3(5, 0, 2),
+                        LocalPos = new Vector3(0, -0.25f, 0),
+                        TextureName = "person",
+                        Scale = new Vector3(1.5f, 1.5f, 0),
+                        HoverText = "Talk to Liam Farnsby",
+                        PersonKind = PersonKind.InnKeepersHusband,
                     }
                 }
             }
@@ -154,19 +177,27 @@ public static class Scenes
                         Name = "church_terrain",
                         GridPos = new Vector3(-0.5f, -0.5f, -0.5f),
                         LocalPos = Vector3.Zero,
-                        TextureName = "town",
-                        ModelName = "church",
-                        AreaKind = AreaKind.Church,
+                        ModelName = "churchinterior",
+                        TextureName = "churchinterior",
                     },
                     new DoorData{
                         Name = "town_door",
                         GridPos = new Vector3(3, 0, 7),
-                        LocalPos = new Vector3(0, -0.25f, 0),
-                        TextureName = "door_a",
+                        LocalPos = new Vector3(0, 0.25f, 0),
+                        TextureName = "churchdoor",
                         Side = Direction.South,
                         HoverText = "Exit The Church",
                         Scale = new Vector3(1, 1, 1),
                         DoorKind = DoorKind.Town,
+                    },
+                    new PersonData{
+                        Name = "priest",
+                        GridPos = new Vector3(0, 0, 0),
+                        LocalPos = new Vector3(0, -0.25f, 0),
+                        TextureName = "person",
+                        Scale = new Vector3(1.5f, 1.5f, 0),
+                        HoverText = "Talk to Father Brooks",
+                        PersonKind = PersonKind.Priest,
                     }
                 }
             }
@@ -183,7 +214,6 @@ public static class Scenes
                         LocalPos = Vector3.Zero,
                         TextureName = "town",
                         ModelName = "woods",
-                        AreaKind = AreaKind.Woods,
                     },
                     new DoorData{
                         Name = "town_door",
@@ -240,7 +270,6 @@ public static class Scenes
                         LocalPos = Vector3.Zero,
                         TextureName = "town",
                         ModelName = "farm",
-                        AreaKind = AreaKind.Farm,
                     },
                     new DoorData{
                         Name = "town_door",
@@ -271,7 +300,16 @@ public static class Scenes
                         HoverText = "Enter the Farmhouse",
                         Scale = new Vector3(1, 1, 1),
                         DoorKind = DoorKind.Farmhouse,
-                    }
+                    },
+                    new PersonData{
+                        Name = "farmer",
+                        GridPos = new Vector3(8, 0, 10),
+                        LocalPos = new Vector3(0, -0.25f, 0),
+                        TextureName = "person",
+                        Scale = new Vector3(1.5f, 1.5f, 0),
+                        HoverText = "Talk to Samuel Matthews",
+                        PersonKind = PersonKind.Farmer,
+                    },
                 }
             }
         },
@@ -287,7 +325,6 @@ public static class Scenes
                         LocalPos = Vector3.Zero,
                         TextureName = "town",
                         ModelName = "manorgrounds",
-                        AreaKind = AreaKind.ManorGrounds,
                     },
                     new DoorData{
                         Name = "town_door",
@@ -334,7 +371,6 @@ public static class Scenes
                         LocalPos = Vector3.Zero,
                         TextureName = "town",
                         ModelName = "tailor",
-                        AreaKind = AreaKind.Tailor,
                     },
                     new DoorData{
                         Name = "town_door",
@@ -345,6 +381,15 @@ public static class Scenes
                         HoverText = "To the Town",
                         Scale = new Vector3(1, 1, 1),
                         DoorKind = DoorKind.Town,
+                    },
+                    new PersonData{
+                        Name = "tailor",
+                        GridPos = new Vector3(7, 0, 12),
+                        LocalPos = new Vector3(0, -0.25f, 0),
+                        TextureName = "person",
+                        Scale = new Vector3(1.5f, 1.5f, 0),
+                        HoverText = "Talk to Charles Huges",
+                        PersonKind = PersonKind.Tailor,
                     }
                 }
             }
@@ -361,7 +406,6 @@ public static class Scenes
                         LocalPos = Vector3.Zero,
                         TextureName = "town",
                         ModelName = "blacksmith",
-                        AreaKind = AreaKind.Blacksmith,
                     },
                     new DoorData{
                         Name = "town_door",
@@ -372,7 +416,16 @@ public static class Scenes
                         HoverText = "To the Town",
                         Scale = new Vector3(1, 1, 1),
                         DoorKind = DoorKind.Town,
-                    }
+                    },
+                    new PersonData{
+                        Name = "blacksmith",
+                        GridPos = new Vector3(8, 0, 12),
+                        LocalPos = new Vector3(0, -0.25f, 0),
+                        TextureName = "person",
+                        Scale = new Vector3(1.5f, 1.5f, 0),
+                        HoverText = "Talk to Edmund Fitch",
+                        PersonKind = PersonKind.Blacksmith,
+                    },
                 }
             }
         },
@@ -388,7 +441,6 @@ public static class Scenes
                         LocalPos = Vector3.Zero,
                         TextureName = "town",
                         ModelName = "farmhouse",
-                        AreaKind = AreaKind.FarmHouse,
                     },
                     new DoorData{
                         Name = "farm_door",
@@ -415,7 +467,6 @@ public static class Scenes
                         LocalPos = Vector3.Zero,
                         TextureName = "town",
                         ModelName = "manorhouse",
-                        AreaKind = AreaKind.ManorHouse,
                     },
                     new DoorData{
                         Name = "manorgrounds_door",
@@ -452,7 +503,6 @@ public static class Scenes
                         LocalPos = Vector3.Zero,
                         TextureName = "town",
                         ModelName = "sewers",
-                        AreaKind = AreaKind.Sewer,
                     },
                     new DoorData{
                         Name = "woods_door",

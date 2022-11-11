@@ -42,6 +42,10 @@ public class RoamingScene : IScene
         {
             _isDebug = !_isDebug;
         }
+        if (IsKeyPressed(KeyboardKey.KEY_F5))
+        {
+            ResourceManager.Instance.ReloadLoadAll();
+        }
 
         CheckForHover();
         CheckClicks(gameState);
@@ -147,7 +151,10 @@ public class RoamingScene : IScene
                 DrawTextEx(ResourceManager.Instance.Fonts["alagard"], _hovered.GetHoverText(), hoverTextPos, 36, 1, Color.WHITE);
             }
         }
-        // DrawFPS(10, 10);
+        if (_isDebug)
+        {
+            DrawFPS(10, 10);
+        }
     }
 
     private bool CanMoveForward(RootGameState gameState)
@@ -361,7 +368,10 @@ public class RoamingScene : IScene
                     SceneManager.Instance.Push(dialogueScene);
                     break;
                 case Item i:
-                    gameState.Inventory.Add(i.ItemKind);
+                    if (!gameState.Inventory.Contains(i.ItemKind))
+                    {
+                        gameState.Inventory.Add(i.ItemKind);
+                    }
                     Entities.Remove(_hovered);
                     _hovered = null;
                     break;

@@ -4,8 +4,8 @@ using static Raylib_cs.Raylib;
 
 public class NavigationGrid
 {
-    private Dictionary<int, bool> _navGrid = new Dictionary<int, bool>();
-    private Dictionary<int, bool> _navGridMouse = new Dictionary<int, bool>();
+    private Dictionary<(int, int), bool> _navGrid = new Dictionary<(int, int), bool>();
+    private Dictionary<(int, int), bool> _navGridMouse = new Dictionary<(int, int), bool>();
 
     public unsafe void Build(string name)
     {
@@ -19,11 +19,11 @@ public class NavigationGrid
                 var c = colors[i];
                 if (c.b != 0)
                 {
-                    _navGrid[i] = true;
+                    _navGrid[(x, y)] = true;
                 }
                 else if (c.r != 0)
                 {
-                    _navGridMouse[i] = true;
+                    _navGridMouse[(x, y)] = true;
                 }
             }
         }
@@ -34,8 +34,8 @@ public class NavigationGrid
         var idx = Grid.ToIndex(gridPos);
         return mode switch
         {
-            PlayerMode.Man => _navGrid.ContainsKey(idx),
-            _ => _navGrid.ContainsKey(idx) || _navGridMouse.ContainsKey(idx),
+            PlayerMode.Man => _navGrid.ContainsKey(((int)gridPos.X, (int)gridPos.Z)),
+            _ => _navGrid.ContainsKey(((int)gridPos.X, (int)gridPos.Z)) || _navGridMouse.ContainsKey(((int)gridPos.X, (int)gridPos.Z)),
         };
     }
 
@@ -43,7 +43,7 @@ public class NavigationGrid
     {
         foreach (var k in _navGrid.Keys)
         {
-            var gridPos = Grid.FromIndex(k);
+            var gridPos = new Vector3(k.Item1, 0, k.Item2);
             var worldPos = Grid.ToWorld(gridPos);
             worldPos.Y = 0f;
             DrawCube(worldPos, 1, 0.1f, 1, Color.MAGENTA);
@@ -51,7 +51,7 @@ public class NavigationGrid
 
         foreach (var k in _navGridMouse.Keys)
         {
-            var gridPos = Grid.FromIndex(k);
+            var gridPos = new Vector3(k.Item1, 0, k.Item2);
             var worldPos = Grid.ToWorld(gridPos);
             worldPos.Y = 0f;
             DrawCube(worldPos, 1, 0.1f, 1, Color.RED);

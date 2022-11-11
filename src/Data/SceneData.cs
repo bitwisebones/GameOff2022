@@ -29,7 +29,6 @@ public class EntityData
 public class TerrainData : EntityData
 {
     public string? ModelName { get; set; }
-    public AreaKind AreaKind { get; set; }
 }
 
 public class PersonData : EntityData

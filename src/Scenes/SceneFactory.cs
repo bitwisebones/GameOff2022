@@ -52,7 +52,6 @@ public static class SceneFactory
             Model = model,
             Texture = texture,
             Position = Grid.ToWorld(data.GridPos) + data.LocalPos,
-            AreaKind = data.AreaKind,
         };
     }
 

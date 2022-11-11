@@ -49,7 +49,12 @@ public class ResourceManager
         {
             var idx = _index;
             var sound = LoadSound(_soundPaths[idx]);
-            Sounds.Add(FormatFileName(_soundPaths[idx]), sound);
+            var fn = FormatFileName(_soundPaths[idx]);
+            if (Sounds.ContainsKey(fn))
+            {
+                Sounds.Remove(fn);
+            }
+            Sounds.Add(fn, sound);
             _index++;
             return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
         }
@@ -58,7 +63,12 @@ public class ResourceManager
         {
             var idx = _index - _soundPaths.Length;
             var texture = LoadTexture(_texturePaths[idx]);
-            Textures.Add(FormatFileName(_texturePaths[idx]), texture);
+            var fn = FormatFileName(_texturePaths[idx]);
+            if (Textures.ContainsKey(fn))
+            {
+                Textures.Remove(fn);
+            }
+            Textures.Add(fn, texture);
             _index++;
             return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
         }
@@ -67,7 +77,12 @@ public class ResourceManager
         {
             var idx = _index - _soundPaths.Length - _texturePaths.Length;
             var model = LoadModel(_modelPaths[idx]);
-            Models.Add(FormatFileName(_modelPaths[idx]), model);
+            var fn = FormatFileName(_modelPaths[idx]);
+            if (Models.ContainsKey(fn))
+            {
+                Models.Remove(fn);
+            }
+            Models.Add(fn, model);
             _index++;
             return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
         }
@@ -76,7 +91,12 @@ public class ResourceManager
         {
             var idx = _index - _soundPaths.Length - _texturePaths.Length - _modelPaths.Length;
             var image = LoadImage(_imagePaths[idx]);
-            Images.Add(FormatFileName(_imagePaths[idx]), image);
+            var fn = FormatFileName(_imagePaths[idx]);
+            if (Images.ContainsKey(fn))
+            {
+                Images.Remove(fn);
+            }
+            Images.Add(fn, image);
             _index++;
             return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
         }
@@ -85,12 +105,30 @@ public class ResourceManager
         {
             var idx = _index - _soundPaths.Length - _texturePaths.Length - _modelPaths.Length - _imagePaths.Length;
             var font = LoadFont(_fontPaths[idx]);
-            Fonts.Add(FormatFileName(_fontPaths[idx]), font);
+            var fn = FormatFileName(_fontPaths[idx]);
+            if (Fonts.ContainsKey(fn))
+            {
+                Fonts.Remove(fn);
+            }
+            Fonts.Add(fn, font);
             _index++;
             return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
         }
 
         return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
+    }
+
+    public void ReloadLoadAll()
+    {
+        _index = 0;
+        while (true)
+        {
+            var progress = ResourceManager.Instance.LoadNext();
+            if (progress.FilesLoaded == progress.TotalFiles)
+            {
+                break;
+            }
+        }
     }
 
     private string FormatFileName(string fileName)
