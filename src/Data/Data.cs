@@ -90,7 +90,7 @@ public static class Scenes
                     new DoorData{
                         Name = "woods_door",
                         GridPos = new Vector3(1, 0, 1),
-                        LocalPos = new Vector3(0, -0.25f, 0),
+                        LocalPos = new Vector3(0, -0.5f, 0),
                         TextureName = "door_e",
                         Side = Direction.North,
                         HoverText = "To the Woods",
@@ -100,7 +100,7 @@ public static class Scenes
                     new DoorData{
                         Name = "farm_door",
                         GridPos = new Vector3(13, 0, 8),
-                        LocalPos = new Vector3(0, -0.25f, 0),
+                        LocalPos = new Vector3(0, -0.5f, 0),
                         TextureName = "door_f",
                         Side = Direction.East,
                         HoverText = "To the Farm",
@@ -110,7 +110,7 @@ public static class Scenes
                     new DoorData{
                         Name = "manor_door",
                         GridPos = new Vector3(1, 0, 9),
-                        LocalPos = new Vector3(0, -0.25f, 0),
+                        LocalPos = new Vector3(0, -0.5f, 0),
                         TextureName = "door_f",
                         Side = Direction.West,
                         HoverText = "To the Manor",
@@ -151,6 +151,13 @@ public static class Scenes
                         TextureName = "tree_a",
                         Scale = new Vector3(8, 8, 1),
                     },
+                    new TerrainData{
+                        Name = "sky",
+                        GridPos = Vector3.Zero,
+                        LocalPos = Vector3.Zero,
+                        ModelName = "skybox",
+                        TextureName = "sky",
+                    }
                 }
             }
         },

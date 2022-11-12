@@ -57,8 +57,8 @@ public class RoamingScene : IScene
     {
         BeginTextureMode(_renderTexture);
         {
-            //ClearBackground(new Color(135, 206, 235, 255));
-            ClearBackground(new Color(144, 165, 161, 255));
+            // ClearBackground(new Color(144, 165, 161, 255));
+            ClearBackground(Color.BLACK);
 
             BeginMode3D(_camera);
             {
@@ -67,6 +67,7 @@ public class RoamingScene : IScene
                     NavigationGrid!.DebugDraw();
                     DebugDrawCardinalDirections();
                 }
+
                 foreach (var entity in Entities)
                 {
                     switch (entity)
