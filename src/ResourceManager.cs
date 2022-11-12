@@ -45,7 +45,7 @@ public class ResourceManager
 
     public Progress LoadNext()
     {
-        if (_index < _soundPaths.Length - 1)
+        if (_index < _soundPaths.Length)
         {
             var idx = _index;
             var sound = LoadSound(_soundPaths[idx]);

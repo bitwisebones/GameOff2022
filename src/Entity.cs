@@ -55,3 +55,14 @@ public class Door : Entity
     public override BoundingBox GetBoundingBox() => BoundingBox;
     public override string GetHoverText() => HoverText!;
 }
+
+public class Billboard : Entity
+{
+    public BoundingBox BoundingBox { get; set; }
+    public Texture2D HoverTexture { get; set; }
+    public string? HoverText { get; set; }
+    public Vector3 Scale { get; set; }
+
+    public override BoundingBox GetBoundingBox() => BoundingBox;
+    public override string GetHoverText() => "";
+}

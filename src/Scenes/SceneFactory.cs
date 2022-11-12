@@ -30,6 +30,9 @@ public static class SceneFactory
                 case ItemData id:
                     entities.Add(BuildItemEntity(id));
                     break;
+                case BillboardData bb:
+                    entities.Add(BuildBillboardEntity(bb));
+                    break;
             }
         }
 
@@ -174,6 +177,31 @@ public static class SceneFactory
 
         var hoverTexture = ResourceManager.Instance.Textures[data.TextureName! + "_hover"];
         entity.HoverTexture = hoverTexture;
+
+        return entity;
+    }
+
+    private static Billboard BuildBillboardEntity(BillboardData data)
+    {
+        var texture = ResourceManager.Instance.Textures[data.TextureName!];
+        var position = Grid.ToWorld(data.GridPos) + data.LocalPos;
+        var width = (texture.width / 64 * data.Scale.X) / 4.0f;
+        var height = (texture.height / 64 * data.Scale.Y) / 4.0f;
+
+        var boundingBox = new BoundingBox
+        {
+            min = position + new Vector3(-width, -height, -width),
+            max = position + new Vector3(width, height, width),
+        };
+
+        var entity = new Billboard
+        {
+            Name = data.Name,
+            Texture = texture,
+            Position = position,
+            BoundingBox = boundingBox,
+            Scale = data.Scale,
+        };
 
         return entity;
     }

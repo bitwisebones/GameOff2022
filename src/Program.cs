@@ -7,6 +7,7 @@ namespace GameOff2022
         static void Main(string[] args)
         {
             InitWindow(1920, 1080, "Mouse or Man?");
+            InitAudioDevice();
 
             SetTargetFPS(60);
 

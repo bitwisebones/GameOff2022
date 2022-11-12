@@ -57,7 +57,8 @@ public class RoamingScene : IScene
     {
         BeginTextureMode(_renderTexture);
         {
-            ClearBackground(Color.BLACK);
+            //ClearBackground(new Color(135, 206, 235, 255));
+            ClearBackground(new Color(144, 165, 161, 255));
 
             BeginMode3D(_camera);
             {
@@ -86,6 +87,20 @@ public class RoamingScene : IScene
                             if (_isDebug)
                             {
                                 DrawBoundingBox(p.GetBoundingBox(), Color.BLUE);
+                            }
+                            break;
+                        case Billboard b:
+                            DrawBillboardRec(
+                                _camera,
+                                b.Texture,
+                                new Rectangle { x = 0, y = 0, width = b.Texture.width, height = b.Texture.height },
+                                b.Position,
+                                new Vector2(b.Scale.X, b.Scale.Y),
+                                Color.WHITE
+                            );
+                            if (_isDebug)
+                            {
+                                DrawBoundingBox(b.GetBoundingBox(), Color.BLUE);
                             }
                             break;
                         case Door d:

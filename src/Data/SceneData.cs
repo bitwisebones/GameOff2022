@@ -53,3 +53,8 @@ public class ItemData : EntityData
     public string? HoverText { get; set; }
     public ItemKind ItemKind { get; set; }
 }
+
+public class BillboardData : EntityData
+{
+    public Vector3 Scale { get; set; }
+}

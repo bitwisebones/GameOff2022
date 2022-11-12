@@ -20,6 +20,7 @@ public class LoadingStage : IStage
 
         if (progress.FilesLoaded == progress.TotalFiles)
         {
+            PlaySound(ResourceManager.Instance.Sounds["gmae"]);
             StageManager.Instance.GoTo(Stage.Game);
         }
     }
