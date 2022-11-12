@@ -190,7 +190,7 @@ public class RoamingScene : IScene
         var moved = false;
         if (IsKeyPressed(KeyboardKey.KEY_W))
         {
-            if (!CanMoveForward(gameState))
+            if (!CanMoveForward(gameState) && !_isDebug)
             {
                 return;
             }
@@ -216,7 +216,7 @@ public class RoamingScene : IScene
 
         if (IsKeyPressed(KeyboardKey.KEY_S))
         {
-            if (!CanMoveBackward(gameState))
+            if (!CanMoveBackward(gameState) && !_isDebug)
             {
                 return;
             }

@@ -12,6 +12,7 @@ public enum AreaKind
     Farm,
     FarmHouse,
     Sewer,
+    TailorGarden,
 }
 
 public enum PersonKind
@@ -38,6 +39,7 @@ public enum DoorKind
     Town,
     Blacksmith,
     Tailor,
+    TailorGarden,
     Woods,
     Farm,
     ManorGrounds,
