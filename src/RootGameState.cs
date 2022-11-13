@@ -44,6 +44,7 @@ public class RootGameState
             {AreaKind.Woods, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Woods])},
             {AreaKind.Farm, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Farm])},
             {AreaKind.ManorGrounds, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.ManorGrounds])},
+            {AreaKind.ManorGardens, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.ManorGardens])},
             {AreaKind.Tailor, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Tailor])},
             {AreaKind.TailorGarden, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.TailorGarden])},
             {AreaKind.Blacksmith, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Blacksmith])},
