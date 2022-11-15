@@ -140,9 +140,9 @@ public static class Scenes
                     new BillboardData{
                         Name = "tree",
                         GridPos = new Vector3(2, 0, 2),
-                        LocalPos = new Vector3(0, 3f, 0),
-                        TextureName = "tree_a",
-                        Scale = new Vector3(8, 8, 1),
+                        LocalPos = new Vector3(0, 5.5f, 0),
+                        TextureName = "tree_c",
+                        Scale = new Vector3(15, 15, 1),
                     },
                     new BillboardData{
                         Name = "tree",
@@ -443,6 +443,20 @@ public static class Scenes
                         ModelName = "fountain",
                         TextureName = "town",
                     },
+                    new BillboardData{
+                        Name = "tree",
+                        GridPos = new Vector3(13, 0, 2),
+                        LocalPos = new Vector3(0, 5.5f, 0),
+                        TextureName = "tree_b",
+                        Scale = new Vector3(15, 15, 1),
+                    },
+                    new BillboardData{
+                        Name = "tree",
+                        GridPos = new Vector3(13, 0, 13),
+                        LocalPos = new Vector3(0, 5.5f, 0),
+                        TextureName = "tree_b",
+                        Scale = new Vector3(15, 15, 1),
+                    },
                 }
             }
         },
@@ -472,6 +486,48 @@ public static class Scenes
                         LocalPos = Vector3.Zero,
                         ModelName = "skybox",
                         TextureName = "sky",
+                    },
+                    new BillboardData{
+                        Name = "tree",
+                        GridPos = new Vector3(3, 0, 2),
+                        LocalPos = new Vector3(0, 5.5f, 0),
+                        TextureName = "tree_c",
+                        Scale = new Vector3(15, 15, 1),
+                    },
+                    new BillboardData{
+                        Name = "tree",
+                        GridPos = new Vector3(7, 0, 2),
+                        LocalPos = new Vector3(0, 5.5f, 0),
+                        TextureName = "tree_c",
+                        Scale = new Vector3(15, 15, 1),
+                    },
+                    new BillboardData{
+                        Name = "tree",
+                        GridPos = new Vector3(11, 0, 2),
+                        LocalPos = new Vector3(0, 5.5f, 0),
+                        TextureName = "tree_c",
+                        Scale = new Vector3(15, 15, 1),
+                    },
+                    new BillboardData{
+                        Name = "tree",
+                        GridPos = new Vector3(3, 0, 13),
+                        LocalPos = new Vector3(0, 5.5f, 0),
+                        TextureName = "tree_c",
+                        Scale = new Vector3(15, 15, 1),
+                    },
+                    new BillboardData{
+                        Name = "tree",
+                        GridPos = new Vector3(7, 0, 13),
+                        LocalPos = new Vector3(0, 5.5f, 0),
+                        TextureName = "tree_c",
+                        Scale = new Vector3(15, 15, 1),
+                    },
+                    new BillboardData{
+                        Name = "tree",
+                        GridPos = new Vector3(11, 0, 13),
+                        LocalPos = new Vector3(0, 5.5f, 0),
+                        TextureName = "tree_c",
+                        Scale = new Vector3(15, 15, 1),
                     },
                 }
             }
