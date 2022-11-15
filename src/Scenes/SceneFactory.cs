@@ -181,7 +181,7 @@ public static class SceneFactory
         return entity;
     }
 
-    private static Billboard BuildBillboardEntity(BillboardData data)
+    public static Billboard BuildBillboardEntity(BillboardData data)
     {
         var texture = ResourceManager.Instance.Textures[data.TextureName!];
         var position = Grid.ToWorld(data.GridPos) + data.LocalPos;

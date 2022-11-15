@@ -16,6 +16,7 @@ public class RoamingScene : IScene
     private Entity? _hovered;
     private bool _isInventoryOpen;
     private RenderTexture2D _renderTexture = LoadRenderTexture(GetScreenWidth() / 4, GetScreenHeight() / 4);
+    private Shader _alphaDiscard = LoadShader("", "Resources/Shaders/alphaDiscard.fs");
 
     private Camera3D _camera = new Camera3D()
     {
@@ -90,20 +91,6 @@ public class RoamingScene : IScene
                                 DrawBoundingBox(p.GetBoundingBox(), Color.BLUE);
                             }
                             break;
-                        case Billboard b:
-                            DrawBillboardRec(
-                                _camera,
-                                b.Texture,
-                                new Rectangle { x = 0, y = 0, width = b.Texture.width, height = b.Texture.height },
-                                b.Position,
-                                new Vector2(b.Scale.X, b.Scale.Y),
-                                Color.WHITE
-                            );
-                            if (_isDebug)
-                            {
-                                DrawBoundingBox(b.GetBoundingBox(), Color.BLUE);
-                            }
-                            break;
                         case Door d:
                             DrawModelEx(d.Model, d.Position, new Vector3(1, 0, 0), 180, Vector3.One, Color.WHITE);
                             if (_isDebug)
@@ -120,6 +107,29 @@ public class RoamingScene : IScene
                             break;
                     }
                 }
+
+                BeginShaderMode(_alphaDiscard);
+                foreach (var entity in Entities)
+                {
+                    switch (entity)
+                    {
+                        case Billboard b:
+                            DrawBillboardRec(
+                                _camera,
+                                b.Texture,
+                                new Rectangle { x = 0, y = 0, width = b.Texture.width, height = b.Texture.height },
+                                b.Position,
+                                new Vector2(b.Scale.X, b.Scale.Y),
+                                Color.WHITE
+                            );
+                            if (_isDebug)
+                            {
+                                DrawBoundingBox(b.GetBoundingBox(), Color.BLUE);
+                            }
+                            break;
+                    }
+                }
+                EndShaderMode();
             }
             EndMode3D();
 
@@ -336,8 +346,8 @@ public class RoamingScene : IScene
                         break;
                     case Item i:
                         _hovered = i;
-                        var itemModel = i.Model;
                         var itemTexture = i.HoverTexture;
+                        var itemModel = i.Model;
                         SetMaterialTexture(ref itemModel, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref itemTexture);
                         break;
                 }

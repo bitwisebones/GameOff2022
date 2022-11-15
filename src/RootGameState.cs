@@ -53,6 +53,8 @@ public class RootGameState
             {AreaKind.Sewer, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Sewer])},
         };
 
+        SceneCache[AreaKind.Woods].Entities.AddRange(ForestGen.Generate());
+
         ItemCache = new Dictionary<ItemKind, ItemData>();
 
         foreach (var sceneData in Scenes.SceneDataSource.Values)

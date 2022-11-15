@@ -147,9 +147,9 @@ public static class Scenes
                     new BillboardData{
                         Name = "tree",
                         GridPos = new Vector3(8, 0, 6),
-                        LocalPos = new Vector3(0, 3f, 0),
-                        TextureName = "tree_a",
-                        Scale = new Vector3(8, 8, 1),
+                        LocalPos = new Vector3(0, 5.5f, 0),
+                        TextureName = "tree_b",
+                        Scale = new Vector3(15, 15, 1),
                     },
                     new TerrainData{
                         Name = "sky",
@@ -303,7 +303,7 @@ public static class Scenes
                         HoverText = "Enter the Sewers",
                         Scale = new Vector3(1, 1, 1),
                         DoorKind = DoorKind.Sewer,
-                    }
+                    },
                 }
             }
         },
@@ -453,12 +453,26 @@ public static class Scenes
                 SceneType = SceneType.Roaming,
                 Entities = new List<EntityData>{
                     new TerrainData{
+                        Name = "manorgardens",
+                        GridPos = new Vector3(-0.5f, -0.5f, -0.5f),
+                        LocalPos = Vector3.Zero,
+                        ModelName = "manorgardens",
+                        TextureName = "town",
+                    },
+                    new TerrainData{
                         Name = "manorbuilding",
-                        GridPos = new Vector3(15.5f, -0.5f, -0.5f),
+                        GridPos = new Vector3(14.5f, -0.5f, -0.5f),
                         LocalPos = Vector3.Zero,
                         ModelName = "manorbuilding",
                         TextureName = "manorbuilding",
-                    }
+                    },
+                    new TerrainData{
+                        Name = "sky",
+                        GridPos = Vector3.Zero,
+                        LocalPos = Vector3.Zero,
+                        ModelName = "skybox",
+                        TextureName = "sky",
+                    },
                 }
             }
         },
