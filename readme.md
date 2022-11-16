@@ -18,15 +18,14 @@ Repo contents:
 - [Blender](https://www.blender.org/)
 - [Aseprite](https://www.aseprite.org/)
 - [Paint.NET](https://www.getpaint.net/)
-- [Name generator](https://www.fantasynamegenerators.com/)
-
-Work in progress!
-
-
-
 
 ### Resources
 - https://bedroomcoders.co.uk/raylib-billboards-advanced-use/
 - https://opengameart.org/content/tree-21
 - https://opengameart.org/content/isometric-trees-0
 - https://opengameart.org/content/isometric-plant-pack
+- https://opengameart.org/content/mud-dirt
+- http://kitfox.com/projects/perlinNoiseMaker/
+- https://www.fantasynamegenerators.com/
+
+Work in progress!

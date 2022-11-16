@@ -20,7 +20,6 @@ public class SceneData
 [Serializable]
 public class EntityData
 {
-    public string? Name { get; set; }
     public Vector3 GridPos { get; set; }
     public Vector3 LocalPos { get; set; }
     public string? TextureName { get; set; }
@@ -57,4 +56,9 @@ public class ItemData : EntityData
 public class BillboardData : EntityData
 {
     public Vector3 Scale { get; set; }
+}
+
+public interface ISceneData
+{
+    SceneData GetData();
 }

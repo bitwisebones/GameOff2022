@@ -1,7 +1,5 @@
 
 using System.Numerics;
-
-[Serializable]
 public class RootGameState
 {
     private static RootGameState? _gameState;
@@ -25,45 +23,43 @@ public class RootGameState
     public PersonKind CurrentConversationTarget { get; set; } = PersonKind.Nobody;
 
     public Dictionary<AreaKind, IScene> SceneCache = new Dictionary<AreaKind, IScene>();
-    public Dictionary<ItemKind, ItemData> ItemCache = new Dictionary<ItemKind, ItemData>();
+    public Dictionary<ItemKind, Item> ItemCache = new Dictionary<ItemKind, Item>();
 
     public void Init()
     {
-        var startingScene = Scenes.SceneDataSource[AreaKind.Town];
+
+        SceneCache = new Dictionary<AreaKind, IScene>
+        {
+            {AreaKind.Town, SceneFactory.Build(TownSceneData.GetData())},
+            {AreaKind.Church, SceneFactory.Build(ChurchSceneData.GetData())},
+            {AreaKind.Inn, SceneFactory.Build(InnSceneData.GetData())},
+            {AreaKind.Woods, SceneFactory.Build(WoodsSceneData.GetData())},
+            {AreaKind.Farm, SceneFactory.Build(FarmSceneData.GetData())},
+            {AreaKind.ManorGrounds, SceneFactory.Build(ManorGroundsSceneData.GetData())},
+            {AreaKind.ManorGardens, SceneFactory.Build(ManorGardensSceneData.GetData())},
+            {AreaKind.Tailor, SceneFactory.Build(TailorSceneData.GetData())},
+            {AreaKind.TailorGarden, SceneFactory.Build(TailorGardenSceneData.GetData())},
+            {AreaKind.Blacksmith, SceneFactory.Build(BlacksmithSceneData.GetData())},
+            {AreaKind.ManorHouse, SceneFactory.Build(ManorHouseSceneData.GetData())},
+            {AreaKind.Sewer, SceneFactory.Build(SewerSceneData.GetData())},
+        };
+
+        var startingScene = SceneCache[AreaKind.Town];
         PlayerDirection = Direction.South;
         PlayerGridPos = new Vector3(1, 0, 1);
         PlayerMode = PlayerMode.Man;
         CurrentArea = AreaKind.Town;
         Inventory = new List<ItemKind>();
 
-        SceneCache = new Dictionary<AreaKind, IScene>
+        ItemCache = new Dictionary<ItemKind, Item>();
+
+        foreach (var scene in SceneCache.Values)
         {
-            {AreaKind.Town, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Town])},
-            {AreaKind.Church, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Church])},
-            {AreaKind.Inn, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Inn])},
-            {AreaKind.Woods, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Woods])},
-            {AreaKind.Farm, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Farm])},
-            {AreaKind.ManorGrounds, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.ManorGrounds])},
-            {AreaKind.ManorGardens, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.ManorGardens])},
-            {AreaKind.Tailor, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Tailor])},
-            {AreaKind.TailorGarden, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.TailorGarden])},
-            {AreaKind.Blacksmith, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Blacksmith])},
-            {AreaKind.FarmHouse, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.FarmHouse])},
-            {AreaKind.ManorHouse, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.ManorHouse])},
-            {AreaKind.Sewer, SceneFactory.Build(Scenes.SceneDataSource[AreaKind.Sewer])},
-        };
-
-        SceneCache[AreaKind.Woods].Entities.AddRange(ForestGen.Generate());
-
-        ItemCache = new Dictionary<ItemKind, ItemData>();
-
-        foreach (var sceneData in Scenes.SceneDataSource.Values)
-        {
-            foreach (var e in sceneData.Entities)
+            foreach (var e in scene.Entities)
             {
                 switch (e)
                 {
-                    case ItemData i:
+                    case Item i:
                         ItemCache.Add(i.ItemKind, i);
                         break;
                 }

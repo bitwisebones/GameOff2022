@@ -51,7 +51,6 @@ public static class SceneFactory
 
         return new Terrain
         {
-            Name = data.Name,
             Model = model,
             Texture = texture,
             Position = Grid.ToWorld(data.GridPos) + data.LocalPos,
@@ -73,7 +72,6 @@ public static class SceneFactory
 
         var entity = new Person
         {
-            Name = data.Name,
             Texture = texture,
             Position = position,
             BoundingBox = boundingBox,
@@ -137,7 +135,6 @@ public static class SceneFactory
 
         var entity = new Door
         {
-            Name = data.Name,
             Model = model,
             Texture = texture,
             Position = position,
@@ -166,7 +163,6 @@ public static class SceneFactory
 
         var entity = new Item
         {
-            Name = data.Name,
             Model = model,
             Texture = texture,
             Position = position,
@@ -181,7 +177,7 @@ public static class SceneFactory
         return entity;
     }
 
-    public static Billboard BuildBillboardEntity(BillboardData data)
+    private static Billboard BuildBillboardEntity(BillboardData data)
     {
         var texture = ResourceManager.Instance.Textures[data.TextureName!];
         var position = Grid.ToWorld(data.GridPos) + data.LocalPos;
@@ -196,7 +192,6 @@ public static class SceneFactory
 
         var entity = new Billboard
         {
-            Name = data.Name,
             Texture = texture,
             Position = position,
             BoundingBox = boundingBox,

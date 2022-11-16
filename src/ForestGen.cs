@@ -6,7 +6,7 @@ public static class ForestGen
 {
     private static Random _rnd = new Random(872343);
 
-    public unsafe static List<Entity> Generate()
+    public unsafe static List<EntityData> Generate()
     {
         var navGrid = new NavigationGrid();
         navGrid.Build("woods");
@@ -14,7 +14,7 @@ public static class ForestGen
         var noise = ResourceManager.Instance.Images["noiseTexture"];
         var data = LoadImageColors(noise);
 
-        var entities = new List<Entity>();
+        var entities = new List<EntityData>();
 
         var trees = new List<string>{
             "tree_b",
@@ -46,14 +46,13 @@ public static class ForestGen
                 continue;
             }
 
-            var bbE = SceneFactory.BuildBillboardEntity(new BillboardData
+            var bbE = new BillboardData
             {
-                Name = "tree",
                 GridPos = new Vector3(x, 0, y),
                 LocalPos = new Vector3(wx, 5.25f, wy),
                 TextureName = trees[t],
                 Scale = new Vector3(15, 15, 1),
-            });
+            };
 
             entities.Add(bbE);
         }
@@ -72,14 +71,13 @@ public static class ForestGen
                 continue;
             }
 
-            var bbE = SceneFactory.BuildBillboardEntity(new BillboardData
+            var bbE = new BillboardData
             {
-                Name = "bush",
                 GridPos = new Vector3(x, 0, y),
                 LocalPos = new Vector3(wx, -0.5f, wy),
                 TextureName = bushes[t],
                 Scale = new Vector3(1, 1, 1),
-            });
+            };
 
             entities.Add(bbE);
         }

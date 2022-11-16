@@ -146,8 +146,7 @@ public class RoamingScene : IScene
                     }
 
                     var itemData = RootGameState.Instance.ItemCache[item];
-                    var texture = ResourceManager.Instance.Textures[itemData.TextureName!];
-                    DrawTexture(texture, i * 64 + margin, 0, Color.WHITE);
+                    DrawTexture(itemData.Texture, i * 64 + margin, 0, Color.WHITE);
                     i += 1;
                 }
             }
@@ -382,11 +381,10 @@ public class RoamingScene : IScene
             {
                 case Door d:
                     var newArea = Scenes.GetAreaFromDoor(d.DoorKind);
-                    var (newScene, gridPos, dir) = Scenes.GetScene(newArea, gameState.CurrentArea);
-                    SceneManager.Instance.Replace(newScene);
-                    gameState.PlayerDirection = dir;
-                    gameState.PlayerGridPos = gridPos;
-                    gameState.CurrentArea = newArea;
+                    if (newArea != AreaKind.None)
+                    {
+                        SceneManager.Instance.TransitionTo(newArea);
+                    }
                     break;
                 case Person p:
                     gameState.CurrentConversationTarget = p.PersonKind;

@@ -4,7 +4,6 @@ using Raylib_cs;
 
 public abstract class Entity
 {
-    public string? Name { get; set; }
     public Vector3 Position { get; set; }
     public Texture2D Texture { get; set; }
 

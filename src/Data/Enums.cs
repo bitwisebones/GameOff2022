@@ -10,7 +10,6 @@ public enum AreaKind
     ManorGrounds,
     ManorHouse,
     Farm,
-    FarmHouse,
     Sewer,
     TailorGarden,
     ManorGardens,
