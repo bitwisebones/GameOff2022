@@ -4,29 +4,29 @@ public static class ManorHouseSceneData
 {
     public static SceneData GetData() => new SceneData
     {
-        Name = "manorhouse",
+        Name = "manorinterior",
         SceneType = SceneType.Roaming,
         Entities = new List<EntityData>{
             new TerrainData{
                 GridPos = new Vector3(-0.5f, -0.5f, -0.5f),
                 LocalPos = Vector3.Zero,
-                TextureName = "town",
-                ModelName = "manorhouse",
+                TextureName = "manorinterior",
+                ModelName = "manorinterior",
             },
             new DoorData{
-                GridPos = new Vector3(12, 0, 7),
+                GridPos = new Vector3(5, 0, 7.5f),
                 LocalPos = new Vector3(0, -0.25f, 0),
-                TextureName = "door_a",
+                TextureName = "churchdoor",
                 Side = Direction.East,
                 HoverText = "Exit the Manor",
                 Scale = new Vector3(1, 1, 1),
                 DoorKind = DoorKind.ManorGrounds,
             },
             new DoorData{
-                GridPos = new Vector3(6, 0, 4),
+                GridPos = new Vector3(8, 0, 1),
                 LocalPos = new Vector3(0, -0.25f, 0),
                 TextureName = "door_a",
-                Side = Direction.East,
+                Side = Direction.North,
                 HoverText = "Exit the Manor",
                 Scale = new Vector3(1, 1, 1),
                 DoorKind = DoorKind.Sewer,

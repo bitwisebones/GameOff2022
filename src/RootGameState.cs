@@ -37,10 +37,10 @@ public class RootGameState
             {AreaKind.Farm, SceneFactory.Build(FarmSceneData.GetData())},
             {AreaKind.ManorGrounds, SceneFactory.Build(ManorGroundsSceneData.GetData())},
             {AreaKind.ManorGardens, SceneFactory.Build(ManorGardensSceneData.GetData())},
+            {AreaKind.ManorHouse, SceneFactory.Build(ManorHouseSceneData.GetData())},
             {AreaKind.Tailor, SceneFactory.Build(TailorSceneData.GetData())},
             {AreaKind.TailorGarden, SceneFactory.Build(TailorGardenSceneData.GetData())},
             {AreaKind.Blacksmith, SceneFactory.Build(BlacksmithSceneData.GetData())},
-            {AreaKind.ManorHouse, SceneFactory.Build(ManorHouseSceneData.GetData())},
             {AreaKind.Sewer, SceneFactory.Build(SewerSceneData.GetData())},
         };
 
