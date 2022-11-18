@@ -18,6 +18,7 @@ Repo contents:
 - [Blender](https://www.blender.org/)
 - [Aseprite](https://www.aseprite.org/)
 - [Paint.NET](https://www.getpaint.net/)
+- [RenderDoc](https://renderdoc.org/)
 
 ### Resources
 - https://bedroomcoders.co.uk/raylib-billboards-advanced-use/

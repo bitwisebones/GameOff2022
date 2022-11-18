@@ -7,6 +7,8 @@ public static class TownSceneData
     {
         Name = "town",
         SceneType = SceneType.Roaming,
+        FogColor = new Vector4(0.5f, 0.5f, 0.5f, 1.0f),
+        FogDensity = 0.035f,
         Entities = new List<EntityData>{
             new TerrainData{
                 GridPos = new Vector3(-0.5f, -0.5f, -0.5f),
@@ -125,14 +127,14 @@ public static class TownSceneData
                 TextureName = "tree_c",
                 Scale = new Vector3(15, 15, 1),
             },
-            new BillboardData{
-                GridPos = new Vector3(8, 0, 6),
-                LocalPos = new Vector3(0, 5.5f, 0),
-                TextureName = "tree_b",
-                Scale = new Vector3(15, 15, 1),
-            },
+            // new BillboardData{
+            //     GridPos = new Vector3(8, 0, 6),
+            //     LocalPos = new Vector3(0, 5.5f, 0),
+            //     TextureName = "tree_b",
+            //     Scale = new Vector3(15, 15, 1),
+            // },
             new TerrainData{
-                GridPos = Vector3.Zero,
+                GridPos = new Vector3(8, 0, 8),
                 LocalPos = Vector3.Zero,
                 ModelName = "skybox",
                 TextureName = "sky",

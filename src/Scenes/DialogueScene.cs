@@ -8,9 +8,13 @@ public class DialogueScene : IScene
     private DialogueNode? _currentNode = null;
     private List<DialogueLink> _validLinks = new List<DialogueLink>();
     public List<Entity> Entities { get; set; } = new List<Entity>();
+    public Vector4 FogColor { get; set; } = new Vector4(1, 1, 1, 1);
+    public float FogDensity { get; set; } = 0f;
 
     private int _rowHeight = 20;
     private int _padding = 5;
+
+    public void Init() { }
 
     public void Update(float deltaTime)
     {

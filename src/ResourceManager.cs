@@ -1,6 +1,8 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
+using static Raylib_cs.ShaderLocationIndex;
+
 
 public class ResourceManager
 {
@@ -31,7 +33,9 @@ public class ResourceManager
     public Dictionary<string, Image> Images { get; } = new Dictionary<string, Image>();
     public Dictionary<string, Font> Fonts { get; set; } = new Dictionary<string, Font>();
 
-    private ResourceManager()
+    public Shader Shader = LoadShader("Resources/Shaders/base.vs", "Resources/Shaders/base.fs");
+
+    private unsafe ResourceManager()
     {
         _soundPaths = Directory.GetFiles("Resources/Audio");
         _texturePaths = Directory.GetFiles("Resources/Textures");
@@ -41,6 +45,9 @@ public class ResourceManager
         _totalFiles = _soundPaths.Length + _texturePaths.Length + _modelPaths.Length + _imagePaths.Length + _fontPaths.Length;
 
         Console.WriteLine($"{_soundPaths.Length}, {_texturePaths.Length}, {_modelPaths.Length}, {_imagePaths.Length}, {_fontPaths.Length}");
+
+        Shader.locs[(int)SHADER_LOC_MATRIX_MODEL] = GetShaderLocation(Shader, "matModel");
+        Shader.locs[(int)SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(Shader, "viewPos");
     }
 
     public Progress LoadNext()

@@ -6,6 +6,8 @@ public static class SewerSceneData
     {
         Name = "sewers",
         SceneType = SceneType.Roaming,
+        FogColor = new Vector4(0f, 0f, 0f, 1.0f),
+        FogDensity = 0.25f,
         Entities = new List<EntityData>{
             new TerrainData{
                 GridPos = new Vector3(-0.5f, -0.5f, -0.5f),

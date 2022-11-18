@@ -13,6 +13,8 @@ public enum SceneType
 public class SceneData
 {
     public string? Name { get; set; }
+    public Vector4 FogColor { get; set; }
+    public float FogDensity { get; set; } = 0f;
     public SceneType SceneType { get; set; }
     public List<EntityData> Entities { get; set; } = new List<EntityData>();
 }

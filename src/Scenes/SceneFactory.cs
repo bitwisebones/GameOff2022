@@ -40,6 +40,8 @@ public static class SceneFactory
         {
             NavigationGrid = navGrid,
             Entities = entities,
+            FogColor = data.FogColor,
+            FogDensity = data.FogDensity,
         };
     }
 
@@ -48,6 +50,9 @@ public static class SceneFactory
         var texture = ResourceManager.Instance.Textures[data.TextureName!];
         var model = ResourceManager.Instance.Models[data.ModelName!];
         SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
+
+        var shader = ResourceManager.Instance.Shader;
+        SetMaterialShader(ref model, 0, ref shader);
 
         return new Terrain
         {
@@ -128,6 +133,9 @@ public static class SceneFactory
         var model = LoadModelFromMesh(GenMeshCube(xDim * data.Scale.X, yDim * data.Scale.Y, zDim * data.Scale.Z));
         SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
 
+        var shader = ResourceManager.Instance.Shader;
+        SetMaterialShader(ref model, 0, ref shader);
+
         var offset = GetOffset(data.Side);
         var position = GetPosition(data.GridPos, data.LocalPos, offset);
 
@@ -155,6 +163,9 @@ public static class SceneFactory
         var (xDim, yDim, zDim) = CalculateDims(texture, data.Side);
         var model = LoadModelFromMesh(GenMeshCube(xDim * data.Scale.X, yDim * data.Scale.Y, zDim * data.Scale.Z));
         SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
+
+        var shader = ResourceManager.Instance.Shader;
+        SetMaterialShader(ref model, 0, ref shader);
 
         var offset = GetOffset(data.Side);
         var position = GetPosition(data.GridPos, data.LocalPos, offset);

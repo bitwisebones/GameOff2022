@@ -6,6 +6,8 @@ public static class ManorGardensSceneData
     {
         Name = "manorgardens",
         SceneType = SceneType.Roaming,
+        FogColor = new Vector4(0.5f, 0.5f, 0.5f, 1.0f),
+        FogDensity = 0.035f,
         Entities = new List<EntityData>{
             new TerrainData{
                 GridPos = new Vector3(-0.5f, -0.5f, -0.5f),
@@ -20,7 +22,7 @@ public static class ManorGardensSceneData
                 TextureName = "manorbuilding",
             },
             new TerrainData{
-                GridPos = Vector3.Zero,
+                GridPos = new Vector3(8, 0, 8),
                 LocalPos = Vector3.Zero,
                 ModelName = "skybox",
                 TextureName = "sky",

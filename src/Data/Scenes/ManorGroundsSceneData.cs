@@ -6,6 +6,8 @@ public static class ManorGroundsSceneData
     {
         Name = "manorgrounds",
         SceneType = SceneType.Roaming,
+        FogColor = new Vector4(0.5f, 0.5f, 0.5f, 1.0f),
+        FogDensity = 0.035f,
         Entities = new List<EntityData>{
             new TerrainData {
                 GridPos = new Vector3(-0.5f, -0.5f, -0.5f),
@@ -20,7 +22,7 @@ public static class ManorGroundsSceneData
                 ModelName = "manorbuilding",
             },
             new TerrainData{
-                GridPos = Vector3.Zero,
+                GridPos = new Vector3(8, 0, 8),
                 LocalPos = Vector3.Zero,
                 ModelName = "skybox",
                 TextureName = "sky",
@@ -42,15 +44,6 @@ public static class ManorGroundsSceneData
                 HoverText = "To the Town",
                 Scale = new Vector3(1, 1, 1.4f),
                 DoorKind = DoorKind.Town,
-            },
-            new DoorData{
-                GridPos = new Vector3(1, 0, 1),
-                LocalPos = new Vector3(0, -0.25f, 0),
-                TextureName = "door_a",
-                Side = Direction.North,
-                HoverText = "To the Woods",
-                Scale = new Vector3(1, 1, 1),
-                DoorKind = DoorKind.Woods,
             },
             new DoorData{
                 GridPos = new Vector3(4, 0, 7.5f),

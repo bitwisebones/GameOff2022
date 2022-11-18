@@ -50,6 +50,7 @@ public class SceneManager
 
     public void Push(IScene scene)
     {
+        scene.Init();
         _sceneStack.Push(scene);
     }
 
@@ -61,6 +62,7 @@ public class SceneManager
     public void Replace(IScene scene)
     {
         Pop();
+        scene.Init();
         Push(scene);
     }
 

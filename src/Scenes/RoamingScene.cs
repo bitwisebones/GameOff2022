@@ -2,21 +2,23 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
+using static Raylib_cs.Raymath;
+using static Raylib_cs.ShaderLocationIndex;
 
 // Player can walk around and click on things
 public class RoamingScene : IScene
 {
     public NavigationGrid? NavigationGrid { get; set; }
     public List<Entity> Entities { get; set; } = new List<Entity>();
+    public Vector4 FogColor { get; set; } = new Vector4(1, 1, 1, 1);
+    public float FogDensity { get; set; } = 0f;
 
     private bool _isActive => SceneManager.Instance.Peek() == this;
     private bool _isDebug = false;
 
-
     private Entity? _hovered;
     private bool _isInventoryOpen;
     private RenderTexture2D _renderTexture = LoadRenderTexture(GetScreenWidth() / 4, GetScreenHeight() / 4);
-    private Shader _alphaDiscard = LoadShader("", "Resources/Shaders/alphaDiscard.fs");
 
     private Camera3D _camera = new Camera3D()
     {
@@ -27,7 +29,16 @@ public class RoamingScene : IScene
         projection = CameraProjection.CAMERA_PERSPECTIVE,
     };
 
-    public void Update(float deltaTime)
+    public void Init()
+    {
+        var fogDensityLoc = GetShaderLocation(ResourceManager.Instance.Shader, "fogDensity");
+        var fogColorLoc = GetShaderLocation(ResourceManager.Instance.Shader, "fogColor");
+
+        SetShaderValue(ResourceManager.Instance.Shader, fogColorLoc, FogColor, ShaderUniformDataType.SHADER_UNIFORM_VEC4);
+        SetShaderValue(ResourceManager.Instance.Shader, fogDensityLoc, FogDensity, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
+    }
+
+    public unsafe void Update(float deltaTime)
     {
         var gameState = RootGameState.Instance;
 
@@ -52,10 +63,12 @@ public class RoamingScene : IScene
         CheckClicks(gameState);
         UpdatePlayer(gameState);
         UpdateCamera(gameState.PlayerGridPos, gameState.PlayerDirection, gameState.PlayerMode);
+        SetShaderValue(ResourceManager.Instance.Shader, ResourceManager.Instance.Shader.locs[(int)SHADER_LOC_VECTOR_VIEW], _camera.position, ShaderUniformDataType.SHADER_UNIFORM_VEC3);
     }
 
-    public void Render(float deltaTime)
+    public unsafe void Render(float deltaTime)
     {
+
         BeginTextureMode(_renderTexture);
         {
             // ClearBackground(new Color(144, 165, 161, 255));
@@ -76,21 +89,6 @@ public class RoamingScene : IScene
                         case Terrain tn:
                             DrawModel(tn.Model, tn.Position, 1, Color.WHITE);
                             break;
-                        case Person p:
-                            var t = _hovered == p ? p.HoverTexture : p.Texture;
-                            DrawBillboardRec(
-                                _camera,
-                                t,
-                                new Rectangle { x = 0, y = 0, width = p.Texture.width, height = p.Texture.height },
-                                p.Position,
-                                new Vector2(p.Scale.X, p.Scale.Y),
-                                Color.WHITE
-                            );
-                            if (_isDebug)
-                            {
-                                DrawBoundingBox(p.GetBoundingBox(), Color.BLUE);
-                            }
-                            break;
                         case Door d:
                             DrawModelEx(d.Model, d.Position, new Vector3(1, 0, 0), 180, Vector3.One, Color.WHITE);
                             if (_isDebug)
@@ -108,25 +106,46 @@ public class RoamingScene : IScene
                     }
                 }
 
-                BeginShaderMode(_alphaDiscard);
-                foreach (var entity in Entities)
+                BeginShaderMode(ResourceManager.Instance.Shader);
                 {
-                    switch (entity)
+                    foreach (var entity in Entities)
                     {
-                        case Billboard b:
-                            DrawBillboardRec(
-                                _camera,
-                                b.Texture,
-                                new Rectangle { x = 0, y = 0, width = b.Texture.width, height = b.Texture.height },
-                                b.Position,
-                                new Vector2(b.Scale.X, b.Scale.Y),
-                                Color.WHITE
-                            );
-                            if (_isDebug)
-                            {
-                                DrawBoundingBox(b.GetBoundingBox(), Color.BLUE);
-                            }
-                            break;
+                        switch (entity)
+                        {
+                            case Person p:
+                                var t = _hovered == p ? p.HoverTexture : p.Texture;
+                                var m = MatrixIdentity();
+                                SetShaderValueMatrix(ResourceManager.Instance.Shader, ResourceManager.Instance.Shader.locs[(int)SHADER_LOC_MATRIX_MODEL], m);
+                                DrawBillboardRec(
+                                    _camera,
+                                    t,
+                                    new Rectangle { x = 0, y = 0, width = p.Texture.width, height = p.Texture.height },
+                                    p.Position,
+                                    new Vector2(p.Scale.X, p.Scale.Y),
+                                    Color.WHITE
+                                );
+                                if (_isDebug)
+                                {
+                                    DrawBoundingBox(p.GetBoundingBox(), Color.BLUE);
+                                }
+                                break;
+                            case Billboard b:
+                                var q = MatrixIdentity();
+                                SetShaderValueMatrix(ResourceManager.Instance.Shader, ResourceManager.Instance.Shader.locs[(int)SHADER_LOC_MATRIX_MODEL], q);
+                                DrawBillboardRec(
+                                    _camera,
+                                    b.Texture,
+                                    new Rectangle { x = 0, y = 0, width = b.Texture.width, height = b.Texture.height },
+                                    b.Position,
+                                    new Vector2(b.Scale.X, b.Scale.Y),
+                                    Color.WHITE
+                                );
+                                if (_isDebug)
+                                {
+                                    DrawBoundingBox(b.GetBoundingBox(), Color.BLUE);
+                                }
+                                break;
+                        }
                     }
                 }
                 EndShaderMode();
