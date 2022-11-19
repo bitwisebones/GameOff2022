@@ -21,7 +21,7 @@ public class DialogueScene : IScene
         // on start of diaglogue scene
         if (_currentNode == null)
         {
-            _currentNode = Dialogue.GetDialogue(RootGameState.Instance.CurrentConversationTarget);
+            _currentNode = DialogueManager.Instance.StartDialogue(RootGameState.Instance.CurrentConversationTarget);
             foreach (var link in _currentNode.Links)
             {
                 if (link.IsValid())
@@ -48,9 +48,9 @@ public class DialogueScene : IScene
                         SceneManager.Instance.Pop();
                         return;
                     }
-                    // @TODO
+
                     var nextId = _validLinks[i].DestinationId;
-                    _currentNode = Dialogue.BlacksmithDialogue[nextId];
+                    _currentNode = DialogueManager.Instance.ContinueDialogue(RootGameState.Instance.CurrentConversationTarget, nextId);
                     _validLinks = new List<DialogueLink>();
                     foreach (var link in _currentNode.Links)
                     {

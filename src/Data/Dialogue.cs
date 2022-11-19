@@ -14,44 +14,14 @@ public class DialogueLink
     public Action OnChosen { get; set; } = () => { };
 }
 
-public class Dialogue
+public partial class Dialogue
 {
-    public static DialogueNode GetDialogue(PersonKind person)
-    {
-        switch (person)
-        {
-            case PersonKind.Blacksmith:
-                return BlacksmithDialogue[1];
-        }
+    public static DialogueNode D(int id, string text, params DialogueLink[] links) => new DialogueNode { Id = id, Text = text, Links = links.ToList() };
+    public static DialogueLink L(int id, string text) => new DialogueLink { DestinationId = id, Text = text };
+    public static DialogueLink L(int id, string text, Func<bool> isValid) => new DialogueLink { DestinationId = id, Text = text, IsValid = isValid };
+    public static DialogueLink L(int id, string text, Action onChosen) => new DialogueLink { DestinationId = id, Text = text, OnChosen = onChosen };
+    public static DialogueLink L(int id, string text, Func<bool> isValid, Action onChosen) => new DialogueLink { DestinationId = id, Text = text, IsValid = isValid, OnChosen = onChosen };
 
-        return BlacksmithDialogue[1];
-    }
-
-    public static DialogueLink Continue(int dest) => new DialogueLink { Text = "Continue...", DestinationId = dest };
+    public static DialogueLink Continue(int dest) => new DialogueLink { Text = "[continue]", DestinationId = dest };
     public static DialogueLink Goodbye() => new DialogueLink { Text = "Goodbye.", DestinationId = -1 };
-
-    public static Dictionary<int, DialogueNode> BlacksmithDialogue = new Dictionary<int, DialogueNode>
-    {
-        { 1, new DialogueNode {
-                Id = 1,
-                Text = "What do you want?",
-                Links = new List<DialogueLink>{
-                    new DialogueLink{ Text = "How are you today?", DestinationId = 2},
-                    new DialogueLink{ Text = "Goodbye!", DestinationId = -1},
-                }
-        }},
-        {2, new DialogueNode {
-            Id = 2,
-            Text = "Harumph!",
-            Links = new List<DialogueLink>{
-                new DialogueLink{
-                    Text = "Are you looking for a key?",
-                    DestinationId = -1,
-                    IsValid = () => RootGameState.Instance.Inventory.Contains(ItemKind.BlacksmithKey),
-                    OnChosen = () => RootGameState.Instance.Inventory.Remove(ItemKind.BlacksmithKey),
-                },
-                Goodbye(),
-            }
-        }},
-    };
 }

@@ -44,11 +44,11 @@ public class RootGameState
             {AreaKind.Sewer, SceneFactory.Build(SewerSceneData.GetData())},
         };
 
-        var startingScene = SceneCache[AreaKind.Town];
+        var startingScene = SceneCache[AreaKind.Inn];
         PlayerDirection = Direction.South;
         PlayerGridPos = new Vector3(1, 0, 1);
         PlayerMode = PlayerMode.Man;
-        CurrentArea = AreaKind.Town;
+        CurrentArea = AreaKind.Inn;
         Inventory = new List<ItemKind>();
 
         ItemCache = new Dictionary<ItemKind, Item>();

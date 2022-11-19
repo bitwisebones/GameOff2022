@@ -15,8 +15,8 @@ public class GameStage : IStage
 
         RootGameState.Instance.Init();
 
-        var townScene = RootGameState.Instance.SceneCache[AreaKind.Town];
-        SceneManager.Instance.Push(townScene);
+        var startScene = RootGameState.Instance.SceneCache[AreaKind.Inn];
+        SceneManager.Instance.Push(startScene);
     }
 
     public void Update(float deltaTime)
