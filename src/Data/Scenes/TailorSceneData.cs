@@ -34,7 +34,7 @@ public static class TailorSceneData
             new PersonData{
                 GridPos = new Vector3(1, 0, 2),
                 LocalPos = new Vector3(0, -0.25f, 0),
-                TextureName = "person",
+                TextureName = "person_tailor",
                 Scale = new Vector3(1.5f, 1.5f, 0),
                 HoverText = "Talk to Charles Huges",
                 PersonKind = PersonKind.Tailor,

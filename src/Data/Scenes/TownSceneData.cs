@@ -103,20 +103,20 @@ public static class TownSceneData
                 Scale = new Vector3(1, 1, 1.4f),
                 DoorKind = DoorKind.ManorGrounds,
             },
-            new ItemData
-            {
-                GridPos = new Vector3(9, 0, 11),
-                LocalPos = new Vector3(0, -0.75f, 0),
-                TextureName = "key",
-                Side = Direction.South,
-                HoverText = "A small brass skeleton key",
-                Scale = new Vector3(0.5f, 0.5f, 0.5f),
-                ItemKind = ItemKind.BlacksmithKey,
-            },
+            // new ItemData
+            // {
+            //     GridPos = new Vector3(9, 0, 11),
+            //     LocalPos = new Vector3(0, -0.75f, 0),
+            //     TextureName = "key",
+            //     Side = Direction.South,
+            //     HoverText = "A small brass skeleton key",
+            //     Scale = new Vector3(0.5f, 0.5f, 0.5f),
+            //     ItemKind = ItemKind.BlacksmithKey,
+            // },
             new PersonData{
                 GridPos = new Vector3(2, 0, 1),
                 LocalPos = new Vector3(0, -0.25f, 0),
-                TextureName = "person",
+                TextureName = "person_gravedigger",
                 Scale = new Vector3(1.5f, 1.5f, 0),
                 HoverText = "Talk to Rudy Duncan",
                 PersonKind = PersonKind.Gravedigger,
@@ -127,12 +127,12 @@ public static class TownSceneData
                 TextureName = "tree_c",
                 Scale = new Vector3(15, 15, 1),
             },
-            // new BillboardData{
-            //     GridPos = new Vector3(8, 0, 6),
-            //     LocalPos = new Vector3(0, 5.5f, 0),
-            //     TextureName = "tree_b",
-            //     Scale = new Vector3(15, 15, 1),
-            // },
+            new BillboardData{
+                GridPos = new Vector3(8, 0, 6),
+                LocalPos = new Vector3(0, 5.5f, 0),
+                TextureName = "tree_b",
+                Scale = new Vector3(15, 15, 1),
+            },
             new TerrainData{
                 GridPos = new Vector3(8, 0, 8),
                 LocalPos = Vector3.Zero,

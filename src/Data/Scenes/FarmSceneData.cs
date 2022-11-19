@@ -7,7 +7,7 @@ public static class FarmSceneData
         Name = "farm",
         SceneType = SceneType.Roaming,
         FogColor = new Vector4(0.5f, 0.5f, 0.5f, 1.0f),
-        FogDensity = 0.1f,
+        FogDensity = 0.03f,
         Entities = new List<EntityData>{
             new TerrainData{
                 GridPos = new Vector3(-0.5f, -0.5f, -0.5f),
@@ -66,7 +66,7 @@ public static class FarmSceneData
             new PersonData{
                 GridPos = new Vector3(9, 0, 10),
                 LocalPos = new Vector3(0, -0.25f, 0),
-                TextureName = "person",
+                TextureName = "person_farmer",
                 Scale = new Vector3(1.5f, 1.5f, 0),
                 HoverText = "Talk to Samuel Matthews",
                 PersonKind = PersonKind.Farmer,

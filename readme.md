@@ -22,6 +22,7 @@ Repo contents:
 
 ### Resources
 - https://bedroomcoders.co.uk/raylib-billboards-advanced-use/
+- https://opengameart.org/content/villagers-sprite-sheets-pixel-art-pack
 - https://opengameart.org/content/tree-21
 - https://opengameart.org/content/isometric-trees-0
 - https://opengameart.org/content/isometric-plant-pack

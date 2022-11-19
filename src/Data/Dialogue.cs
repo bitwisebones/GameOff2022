@@ -27,6 +27,7 @@ public class Dialogue
         return BlacksmithDialogue[1];
     }
 
+    public static DialogueLink Continue(int dest) => new DialogueLink { Text = "Continue...", DestinationId = dest };
     public static DialogueLink Goodbye() => new DialogueLink { Text = "Goodbye.", DestinationId = -1 };
 
     public static Dictionary<int, DialogueNode> BlacksmithDialogue = new Dictionary<int, DialogueNode>

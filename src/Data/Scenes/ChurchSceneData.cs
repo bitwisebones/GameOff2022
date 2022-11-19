@@ -29,7 +29,7 @@ public static class ChurchSceneData
                     {
                         GridPos = new Vector3(0, 0, 0),
                         LocalPos = new Vector3(0, -0.25f, 0),
-                        TextureName = "person",
+                        TextureName = "person_priest",
                         Scale = new Vector3(1.5f, 1.5f, 0),
                         HoverText = "Talk to Father Brooks",
                         PersonKind = PersonKind.Priest,

@@ -71,7 +71,6 @@ public class RoamingScene : IScene
 
         BeginTextureMode(_renderTexture);
         {
-            // ClearBackground(new Color(144, 165, 161, 255));
             ClearBackground(Color.BLACK);
 
             BeginMode3D(_camera);
@@ -192,6 +191,7 @@ public class RoamingScene : IScene
             if (_isActive)
             {
                 var hoverTextPos = new Vector2(GetMouseX() + 80, GetMouseY() + 50);
+                DrawTextEx(ResourceManager.Instance.Fonts["alagard"], _hovered.GetHoverText(), hoverTextPos + new Vector2(3, 3), 36, 1, Color.BLACK);
                 DrawTextEx(ResourceManager.Instance.Fonts["alagard"], _hovered.GetHoverText(), hoverTextPos, 36, 1, Color.WHITE);
             }
         }

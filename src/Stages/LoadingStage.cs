@@ -12,16 +12,15 @@ public class LoadingStage : IStage
 
         BeginDrawing();
         {
-            ClearBackground(Color.WHITE);
-            var text = $"Progress: {progress.FilesLoaded}/{progress.TotalFiles}";
-            DrawText(text, 12, 12, 20, Color.BLACK);
+            ClearBackground(Color.BLACK);
+            var text = $"Loading: {progress.FilesLoaded}/{progress.TotalFiles}";
+            DrawText(text, 12, 12, 20, Color.WHITE);
         }
         EndDrawing();
 
         if (progress.FilesLoaded == progress.TotalFiles)
         {
-            PlaySound(ResourceManager.Instance.Sounds["gmae"]);
-            StageManager.Instance.GoTo(Stage.Game);
+            StageManager.Instance.GoTo(Stage.MainMenu);
         }
     }
 
