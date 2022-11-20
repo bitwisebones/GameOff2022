@@ -27,16 +27,16 @@ public static class TailorSceneData
                 LocalPos = new Vector3(0, -0.25f, 0),
                 TextureName = "door_b",
                 Side = Direction.South,
-                HoverText = "To the Garden",
+                HoverText = "It's locked.",
                 Scale = new Vector3(1, 1, 1),
-                DoorKind = DoorKind.TailorGarden,
+                DoorKind = DoorKind.None,
             },
             new PersonData{
                 GridPos = new Vector3(1, 0, 2),
                 LocalPos = new Vector3(0, -0.25f, 0),
                 TextureName = "person_tailor",
                 Scale = new Vector3(1.5f, 1.5f, 0),
-                HoverText = "Talk to Charles Huges",
+                HoverText = "Talk to the tailor",
                 PersonKind = PersonKind.Tailor,
             }
         }

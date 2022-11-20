@@ -27,13 +27,15 @@ public partial class Dialogue
             L(-1, "Not yet.")),
         D(8, "You're a life saver!", Continue(9)),
         D(9, "Anything I can do to return the favor?",
-            L(10, "Well, I am looking for a horseshoe...",
-                () => RootGameState.Instance.IsLookingForHorseshoes,
-                () => { RootGameState.Instance.Inventory.Add(ItemKind.Horseshoe); }),
+            L(10, "Well, I am looking for a horseshoe for the farmer...", () => RootGameState.Instance.IsLookingForHorseshoes),
             L(-1, "I'll let you know if I think of anything.")),
         D(10, "Say no more! Here you go!",
             L(-1, "Thank you so much!",
-                () => { DialogueManager.Instance.NextNode[PersonKind.Blacksmith] = 11; })),
+                () => {
+                    RootGameState.Instance.Inventory.Add(ItemKind.Horseshoe);
+                    RootGameState.Instance.IsLookingForHorseshoes = false;
+                    DialogueManager.Instance.NextNode[PersonKind.Blacksmith] = 11;
+                })),
         D(11, "Thanks again!", Goodbye()),
     };
 }

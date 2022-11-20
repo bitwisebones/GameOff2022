@@ -27,7 +27,7 @@ public static class BlacksmithSceneData
                 LocalPos = new Vector3(0, -0.25f, 0),
                 TextureName = "person_blacksmith",
                 Scale = new Vector3(1.5f, 1.5f, 0),
-                HoverText = "Talk to Edmund Fitch",
+                HoverText = "Talk to the blacksmith",
                 PersonKind = PersonKind.Blacksmith,
             },
         }

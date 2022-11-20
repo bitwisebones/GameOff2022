@@ -14,7 +14,7 @@ public partial class Dialogue
         D(4, "Well lad, the Thomas family has been making cheese here...", Continue(5)),
         D(5, "...for many generations. *hiccup*", Continue(6)),
         D(6, "That is, until Lord Thomas disappeared recently.", Continue(7)),
-        D(7, "Twas not but a few months ago, just after Father Brooks arrived.", Continue(8)),
+        D(7, "Twas not but a few months ago, just after the priest arrived.", Continue(8)),
         D(8, "There's something not right about that priest, I tell you.", Continue(9)),
         D(9, "Others will say it's just a coincidence, but I know better.", Continue(10)),
         D(10, "I've seen him sneaking around, you know. Being creepy.",

@@ -30,6 +30,14 @@ public static class ManorHouseSceneData
                 HoverText = "Exit the Manor",
                 Scale = new Vector3(1, 1, 1),
                 DoorKind = DoorKind.Sewer,
+            },
+            new PersonData {
+                GridPos = new Vector3(3, 0, 7),
+                LocalPos = Vector3.Zero,
+                HoverText = "Talk to the butler",
+                PersonKind = PersonKind.Butler,
+                Scale = Vector3.One,
+                TextureName = "person_butler",
             }
         }
     };

@@ -22,7 +22,7 @@ public class RootGameState
     public List<ItemKind> Inventory { get; set; } = new List<ItemKind>();
     public PersonKind CurrentConversationTarget { get; set; } = PersonKind.Nobody;
 
-    public bool HasTalkedToInnKeeperAboutEggs = false;
+    public bool IsLookingForEggs = false;
     public bool KnowsAboutTheSewer = false;
     public bool IsLookingForHorseshoes = false;
     public bool IsLookingForClippers = false;
@@ -77,6 +77,24 @@ public class RootGameState
         {
             ItemKind = ItemKind.Ale,
             Texture = ResourceManager.Instance.Textures["ale"],
+        });
+
+        ItemCache.Add(ItemKind.LoveLetter, new Item
+        {
+            ItemKind = ItemKind.LoveLetter,
+            Texture = ResourceManager.Instance.Textures["loveletter"],
+        });
+
+        ItemCache.Add(ItemKind.Horseshoe, new Item
+        {
+            ItemKind = ItemKind.Horseshoe,
+            Texture = ResourceManager.Instance.Textures["horseshoe"],
+        });
+
+        ItemCache.Add(ItemKind.Clippers, new Item
+        {
+            ItemKind = ItemKind.Clippers,
+            Texture = ResourceManager.Instance.Textures["clippers"],
         });
     }
 }

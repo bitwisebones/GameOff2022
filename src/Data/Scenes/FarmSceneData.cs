@@ -68,7 +68,7 @@ public static class FarmSceneData
                 LocalPos = new Vector3(0, -0.25f, 0),
                 TextureName = "person_farmer",
                 Scale = new Vector3(1.5f, 1.5f, 0),
-                HoverText = "Talk to Samuel Matthews",
+                HoverText = "Talk to the farmer",
                 PersonKind = PersonKind.Farmer,
             },
             new BillboardData{

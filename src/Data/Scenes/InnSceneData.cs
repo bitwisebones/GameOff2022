@@ -29,7 +29,7 @@ public static class InnSceneData
                         LocalPos = new Vector3(0, -0.25f, 0),
                         TextureName = "person_innkeeper",
                         Scale = new Vector3(1.5f, 1.5f, 0),
-                        HoverText = "Talk to Meredith Farnsby",
+                        HoverText = "Talk to the innkeeper",
                         PersonKind = PersonKind.InnKeeper,
                     },
                     new PersonData{
@@ -37,7 +37,7 @@ public static class InnSceneData
                         LocalPos = new Vector3(0, -0.25f, 0),
                         TextureName = "person",
                         Scale = new Vector3(1.5f, 1.5f, 0),
-                        HoverText = "Talk to Liam Farnsby",
+                        HoverText = "Talk to the innkeeper's husband",
                         PersonKind = PersonKind.InnKeepersHusband,
                     }
                 }
