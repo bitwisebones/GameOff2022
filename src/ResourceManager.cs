@@ -125,19 +125,6 @@ public class ResourceManager
         return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
     }
 
-    public void ReloadLoadAll()
-    {
-        _index = 0;
-        while (true)
-        {
-            var progress = ResourceManager.Instance.LoadNext();
-            if (progress.FilesLoaded == progress.TotalFiles)
-            {
-                break;
-            }
-        }
-    }
-
     private string FormatFileName(string fileName)
     {
         var name = Path.GetFileName(fileName).Split(".")[0];

@@ -25,7 +25,11 @@ public partial class Dialogue
         D(13, "It's on the other side of the woods, away from town.", Continue(14)),
         D(14, "You'll have to figure out a way past the stone wall.", Continue(15)),
         D(15, "Just look carefully for it, I'm sure you'll find it, lad.",
-            L(16, "Thanks for the information", () => { DialogueManager.Instance.NextNode[PersonKind.InnKeepersHusband] = 17; })),
+            L(16, "Thanks for the information", () => {
+                DialogueManager.Instance.NextNode[PersonKind.InnKeepersHusband] = 17;
+                RootGameState.Instance.KnowsAboutTheSewer = true;
+                RootGameState.Instance.Inventory.Remove(ItemKind.Ale);
+            })),
         D(16, "Be careful.", Goodbye()),
         D(17, "Any luck finding that old sewer, lad?", Goodbye()),
     };

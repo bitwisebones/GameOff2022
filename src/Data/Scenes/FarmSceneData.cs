@@ -263,6 +263,15 @@ public static class FarmSceneData
                 TextureName = "tree_c",
                 Scale = new Vector3(15, 15, 1),
             },
+            new ItemData{
+                GridPos = new Vector3(12, 0, 2),
+                LocalPos = new Vector3(0, -0.7f, 0),
+                TextureName = "egg",
+                ItemKind = ItemKind.Egg,
+                HoverText = "It's a brown egg.",
+                Scale = new Vector3(0.7f, 0.7f, 0.7f),
+                Side = Direction.North,
+            }
         }
     };
 }

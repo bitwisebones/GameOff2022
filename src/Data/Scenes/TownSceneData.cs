@@ -111,7 +111,7 @@ public static class TownSceneData
                 Side = Direction.South,
                 HoverText = "A small brass skeleton key",
                 Scale = new Vector3(0.5f, 0.5f, 0.5f),
-                ItemKind = ItemKind.Egg,
+                ItemKind = ItemKind.BlacksmithKey,
             },
             new PersonData{
                 GridPos = new Vector3(2, 0, 1),

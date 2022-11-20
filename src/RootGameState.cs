@@ -22,6 +22,13 @@ public class RootGameState
     public List<ItemKind> Inventory { get; set; } = new List<ItemKind>();
     public PersonKind CurrentConversationTarget { get; set; } = PersonKind.Nobody;
 
+    public bool HasTalkedToInnKeeperAboutEggs = false;
+    public bool KnowsAboutTheSewer = false;
+    public bool IsLookingForHorseshoes = false;
+    public bool IsLookingForClippers = false;
+    public bool IsLookingForFlowers = false;
+    public bool IsLookingForPick = false;
+
     public Dictionary<AreaKind, IScene> SceneCache = new Dictionary<AreaKind, IScene>();
     public Dictionary<ItemKind, Item> ItemCache = new Dictionary<ItemKind, Item>();
 
@@ -65,5 +72,11 @@ public class RootGameState
                 }
             }
         }
+
+        ItemCache.Add(ItemKind.Ale, new Item
+        {
+            ItemKind = ItemKind.Ale,
+            Texture = ResourceManager.Instance.Textures["ale"],
+        });
     }
 }

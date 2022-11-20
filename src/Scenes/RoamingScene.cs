@@ -44,6 +44,7 @@ public class RoamingScene : IScene
 
         if (IsKeyPressed(KeyboardKey.KEY_SPACE))
         {
+            // TODO - check to see if we're in a mouse-only square.
             gameState.PlayerMode = gameState.PlayerMode == PlayerMode.Mouse ? PlayerMode.Man : PlayerMode.Mouse;
         }
         if (IsKeyPressed(KeyboardKey.KEY_TAB))
@@ -53,10 +54,6 @@ public class RoamingScene : IScene
         if (IsKeyPressed(KeyboardKey.KEY_GRAVE))
         {
             _isDebug = !_isDebug;
-        }
-        if (IsKeyPressed(KeyboardKey.KEY_F5))
-        {
-            ResourceManager.Instance.ReloadLoadAll();
         }
 
         CheckForHover();

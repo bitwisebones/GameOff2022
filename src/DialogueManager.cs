@@ -28,6 +28,10 @@ public class DialogueManager
 
         DialogueCache[PersonKind.InnKeeper] = Dialogue.InnKeeperDialogue.ToDictionary(i => i.Id);
         DialogueCache[PersonKind.InnKeepersHusband] = Dialogue.InnKeepersHusbandsDialogue.ToDictionary(i => i.Id);
+        DialogueCache[PersonKind.Priest] = Dialogue.PriestDialogue.ToDictionary(i => i.Id);
+        DialogueCache[PersonKind.Farmer] = Dialogue.FarmerDialogue.ToDictionary(i => i.Id);
+        DialogueCache[PersonKind.Gravedigger] = Dialogue.GravediggerDialogue.ToDictionary(i => i.Id);
+
 
         DialogueCache[PersonKind.Blacksmith] = Dialogue.BlacksmithDialogue.ToDictionary(i => i.Id);
     }
