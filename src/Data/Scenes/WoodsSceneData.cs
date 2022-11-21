@@ -54,17 +54,25 @@ public static class WoodsSceneData
                 new DoorData{
                     GridPos = new Vector3(10, 0, 3),
                     LocalPos = new Vector3(0, -0.25f, 0),
-                    TextureName = "door_a",
-                    Side = Direction.West,
+                    TextureName = "door_c",
+                    Side = Direction.North,
                     HoverText = "Enter the Sewers",
                     Scale = new Vector3(1, 1, 1),
                     DoorKind = DoorKind.Sewer,
+                },
+                new ItemData {
+                    GridPos = new Vector3(10, 0, 3),
+                    Side = Direction.North,
+                    HoverText = "Note (read)",
+                    ItemKind = ItemKind.Note,
+                    LocalPos = new Vector3(-0.65f, 0, 0),
+                    Scale = new Vector3(0.5f, 0.5f, 0.5f),
+                    TextureName = "note",
                 },
             }
         };
 
         data.Entities.AddRange(ForestGen.Generate());
-
         return data;
     }
 }

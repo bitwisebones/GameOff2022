@@ -103,16 +103,6 @@ public static class TownSceneData
                 Scale = new Vector3(1, 1, 1.4f),
                 DoorKind = DoorKind.ManorGrounds,
             },
-            new ItemData
-            {
-                GridPos = new Vector3(9, 0, 11),
-                LocalPos = new Vector3(0, -0.75f, 0),
-                TextureName = "key",
-                Side = Direction.South,
-                HoverText = "A small brass skeleton key",
-                Scale = new Vector3(0.5f, 0.5f, 0.5f),
-                ItemKind = ItemKind.BlacksmithKey,
-            },
             new PersonData{
                 GridPos = new Vector3(2, 0, 1),
                 LocalPos = new Vector3(0, -0.25f, 0),

@@ -67,6 +67,7 @@ public class RootGameState
                 switch (e)
                 {
                     case Item i:
+                        if (i.ItemKind == ItemKind.None) continue;
                         ItemCache.Add(i.ItemKind, i);
                         break;
                 }
@@ -95,6 +96,18 @@ public class RootGameState
         {
             ItemKind = ItemKind.Clippers,
             Texture = ResourceManager.Instance.Textures["clippers"],
+        });
+
+        ItemCache.Add(ItemKind.Flowers, new Item
+        {
+            ItemKind = ItemKind.Flowers,
+            Texture = ResourceManager.Instance.Textures["bush_d"],
+        });
+
+        ItemCache.Add(ItemKind.Pickaxe, new Item
+        {
+            ItemKind = ItemKind.Pickaxe,
+            Texture = ResourceManager.Instance.Textures["pickaxe"],
         });
     }
 }

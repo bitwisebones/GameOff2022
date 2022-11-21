@@ -32,6 +32,15 @@ public static class SewerSceneData
                 HoverText = "Exit the Sewers",
                 Scale = new Vector3(1, 1, 1),
                 DoorKind = DoorKind.ManorHouse,
+            },
+            new ItemData{
+                GridPos = new Vector3(14, 0, 3),
+                HoverText = "???",
+                ItemKind = ItemKind.RubblePile,
+                Scale = Vector3.One * 2,
+                LocalPos = new Vector3(0, 0, -0.4f),
+                Side = Direction.South,
+                TextureName = "rubble",
             }
         }
     };

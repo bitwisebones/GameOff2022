@@ -72,6 +72,16 @@ public static class ManorGardensSceneData
                 TextureName = "tree_c",
                 Scale = new Vector3(15, 15, 1),
             },
+            new ItemData
+            {
+                GridPos = new Vector3(5, 0, 5),
+                LocalPos = new Vector3(0, -0.75f, 0),
+                TextureName = "key",
+                Side = Direction.North,
+                HoverText = "A small brass skeleton key",
+                Scale = new Vector3(0.5f, 0.5f, 0.5f),
+                ItemKind = ItemKind.BlacksmithKey,
+            },
         }
     };
 }

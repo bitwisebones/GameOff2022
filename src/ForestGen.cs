@@ -6,6 +6,30 @@ public static class ForestGen
 {
     private static Random _rnd = new Random(872343);
 
+    public static List<EntityData> GenerateGarden()
+    {
+        var entities = new List<EntityData>();
+
+        for (var i = 0; i < 25; i++)
+        {
+            var wx = 1 - _rnd.NextSingle() * 2;
+            var wy = 1 - _rnd.NextSingle() * 2;
+            var x = 3 - (int)Math.Floor(_rnd.NextSingle() * 4);
+
+            var entity = new BillboardData
+            {
+                GridPos = new Vector3(x, 0, 6),
+                LocalPos = new Vector3(wx, -0.6f, wy),
+                Scale = Vector3.One,
+                TextureName = "bush_b",
+            };
+
+            entities.Add(entity);
+        }
+
+        return entities;
+    }
+
     public unsafe static List<EntityData> Generate()
     {
         var navGrid = new NavigationGrid();
@@ -41,7 +65,7 @@ public static class ForestGen
             var wy = 1 - _rnd.NextSingle() * 2;
 
 
-            if (navGrid.CanNavigateToGridPos(new Vector3(x, 0, y), PlayerMode.Man))
+            if (navGrid.CanNavigateToGridPos(new Vector3(x, 0, y), PlayerMode.Mouse))
             {
                 continue;
             }
@@ -66,7 +90,7 @@ public static class ForestGen
             var wx = 1 - _rnd.NextSingle() * 2;
             var wy = 1 - _rnd.NextSingle() * 2;
 
-            if (navGrid.CanNavigateToGridPos(new Vector3(x, 0, y), PlayerMode.Man))
+            if (navGrid.CanNavigateToGridPos(new Vector3(x, 0, y), PlayerMode.Mouse))
             {
                 continue;
             }

@@ -408,6 +408,24 @@ public class RoamingScene : IScene
                     SceneManager.Instance.Push(dialogueScene);
                     break;
                 case Item i:
+                    if (i.ItemKind == ItemKind.None)
+                    {
+                        return;
+                    }
+
+                    if (i.ItemKind == ItemKind.RubblePile)
+                    {
+                        // TODO - dialog box!
+                        RootGameState.Instance.IsLookingForPick = true;
+                        return;
+                    }
+
+                    if (i.ItemKind == ItemKind.Note)
+                    {
+                        // TODO - dialog box!
+                        return;
+                    }
+
                     if (!gameState.Inventory.Contains(i.ItemKind))
                     {
                         gameState.Inventory.Add(i.ItemKind);

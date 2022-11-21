@@ -24,7 +24,7 @@ public static class Scenes
         {(AreaKind.Woods, AreaKind.Sewer), (new Vector3(15, 0, 0), Direction.West)},
 
         {(AreaKind.Sewer, AreaKind.ManorHouse), (new Vector3(8, 0, 1), Direction.South)},
-        {(AreaKind.Sewer, AreaKind.Woods), (new Vector3(10, 0, 3), Direction.East)},
+        {(AreaKind.Sewer, AreaKind.Woods), (new Vector3(10, 0, 3), Direction.South)},
 
         {(AreaKind.Farm, AreaKind.Woods), (new Vector3(15, 0, 15), Direction.North)},
         {(AreaKind.Farm, AreaKind.Town), (new Vector3(13, 0, 8), Direction.West)},

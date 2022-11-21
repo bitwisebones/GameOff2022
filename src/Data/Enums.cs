@@ -62,4 +62,5 @@ public enum ItemKind
     Pickaxe,
     Note,
     SewerKey,
+    RubblePile,
 }
