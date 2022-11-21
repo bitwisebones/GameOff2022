@@ -35,7 +35,7 @@ public static class InnSceneData
                     new PersonData{
                         GridPos = new Vector3(0, 0, 4),
                         LocalPos = new Vector3(0, -0.25f, 0),
-                        TextureName = "person",
+                        TextureName = "person_innkeepershusband",
                         Scale = new Vector3(1.5f, 1.5f, 0),
                         HoverText = "Talk to the innkeeper's husband",
                         PersonKind = PersonKind.InnKeepersHusband,

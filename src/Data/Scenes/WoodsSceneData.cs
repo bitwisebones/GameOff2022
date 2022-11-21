@@ -56,9 +56,9 @@ public static class WoodsSceneData
                     LocalPos = new Vector3(0, -0.25f, 0),
                     TextureName = "door_c",
                     Side = Direction.North,
-                    HoverText = "Enter the Sewers",
+                    HoverText = "It's locked.",
                     Scale = new Vector3(1, 1, 1),
-                    DoorKind = DoorKind.Sewer,
+                    DoorKind = DoorKind.None,
                 },
                 new ItemData {
                     GridPos = new Vector3(10, 0, 3),

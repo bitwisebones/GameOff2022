@@ -27,12 +27,22 @@ public static class ChurchSceneData
                     },
                     new PersonData
                     {
-                        GridPos = new Vector3(0, 0, 0),
+                        GridPos = new Vector3(1, 0, 0),
                         LocalPos = new Vector3(0, -0.25f, 0),
                         TextureName = "person_priest",
                         Scale = new Vector3(1.5f, 1.5f, 0),
                         HoverText = "Talk to the priest",
                         PersonKind = PersonKind.Priest,
+                    },
+                    new ItemData
+                    {
+                        ItemKind = ItemKind.SewerKey,
+                        GridPos = new Vector3(0, 0, 0),
+                        HoverText = "A small key",
+                        LocalPos = new Vector3(0.1f, -0.7f, 0.8f),
+                        Scale = Vector3.One * 0.5f,
+                        Side = Direction.West,
+                        TextureName = "key2",
                     }
                 }
     };

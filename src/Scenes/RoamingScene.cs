@@ -19,6 +19,7 @@ public class RoamingScene : IScene
     private Entity? _hovered;
     private bool _isInventoryOpen;
     private RenderTexture2D _renderTexture = LoadRenderTexture(GetScreenWidth() / 4, GetScreenHeight() / 4);
+    private Random _rnd = new Random(3456345);
 
     private Camera3D _camera = new Camera3D()
     {
@@ -44,8 +45,16 @@ public class RoamingScene : IScene
 
         if (IsKeyPressed(KeyboardKey.KEY_SPACE))
         {
-            // TODO - check to see if we're in a mouse-only square.
-            gameState.PlayerMode = gameState.PlayerMode == PlayerMode.Mouse ? PlayerMode.Man : PlayerMode.Mouse;
+            // check to see if we're in a safe space to transform'
+            if (NavigationGrid!.CanTransform(gameState.PlayerGridPos))
+            {
+                gameState.PlayerMode = gameState.PlayerMode == PlayerMode.Mouse ? PlayerMode.Man : PlayerMode.Mouse;
+                PlaySound(ResourceManager.Instance.Sounds["transform"]);
+            }
+            else
+            {
+                PlaySound(ResourceManager.Instance.Sounds["wrong"]);
+            }
         }
         if (IsKeyPressed(KeyboardKey.KEY_TAB))
         {
@@ -65,7 +74,6 @@ public class RoamingScene : IScene
 
     public unsafe void Render(float deltaTime)
     {
-
         BeginTextureMode(_renderTexture);
         {
             ClearBackground(Color.BLACK);
@@ -302,6 +310,14 @@ public class RoamingScene : IScene
             }
         }
 
+        // this turned out to be pretty annoying
+        // if (moved)
+        // {
+        //     var sounds = new string[] { "walk_grass_1", "walk_grass_2" };
+        //     var x = 1 - (int)Math.Floor((_rnd.NextSingle() * 2f));
+        //     PlaySound(ResourceManager.Instance.Sounds[sounds[x]]);
+        // }
+
         if (moved && _isInventoryOpen)
         {
             _isInventoryOpen = false;
@@ -351,13 +367,19 @@ public class RoamingScene : IScene
                 switch (entity)
                 {
                     case Person p:
-                        _hovered = p;
+                        if (RootGameState.Instance.PlayerMode == PlayerMode.Man)
+                        {
+                            _hovered = p;
+                        }
                         break;
                     case Door d:
-                        _hovered = d;
-                        var model = d.Model;
-                        var texture = d.HoverTexture;
-                        SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
+                        if (RootGameState.Instance.PlayerMode == PlayerMode.Man)
+                        {
+                            _hovered = d;
+                            var model = d.Model;
+                            var texture = d.HoverTexture;
+                            SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref texture);
+                        }
                         break;
                     case Item i:
                         _hovered = i;
@@ -385,7 +407,6 @@ public class RoamingScene : IScene
                     break;
             }
         }
-
     }
 
     private void CheckClicks(RootGameState gameState)
@@ -396,16 +417,23 @@ public class RoamingScene : IScene
             switch (_hovered)
             {
                 case Door d:
-                    var newArea = Scenes.GetAreaFromDoor(d.DoorKind);
-                    if (newArea != AreaKind.None)
+                    if (RootGameState.Instance.PlayerMode == PlayerMode.Man)
                     {
-                        SceneManager.Instance.TransitionTo(newArea);
+                        var newArea = Scenes.GetAreaFromDoor(d.DoorKind);
+                        if (newArea != AreaKind.None)
+                        {
+                            PlaySound(ResourceManager.Instance.Sounds["door"]);
+                            SceneManager.Instance.TransitionTo(newArea);
+                        }
                     }
                     break;
                 case Person p:
-                    gameState.CurrentConversationTarget = p.PersonKind;
-                    var dialogueScene = new DialogueScene();
-                    SceneManager.Instance.Push(dialogueScene);
+                    if (RootGameState.Instance.PlayerMode == PlayerMode.Man)
+                    {
+                        gameState.CurrentConversationTarget = p.PersonKind;
+                        var dialogueScene = new DialogueScene();
+                        SceneManager.Instance.Push(dialogueScene);
+                    }
                     break;
                 case Item i:
                     if (i.ItemKind == ItemKind.None)
@@ -413,22 +441,61 @@ public class RoamingScene : IScene
                         return;
                     }
 
+                    // TODO - move this garbage elsewhere
                     if (i.ItemKind == ItemKind.RubblePile)
                     {
-                        // TODO - dialog box!
+                        if (RootGameState.Instance.Inventory.Contains(ItemKind.Pickaxe))
+                        {
+                            var sewer = (RoamingScene)RootGameState.Instance.SceneCache[AreaKind.Sewer];
+                            var pile = (Item)sewer.Entities.Where(e => e is Item).First(e => ((Item)e).ItemKind == ItemKind.RubblePile);
+                            sewer.Entities.Remove(pile);
+                            sewer.NavigationGrid!.AddTile((14, 3));
+                            PlaySound(ResourceManager.Instance.Sounds["explosion"]);
+                            SceneManager.Instance.Push(new TextScene(new List<string>{
+                                "You smash the pile of rubble!",
+                                "    [click to continue]",
+                            }, 150));
+
+                            return;
+                        }
+
                         RootGameState.Instance.IsLookingForPick = true;
+                        SceneManager.Instance.Push(new TextScene(new List<string>{
+                            "       There's a pile of rubble blocking the path.",
+                            "It looks like you might be able to remove it with a tool.",
+                            "                        [click to continue]",
+                        }, 45));
                         return;
                     }
 
                     if (i.ItemKind == ItemKind.Note)
                     {
-                        // TODO - dialog box!
+                        SceneManager.Instance.Push(new TextScene(new List<string>{
+                            "      DO NOT ENTER",
+                            "AREA UNSAFE FOR TOWNSFOLK",
+                            "     -Father Brooks",
+                            "    [click to continue]",
+                        }, 150));
                         return;
+                    }
+
+                    if (i.ItemKind == ItemKind.SewerKey)
+                    {
+                        var woods = RootGameState.Instance.SceneCache[AreaKind.Woods];
+                        var door = (Door)woods.Entities.Where(e => e is Door).First(e => ((Door)e).DoorKind == DoorKind.None);
+                        door.HoverText = "Enter the sewer.";
+                        door.DoorKind = DoorKind.Sewer;
+                    }
+
+                    if (i.ItemKind == ItemKind.Flowers)
+                    {
+                        PlaySound(ResourceManager.Instance.Sounds["cut"]);
                     }
 
                     if (!gameState.Inventory.Contains(i.ItemKind))
                     {
                         gameState.Inventory.Add(i.ItemKind);
+                        PlaySound(ResourceManager.Instance.Sounds["pickup"]);
                     }
                     Entities.Remove(_hovered);
                     _hovered = null;

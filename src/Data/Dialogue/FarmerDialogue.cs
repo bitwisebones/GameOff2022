@@ -35,7 +35,7 @@ public partial class Dialogue
                 RootGameState.Instance.Inventory.Add(ItemKind.Clippers);
                 RootGameState.Instance.IsLookingForClippers = false;
                 DialogueManager.Instance.NextNode[PersonKind.Farmer] = 0;
-                var flowers = (Item)RootGameState.Instance.SceneCache[AreaKind.TailorGarden].Entities.Where(i => i is Item).First(i => (i as Item).ItemKind == ItemKind.None);
+                var flowers = (Item)RootGameState.Instance.SceneCache[AreaKind.TailorGarden].Entities.Where(i => i is Item).First(i => ((Item)i).ItemKind == ItemKind.None);
                 flowers.ItemKind = ItemKind.Flowers;
                 flowers.HoverText = "Daffodils (take)";
             })),

@@ -29,7 +29,7 @@ public partial class Dialogue
                     RootGameState.Instance.IsLookingForClippers = true;
                     // unlock the door
                     var scene = RootGameState.Instance.SceneCache[AreaKind.Tailor];
-                    var door = (Door)scene.Entities.Where(e => e is Door).First(e => (e as Door).DoorKind == DoorKind.None);
+                    var door = (Door)scene.Entities.Where(e => e is Door).First(e => ((Door)e).DoorKind == DoorKind.None);
                     door.DoorKind = DoorKind.TailorGarden;
                     door.HoverText = "Enter the garden";
                 }
