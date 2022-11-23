@@ -17,10 +17,13 @@ public class GameStage : IStage
 
         var startScene = RootGameState.Instance.SceneCache[AreaKind.Inn];
         SceneManager.Instance.Push(startScene);
+
+        PlayMusicStream(ResourceManager.Instance.Music["3_mainTheme"]);
     }
 
     public void Update(float deltaTime)
     {
+        UpdateMusicStream(ResourceManager.Instance.Music["3_mainTheme"]);
         SceneManager.Instance.Update(deltaTime);
         BeginDrawing();
         {
@@ -29,5 +32,8 @@ public class GameStage : IStage
         EndDrawing();
     }
 
-    public void Deinit() { }
+    public void Deinit()
+    {
+        StopMusicStream(ResourceManager.Instance.Music["3_mainTheme"]);
+    }
 }

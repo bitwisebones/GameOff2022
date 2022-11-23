@@ -27,6 +27,7 @@ Repo contents:
 - https://opengameart.org/content/isometric-trees-0
 - https://opengameart.org/content/isometric-plant-pack
 - https://opengameart.org/content/mud-dirt
+- https://opengameart.org/content/darksad-piano
 - http://kitfox.com/projects/perlinNoiseMaker/
 - https://www.fantasynamegenerators.com/
 

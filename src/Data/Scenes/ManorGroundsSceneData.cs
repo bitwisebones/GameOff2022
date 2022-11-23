@@ -56,7 +56,7 @@ public static class ManorGroundsSceneData
             },
             new TerrainData{
                 GridPos = new Vector3(-0.5f, -0.5f, -0.5f),
-                LocalPos = new Vector3(0, 0.2f, 0),
+                LocalPos = new Vector3(0, 0.01f, 0),
                 ModelName = "fountain",
                 TextureName = "town",
             },

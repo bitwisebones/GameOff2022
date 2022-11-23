@@ -69,10 +69,13 @@ public class MainMenuStage : IStage
 
         SetShaderValue(ResourceManager.Instance.Shader, fogColorLoc, fogColor, ShaderUniformDataType.SHADER_UNIFORM_VEC4);
         SetShaderValue(ResourceManager.Instance.Shader, fogDensityLoc, fogDensity, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
+
+        PlayMusicStream(ResourceManager.Instance.Music["1_iCutMyself"]);
     }
 
     public void Update(float deltaTime)
     {
+        UpdateMusicStream(ResourceManager.Instance.Music["1_iCutMyself"]);
         var font = ResourceManager.Instance.Fonts["alagard"];
         UpdateCamera(deltaTime);
         BeginDrawing();
@@ -87,7 +90,10 @@ public class MainMenuStage : IStage
         }
     }
 
-    public void Deinit() { }
+    public void Deinit()
+    {
+        StopMusicStream(ResourceManager.Instance.Music["1_iCutMyself"]);
+    }
 
     private void UpdateCamera(float deltaTime)
     {
@@ -183,13 +189,13 @@ public class MainMenuStage : IStage
             }
             EndMode3D();
 
-            DrawTextEx(font, "MOUSE OR MAN?", new Vector2(11, 11), 30, 1, Color.BLACK);
-            DrawTextEx(font, "MOUSE OR MAN?", new Vector2(10, 10), 30, 1, Color.RED);
+            DrawTextEx(font, "MOUSE OR MAN?", new Vector2(33, 33), 90, 1, Color.BLACK);
+            DrawTextEx(font, "MOUSE OR MAN?", new Vector2(30, 30), 90, 1, Color.RED);
 
-            DrawTextEx(font, "CLICK TO START", new Vector2(11, 221), 18, 1, Color.BLACK);
-            DrawTextEx(font, "CLICK TO START", new Vector2(10, 220), 18, 1, Color.WHITE);
+            DrawTextEx(font, "CLICK TO START", new Vector2(33, 923), 60, 1, Color.BLACK);
+            DrawTextEx(font, "CLICK TO START", new Vector2(30, 920), 60, 1, Color.WHITE);
 
-            DrawTextureEx(_cursor, new Vector2(GetMouseX() / ScreenInfo.Crunch, GetMouseY() / ScreenInfo.Crunch), 0.0f, 0.5f, Color.WHITE);
+            DrawTextureEx(_cursor, new Vector2(ScreenInfo.MouseX, ScreenInfo.MouseY), 0.0f, 2f, Color.WHITE);
         }
         EndTextureMode();
 

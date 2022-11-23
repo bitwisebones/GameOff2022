@@ -69,6 +69,18 @@ public static class WoodsSceneData
                     Scale = new Vector3(0.5f, 0.5f, 0.5f),
                     TextureName = "note",
                 },
+                new BillboardData{
+                    GridPos = new Vector3(10, 0, 7),
+                    LocalPos = new Vector3(-0.3f, -0.6f, 0),
+                    Scale = Vector3.One,
+                    TextureName = "bush_d"
+                },
+                new BillboardData{
+                    GridPos = new Vector3(10, 0, 7),
+                    LocalPos = new Vector3(0.3f, -0.6f, 0),
+                    Scale = Vector3.One,
+                    TextureName = "bush_d"
+                }
             }
         };
 

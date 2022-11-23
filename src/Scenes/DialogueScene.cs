@@ -11,8 +11,8 @@ public class DialogueScene : IScene
     public Vector4 FogColor { get; set; } = new Vector4(1, 1, 1, 1);
     public float FogDensity { get; set; } = 0f;
 
-    private int _rowHeight = 20;
-    private int _padding = 5;
+    private int _rowHeight = 80;
+    private int _padding = 25;
 
     public void Init() { }
 
@@ -35,9 +35,9 @@ public class DialogueScene : IScene
         if (IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
         {
             // which choice did we pick?
-            var height = (_validLinks.Count + 1) * _rowHeight + _padding;
+            var height = 5 * _rowHeight + _padding;
             var startY = ScreenInfo.RenderHeight - height + _padding + _rowHeight;
-            var mouseY = GetMouseY() / ScreenInfo.Crunch;
+            var mouseY = ScreenInfo.MouseY;
             for (var i = 0; i < _validLinks.Count; i++)
             {
                 if (mouseY > startY - _padding / 2 && mouseY < startY + _rowHeight - _padding / 2)
@@ -68,25 +68,25 @@ public class DialogueScene : IScene
     public void Render(float deltaTime)
     {
         var font = ResourceManager.Instance.Fonts["alagard"];
-        var fontSize = 15;
+        var fontSize = 55;
 
         BeginTextureMode(_renderTexture);
         {
             ClearBackground(new Color(0, 0, 0, 0));
             if (_currentNode != null)
             {
-                var height = (_validLinks.Count + 1) * _rowHeight + _padding;
+                var height = 5 * _rowHeight + _padding;
                 var startY = ScreenInfo.RenderHeight - height;
 
                 DrawRectangle(0, startY, ScreenInfo.RenderWidth, height, Color.BLACK);
                 startY += _padding;
 
-                DrawTextEx(font, _currentNode.Text, new Vector2(_padding, startY), fontSize, 1, Color.VIOLET);
+                DrawTextEx(font, _currentNode.Text, new Vector2(_padding, startY), fontSize, 1, Color.RED);
                 startY += _rowHeight;
 
                 for (var i = 0; i < _validLinks.Count; i++)
                 {
-                    var mouseY = GetMouseY() / ScreenInfo.Crunch;
+                    var mouseY = ScreenInfo.MouseY;
                     if (mouseY > startY - _padding / 2 && mouseY < startY + _rowHeight - _padding / 2)
                     {
                         DrawRectangle(0, startY - _padding / 2, ScreenInfo.RenderWidth, _rowHeight, Color.DARKGRAY);
@@ -96,7 +96,9 @@ public class DialogueScene : IScene
                     startY += _rowHeight;
                 }
             }
-            DrawTextureEx(ResourceManager.Instance.Textures["cursor"], new Vector2(GetMouseX() / ScreenInfo.Crunch, GetMouseY() / ScreenInfo.Crunch), 0.0f, 0.5f, Color.WHITE);
+
+            ClearBackground(new Color(0, 0, 0, 0));
+            DrawTextureEx(ResourceManager.Instance.Textures["cursor"], new Vector2(ScreenInfo.MouseX, ScreenInfo.MouseY), 0.0f, 2f, Color.WHITE);
         }
         EndTextureMode();
 

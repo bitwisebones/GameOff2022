@@ -15,7 +15,7 @@ public static class ManorHouseSceneData
             },
             new DoorData{
                 GridPos = new Vector3(5, 0, 7.5f),
-                LocalPos = new Vector3(0, -0.25f, 0),
+                LocalPos = new Vector3(0, 0.25f, 0),
                 TextureName = "churchdoor",
                 Side = Direction.East,
                 HoverText = "Exit the Manor",
@@ -33,10 +33,10 @@ public static class ManorHouseSceneData
             },
             new PersonData {
                 GridPos = new Vector3(3, 0, 7),
-                LocalPos = Vector3.Zero,
+                LocalPos = new Vector3(0, -0.25f, 0),
                 HoverText = "Talk to the butler",
                 PersonKind = PersonKind.Butler,
-                Scale = Vector3.One,
+                Scale = new Vector3(1.5f, 1.5f, 1.5f),
                 TextureName = "person_butler",
             }
         }

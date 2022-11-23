@@ -24,6 +24,7 @@ public class ResourceManager
     private string[] _modelPaths;
     private string[] _imagePaths;
     private string[] _fontPaths;
+    private string[] _musicPaths;
     private int _index = 0;
     private int _totalFiles;
 
@@ -32,6 +33,7 @@ public class ResourceManager
     public Dictionary<string, Model> Models { get; } = new Dictionary<string, Model>();
     public Dictionary<string, Image> Images { get; } = new Dictionary<string, Image>();
     public Dictionary<string, Font> Fonts { get; set; } = new Dictionary<string, Font>();
+    public Dictionary<string, Music> Music { get; set; } = new Dictionary<string, Music>();
 
     public Shader Shader = LoadShader("Resources/Shaders/base.vs", "Resources/Shaders/base.fs");
 
@@ -42,9 +44,8 @@ public class ResourceManager
         _modelPaths = Directory.GetFiles("Resources/Models");
         _imagePaths = Directory.GetFiles("Resources/Images");
         _fontPaths = Directory.GetFiles("Resources/Fonts");
-        _totalFiles = _soundPaths.Length + _texturePaths.Length + _modelPaths.Length + _imagePaths.Length + _fontPaths.Length;
-
-        Console.WriteLine($"{_soundPaths.Length}, {_texturePaths.Length}, {_modelPaths.Length}, {_imagePaths.Length}, {_fontPaths.Length}");
+        _musicPaths = Directory.GetFiles("Resources/Music");
+        _totalFiles = _soundPaths.Length + _texturePaths.Length + _modelPaths.Length + _imagePaths.Length + _fontPaths.Length + _musicPaths.Length;
 
         Shader.locs[(int)SHADER_LOC_MATRIX_MODEL] = GetShaderLocation(Shader, "matModel");
         Shader.locs[(int)SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(Shader, "viewPos");
@@ -118,6 +119,20 @@ public class ResourceManager
                 Fonts.Remove(fn);
             }
             Fonts.Add(fn, font);
+            _index++;
+            return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
+        }
+
+        if (_index - _soundPaths.Length - _texturePaths.Length - _modelPaths.Length - _imagePaths.Length - _fontPaths.Length < _musicPaths.Length)
+        {
+            var idx = _index - _soundPaths.Length - _texturePaths.Length - _modelPaths.Length - _imagePaths.Length - _fontPaths.Length;
+            var stream = LoadMusicStream(_musicPaths[idx]);
+            var fn = FormatFileName(_musicPaths[idx]);
+            if (Music.ContainsKey(fn))
+            {
+                Music.Remove(fn);
+            }
+            Music.Add(fn, stream);
             _index++;
             return new Progress { TotalFiles = _totalFiles, FilesLoaded = _index };
         }

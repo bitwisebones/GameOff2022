@@ -82,6 +82,18 @@ public static class ManorGardensSceneData
                 Scale = new Vector3(0.5f, 0.5f, 0.5f),
                 ItemKind = ItemKind.BlacksmithKey,
             },
+            new BillboardData{
+                GridPos = new Vector3(10, 0, 9),
+                LocalPos = new Vector3(-0.3f, -0.6f, 0),
+                Scale = Vector3.One,
+                TextureName = "bush_d"
+            },
+            new BillboardData{
+                GridPos = new Vector3(10, 0, 9),
+                LocalPos = new Vector3(0.3f, -0.6f, 0),
+                Scale = Vector3.One,
+                TextureName = "bush_d"
+            }
         }
     };
 }

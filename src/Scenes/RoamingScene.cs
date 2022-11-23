@@ -18,7 +18,7 @@ public class RoamingScene : IScene
 
     private Entity? _hovered;
     private bool _isInventoryOpen;
-    private RenderTexture2D _renderTexture = LoadRenderTexture(GetScreenWidth() / 4, GetScreenHeight() / 4);
+    private RenderTexture2D _renderTexture = LoadRenderTexture(ScreenInfo.RenderWidth, ScreenInfo.RenderHeight);
     private Random _rnd = new Random(3456345);
 
     private Camera3D _camera = new Camera3D()
@@ -158,18 +158,31 @@ public class RoamingScene : IScene
 
             if (_isInventoryOpen)
             {
-                var margin = 10;
-                DrawRectangle(margin, 0, GetScreenWidth() / ScreenInfo.Crunch - margin * 2, 64, Color.BLACK);
+                var margin = 40;
+                DrawRectangle(margin, 0, ScreenInfo.RenderWidth - margin * 2, 64 * 4, Color.BLACK);
                 var i = 0;
                 foreach (var item in RootGameState.Instance.Inventory)
                 {
-                    if (IsHoveringInventoryItem(i * 64 + margin))
+                    var isHovering = IsHoveringInventoryItem(i * (64 * 4) + margin);
+
+                    // draw background highlight
+                    if (isHovering)
                     {
-                        DrawRectangle(i * 64 + margin, 0, 64, 64, Color.GRAY);
+                        DrawRectangle(i * (64 * 4) + margin, 0, 64 * 4, 64 * 4, Color.GRAY);
                     }
 
+                    // then draw item sprite
                     var itemData = RootGameState.Instance.ItemCache[item];
-                    DrawTexture(itemData.Texture, i * 64 + margin, 0, Color.WHITE);
+                    DrawTextureEx(itemData.Texture, new Vector2(i * (64 * 4) + margin, 0), 0.0f, 4f, Color.WHITE);
+
+                    // finally, draw text overlay
+                    if (isHovering)
+                    {
+                        var data = RootGameState.Instance.ItemCache[item];
+                        var hoverTextPos = new Vector2(ScreenInfo.MouseX + 80, ScreenInfo.MouseY + 50);
+                        DrawTextEx(ResourceManager.Instance.Fonts["alagard"], data.GetHoverText(), hoverTextPos + new Vector2(3, 3), 36, 1, Color.BLACK);
+                        DrawTextEx(ResourceManager.Instance.Fonts["alagard"], data.GetHoverText(), hoverTextPos, 36, 1, Color.WHITE);
+                    }
                     i += 1;
                 }
             }
@@ -177,7 +190,21 @@ public class RoamingScene : IScene
             if (_isActive)
             {
                 var cursorTexture = _hovered == null ? "cursor" : "cursor_hover";
-                DrawTextureEx(ResourceManager.Instance.Textures[cursorTexture], new Vector2(GetMouseX() / ScreenInfo.Crunch, GetMouseY() / ScreenInfo.Crunch), 0.0f, 0.5f, Color.WHITE);
+                DrawTextureEx(ResourceManager.Instance.Textures[cursorTexture], new Vector2(ScreenInfo.MouseX, ScreenInfo.MouseY), 0.0f, 2, Color.WHITE);
+            }
+
+            if (_hovered != null && _hovered.GetHoverText() != null && !string.IsNullOrEmpty(_hovered.GetHoverText()))
+            {
+                if (_isActive)
+                {
+                    var hoverTextPos = new Vector2(ScreenInfo.MouseX + 80, ScreenInfo.MouseY + 50);
+                    DrawTextEx(ResourceManager.Instance.Fonts["alagard"], _hovered.GetHoverText(), hoverTextPos + new Vector2(3, 3), 36, 1, Color.BLACK);
+                    DrawTextEx(ResourceManager.Instance.Fonts["alagard"], _hovered.GetHoverText(), hoverTextPos, 36, 1, Color.WHITE);
+                }
+            }
+            if (_isDebug)
+            {
+                DrawFPS(10, 10);
             }
         }
         EndTextureMode();
@@ -191,19 +218,6 @@ public class RoamingScene : IScene
             Color.WHITE
         );
 
-        if (_hovered != null && _hovered.GetHoverText() != null && !string.IsNullOrEmpty(_hovered.GetHoverText()))
-        {
-            if (_isActive)
-            {
-                var hoverTextPos = new Vector2(GetMouseX() + 80, GetMouseY() + 50);
-                DrawTextEx(ResourceManager.Instance.Fonts["alagard"], _hovered.GetHoverText(), hoverTextPos + new Vector2(3, 3), 36, 1, Color.BLACK);
-                DrawTextEx(ResourceManager.Instance.Fonts["alagard"], _hovered.GetHoverText(), hoverTextPos, 36, 1, Color.WHITE);
-            }
-        }
-        if (_isDebug)
-        {
-            DrawFPS(10, 10);
-        }
     }
 
     private bool CanMoveForward(RootGameState gameState)
@@ -454,7 +468,7 @@ public class RoamingScene : IScene
                             SceneManager.Instance.Push(new TextScene(new List<string>{
                                 "You smash the pile of rubble!",
                                 "    [click to continue]",
-                            }, 150));
+                            }, 650));
 
                             return;
                         }
@@ -464,7 +478,7 @@ public class RoamingScene : IScene
                             "       There's a pile of rubble blocking the path.",
                             "It looks like you might be able to remove it with a tool.",
                             "                        [click to continue]",
-                        }, 45));
+                        }, 400));
                         return;
                     }
 
@@ -475,7 +489,7 @@ public class RoamingScene : IScene
                             "AREA UNSAFE FOR TOWNSFOLK",
                             "     -Father Brooks",
                             "    [click to continue]",
-                        }, 150));
+                        }, 650));
                         return;
                     }
 
@@ -506,9 +520,9 @@ public class RoamingScene : IScene
 
     private bool IsHoveringInventoryItem(int x)
     {
-        var mouseX = GetMouseX() / ScreenInfo.Crunch;
-        var mouseY = GetMouseY() / ScreenInfo.Crunch;
-        return mouseX > x && mouseX < x + 64 && mouseY > 0 && mouseY < 64;
+        var mouseX = ScreenInfo.MouseX;
+        var mouseY = ScreenInfo.MouseY;
+        return mouseX > x && mouseX < x + (64 * 4) && mouseY > 0 && mouseY < (64 * 4);
     }
 
     private void DebugDrawCardinalDirections()

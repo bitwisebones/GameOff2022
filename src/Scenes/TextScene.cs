@@ -9,8 +9,8 @@ public class TextScene : IScene
     public Vector4 FogColor { get; set; } = new Vector4(1, 1, 1, 1);
     public float FogDensity { get; set; } = 0f;
 
-    private int _rowHeight = 20;
-    private int _padding = 5;
+    private int _rowHeight = 80;
+    private int _padding = 25;
     private int _xpadding = 5;
 
     private List<string> _text;
@@ -35,7 +35,7 @@ public class TextScene : IScene
     public void Render(float deltaTime)
     {
         var font = ResourceManager.Instance.Fonts["alagard"];
-        var fontSize = 15;
+        var fontSize = 55;
 
         BeginTextureMode(_renderTexture);
         {
@@ -48,7 +48,8 @@ public class TextScene : IScene
             {
                 DrawTextEx(font, _text[i], new Vector2(_xpadding, yOffset + (i * _rowHeight)), fontSize, 1, Color.WHITE);
             }
-            DrawTextureEx(ResourceManager.Instance.Textures["cursor"], new Vector2(GetMouseX() / ScreenInfo.Crunch, GetMouseY() / ScreenInfo.Crunch), 0.0f, 0.5f, Color.WHITE);
+
+            DrawTextureEx(ResourceManager.Instance.Textures["cursor"], new Vector2(ScreenInfo.MouseX, ScreenInfo.MouseY), 0.0f, 2f, Color.WHITE);
         }
         EndTextureMode();
 

@@ -21,7 +21,6 @@ public partial class Dialogue
         D(9, "Probably won't even talk to you unless you buy him an ale!",
             L(10, "[continue]", () => DialogueManager.Instance.NextNode[PersonKind.InnKeeper] = 10)),
         D(10, "What can I get for you dear?",
-            L(11, "Can I have an ale?", () => !RootGameState.Instance.Inventory.Contains(ItemKind.Egg)),
             L(12, "Can I have some breakfast?",
                 () => !RootGameState.Instance.Inventory.Contains(ItemKind.Egg),
                 () => { RootGameState.Instance.IsLookingForEggs = true; }),
@@ -31,9 +30,6 @@ public partial class Dialogue
                     RootGameState.Instance.IsLookingForEggs = false;
                 }),
             Goodbye()),
-        D(11, "Have you got any money?",
-            L(15, "No...")),
-            D(15, "Sorry dear, but I'm not running a charity.", Continue(10)),
         D(12, "Sorry dear, but I don't have anything for breakfast.", Continue(13)),
         D(13, "That lazy farmer was supposed to bring me some eggs...", Continue(14)),
         D(14, "...but he hasn't shown up yet!", Continue(10)),

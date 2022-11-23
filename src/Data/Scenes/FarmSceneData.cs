@@ -271,7 +271,19 @@ public static class FarmSceneData
                 HoverText = "It's a brown egg.",
                 Scale = new Vector3(0.7f, 0.7f, 0.7f),
                 Side = Direction.North,
-            }
+            },
+            new BillboardData{
+                GridPos = new Vector3(11, 0, 5),
+                LocalPos = new Vector3(0, -0.5f, 0),
+                Scale = Vector3.One,
+                TextureName = "chicken",
+            },
+            new BillboardData{
+                GridPos = new Vector3(13, 0, 6),
+                LocalPos = new Vector3(0, -0.5f, 0),
+                Scale = Vector3.One,
+                TextureName = "chicken",
+            },
         }
     };
 }
