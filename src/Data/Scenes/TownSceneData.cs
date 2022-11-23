@@ -97,7 +97,7 @@ public static class TownSceneData
             new DoorData{
                 GridPos = new Vector3(1, 0, 9),
                 LocalPos = new Vector3(0, -0.5f, 0),
-                TextureName = "door_f",
+                TextureName = "door_e",
                 Side = Direction.West,
                 HoverText = "To the Manor",
                 Scale = new Vector3(1, 1, 1.4f),

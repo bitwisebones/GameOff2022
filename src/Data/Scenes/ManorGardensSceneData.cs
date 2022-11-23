@@ -16,7 +16,7 @@ public static class ManorGardensSceneData
                 TextureName = "town",
             },
             new TerrainData{
-                GridPos = new Vector3(14.5f, -0.5f, -0.5f),
+                GridPos = new Vector3(15.5f, -0.5f, -0.5f),
                 LocalPos = Vector3.Zero,
                 ModelName = "manorbuilding",
                 TextureName = "manorbuilding",
@@ -35,6 +35,15 @@ public static class ManorGardensSceneData
                 HoverText = "To the Woods",
                 Scale = new Vector3(1.3f, 1, 1),
                 DoorKind = DoorKind.Woods,
+            },
+            new DoorData{
+                GridPos = new Vector3(15, 0, 1),
+                LocalPos = new Vector3(0, -0.6f, 0),
+                TextureName = "door_e",
+                Side = Direction.East,
+                HoverText = "To the Manor",
+                Scale = new Vector3(1, 1, 1.4f),
+                DoorKind = DoorKind.ManorGrounds,
             },
             new BillboardData{
                 GridPos = new Vector3(3, 0, 2),

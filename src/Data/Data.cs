@@ -9,7 +9,7 @@ public static class Scenes
         {(AreaKind.Town, AreaKind.Inn), (new Vector3(3, 0, 2), Direction.South)},
         {(AreaKind.Town, AreaKind.Woods), (new Vector3(8, 0, 15), Direction.North)},
         {(AreaKind.Town, AreaKind.Farm), (new Vector3(0, 0, 12), Direction.East)},
-        {(AreaKind.Town, AreaKind.ManorGrounds), (new Vector3(14, 0, 7), Direction.West)},
+        {(AreaKind.Town, AreaKind.ManorGrounds), (new Vector3(15, 0, 8), Direction.West)},
         {(AreaKind.Town, AreaKind.Tailor), (new Vector3(1, 0, 0), Direction.South)},
         {(AreaKind.Town, AreaKind.Blacksmith), (new Vector3(2, 0, 4), Direction.North)},
 
@@ -31,8 +31,10 @@ public static class Scenes
 
         {(AreaKind.ManorGrounds, AreaKind.Town), (new Vector3(1, 0, 9), Direction.East)},
         {(AreaKind.ManorGrounds, AreaKind.ManorHouse), (new Vector3(5, 0, 7), Direction.West)},
+        {(AreaKind.ManorGrounds, AreaKind.ManorGardens), (new Vector3(15, 0, 1), Direction.West)},
         {(AreaKind.ManorGardens, AreaKind.Woods), (new Vector3(0, 0, 15), Direction.North)},
-        {(AreaKind.ManorHouse, AreaKind.ManorGrounds), (new Vector3(5, 0, 7), Direction.East)},
+        {(AreaKind.ManorGardens, AreaKind.ManorGrounds), (new Vector3(8, 0, 1), Direction.East)},
+        {(AreaKind.ManorHouse, AreaKind.ManorGrounds), (new Vector3(4, 0, 8), Direction.East)},
         {(AreaKind.ManorHouse, AreaKind.Sewer), (new Vector3(0, 0, 15), Direction.East)},
 
         {(AreaKind.Tailor, AreaKind.TailorGarden), (new Vector3(0, 0, 4), Direction.South)},
