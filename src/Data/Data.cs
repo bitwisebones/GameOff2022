@@ -23,14 +23,14 @@ public static class Scenes
         {(AreaKind.Woods, AreaKind.Farm), (new Vector3(2, 0, 0), Direction.South)},
         {(AreaKind.Woods, AreaKind.Sewer), (new Vector3(15, 0, 0), Direction.West)},
 
-        {(AreaKind.Sewer, AreaKind.ManorHouse), (new Vector3(8, 0, 1), Direction.South)},
+        {(AreaKind.Sewer, AreaKind.ManorHouse), (new Vector3(8, 0, 2), Direction.South)},
         {(AreaKind.Sewer, AreaKind.Woods), (new Vector3(10, 0, 3), Direction.South)},
 
         {(AreaKind.Farm, AreaKind.Woods), (new Vector3(15, 0, 15), Direction.North)},
         {(AreaKind.Farm, AreaKind.Town), (new Vector3(13, 0, 8), Direction.West)},
 
         {(AreaKind.ManorGrounds, AreaKind.Town), (new Vector3(1, 0, 9), Direction.East)},
-        {(AreaKind.ManorGrounds, AreaKind.ManorHouse), (new Vector3(5, 0, 7), Direction.West)},
+        {(AreaKind.ManorGrounds, AreaKind.ManorHouse), (new Vector3(5, 0, 8), Direction.West)},
         {(AreaKind.ManorGrounds, AreaKind.ManorGardens), (new Vector3(15, 0, 1), Direction.West)},
         {(AreaKind.ManorGardens, AreaKind.Woods), (new Vector3(0, 0, 15), Direction.North)},
         {(AreaKind.ManorGardens, AreaKind.ManorGrounds), (new Vector3(8, 0, 1), Direction.East)},

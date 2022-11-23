@@ -14,7 +14,7 @@ public static class ManorHouseSceneData
                 ModelName = "manorinterior",
             },
             new DoorData{
-                GridPos = new Vector3(5, 0, 7.5f),
+                GridPos = new Vector3(5, 0, 8f),
                 LocalPos = new Vector3(0, 0.25f, 0),
                 TextureName = "churchdoor",
                 Side = Direction.East,
@@ -23,9 +23,9 @@ public static class ManorHouseSceneData
                 DoorKind = DoorKind.ManorGrounds,
             },
             new DoorData{
-                GridPos = new Vector3(8, 0, 1),
+                GridPos = new Vector3(8, 0, 2),
                 LocalPos = new Vector3(0, -0.25f, 0),
-                TextureName = "door_a",
+                TextureName = "door_c",
                 Side = Direction.North,
                 HoverText = "Exit the Manor",
                 Scale = new Vector3(1, 1, 1),
