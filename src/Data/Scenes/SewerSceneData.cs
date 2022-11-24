@@ -25,13 +25,13 @@ public static class SewerSceneData
                 DoorKind = DoorKind.Woods,
             },
             new DoorData{
-                GridPos = new Vector3(0, 0, 15),
+                GridPos = new Vector3(2, 0, 12),
                 LocalPos = new Vector3(0, -0.25f, 0),
                 TextureName = "door_c",
-                Side = Direction.West,
-                HoverText = "Exit the Sewers",
+                Side = Direction.South,
+                HoverText = "Enter the Manor cellar",
                 Scale = new Vector3(1, 1, 1),
-                DoorKind = DoorKind.ManorHouse,
+                DoorKind = DoorKind.Cellar,
             },
             new ItemData{
                 GridPos = new Vector3(14, 0, 3),

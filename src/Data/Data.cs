@@ -23,8 +23,9 @@ public static class Scenes
         {(AreaKind.Woods, AreaKind.Farm), (new Vector3(2, 0, 0), Direction.South)},
         {(AreaKind.Woods, AreaKind.Sewer), (new Vector3(15, 0, 0), Direction.West)},
 
-        {(AreaKind.Sewer, AreaKind.ManorHouse), (new Vector3(8, 0, 2), Direction.South)},
+        {(AreaKind.Sewer, AreaKind.Cellar), (new Vector3(1, 0, 1), Direction.South)},
         {(AreaKind.Sewer, AreaKind.Woods), (new Vector3(10, 0, 3), Direction.South)},
+        {(AreaKind.Cellar, AreaKind.Sewer), (new Vector3(0, 0, 15), Direction.East)},
 
         {(AreaKind.Farm, AreaKind.Woods), (new Vector3(15, 0, 15), Direction.North)},
         {(AreaKind.Farm, AreaKind.Town), (new Vector3(13, 0, 8), Direction.West)},
@@ -35,7 +36,6 @@ public static class Scenes
         {(AreaKind.ManorGardens, AreaKind.Woods), (new Vector3(0, 0, 15), Direction.North)},
         {(AreaKind.ManorGardens, AreaKind.ManorGrounds), (new Vector3(8, 0, 1), Direction.East)},
         {(AreaKind.ManorHouse, AreaKind.ManorGrounds), (new Vector3(4, 0, 8), Direction.East)},
-        {(AreaKind.ManorHouse, AreaKind.Sewer), (new Vector3(0, 0, 15), Direction.East)},
 
         {(AreaKind.Tailor, AreaKind.TailorGarden), (new Vector3(0, 0, 4), Direction.South)},
         {(AreaKind.TailorGarden, AreaKind.Tailor), (new Vector3(0, 0, 3), Direction.North)},
@@ -64,6 +64,7 @@ public static class Scenes
             DoorKind.Sewer => AreaKind.Sewer,
             DoorKind.ManorHouse => AreaKind.ManorHouse,
             DoorKind.ManorGardens => AreaKind.ManorGardens,
+            DoorKind.Cellar => AreaKind.Cellar,
             DoorKind.Farmhouse => AreaKind.None,
             _ => AreaKind.None,
         };

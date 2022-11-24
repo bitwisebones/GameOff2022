@@ -13,6 +13,7 @@ public enum AreaKind
     Sewer,
     TailorGarden,
     ManorGardens,
+    Cellar,
 }
 
 public enum PersonKind
@@ -47,6 +48,7 @@ public enum DoorKind
     Sewer,
     ManorHouse,
     ManorGardens,
+    Cellar,
 }
 
 public enum ItemKind

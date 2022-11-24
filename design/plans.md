@@ -1,7 +1,7 @@
 # Notes
 
 ## Places in the town of Cheeseshire
-- Thomas Manor / Cheesery
+- The Manor / Cheesery
 - Town Square
     - Inn (Milk & Honey Tavern and Inn)
     - Tailor Shop (Huges' Haberdashery)
@@ -13,16 +13,14 @@
     - Sewers (entrance)
 
 ## People
-- Lord Garfield Thomas (BIG CHEESE, is a werecat)
-    - Lillian Rose - Cook
+- Lord Apodemus (BIG CHEESE, is a weremouse)
     - Oliver Wells - Butler
-    - Penny Matthews - Maid (Samuel's daughter)
 - Meredith Farnsby - Inn keeper
 - Liam Farnsby - Inn keeper's husband (sewer scavenger)
 - Father Henry Brooks - Priest (is a prick, of couse, also a werecat)
     - Rudy Duncan - Gravedigger (doesn't like new priest who steals money from flower fund)
 - Charles Huges - Tailor (has the hots for Oliver)
-- Samuel Matthews - Farmer (Penny's dad)
+- Samuel Matthews - Farmer
 - Edmund Fitch - Blacksmith
 
 ## Puzzle Dependency Charts

@@ -49,6 +49,7 @@ public class RootGameState
             {AreaKind.TailorGarden, SceneFactory.Build(TailorGardenSceneData.GetData())},
             {AreaKind.Blacksmith, SceneFactory.Build(BlacksmithSceneData.GetData())},
             {AreaKind.Sewer, SceneFactory.Build(SewerSceneData.GetData())},
+            {AreaKind.Cellar, SceneFactory.Build(CellarSceneData.GetData())},
         };
 
         var startingScene = SceneCache[AreaKind.Inn];

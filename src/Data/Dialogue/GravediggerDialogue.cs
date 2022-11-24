@@ -21,7 +21,7 @@ public partial class Dialogue
         D(5, "I'd do just about anything for one of the tailor's daffodils!",
             L(0, "[continue]", () => { RootGameState.Instance.IsLookingForFlowers = true; })),
         D(6, "The sewer? I think it has something to do with the cheesery.", Continue(7)),
-        D(7, "Connects the woods to Thomas Manor, if I'm not mistaken.", Continue(8)),
+        D(7, "Connects the woods to the Manor, if I'm not mistaken.", Continue(8)),
         D(8, "You'd think I'd know more, being the gravedigger and all!", Continue(9)),
         D(9, "But my job's to dig, and that's all.", Continue(0)),
         D(10, "Well I'll be damned.", Continue(11)),
