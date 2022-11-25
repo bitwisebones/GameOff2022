@@ -79,36 +79,42 @@ public class RootGameState
         {
             ItemKind = ItemKind.Ale,
             Texture = ResourceManager.Instance.Textures["ale"],
+            HoverText = "A tankard of ale"
         });
 
         ItemCache.Add(ItemKind.LoveLetter, new Item
         {
             ItemKind = ItemKind.LoveLetter,
             Texture = ResourceManager.Instance.Textures["loveletter"],
+            HoverText = "A love letter"
         });
 
         ItemCache.Add(ItemKind.Horseshoe, new Item
         {
             ItemKind = ItemKind.Horseshoe,
             Texture = ResourceManager.Instance.Textures["horseshoe"],
+            HoverText = "A horseshoe"
         });
 
         ItemCache.Add(ItemKind.Clippers, new Item
         {
             ItemKind = ItemKind.Clippers,
             Texture = ResourceManager.Instance.Textures["clippers"],
+            HoverText = "Hedge clippers"
         });
 
         ItemCache.Add(ItemKind.Flowers, new Item
         {
             ItemKind = ItemKind.Flowers,
             Texture = ResourceManager.Instance.Textures["bush_d"],
+            HoverText = "Beautiful flowers"
         });
 
         ItemCache.Add(ItemKind.Pickaxe, new Item
         {
             ItemKind = ItemKind.Pickaxe,
             Texture = ResourceManager.Instance.Textures["pickaxe"],
+            HoverText = "A pickaxe"
         });
     }
 }

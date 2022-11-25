@@ -3,6 +3,7 @@ public enum Stage
 {
     Loading,
     MainMenu,
+    Intro,
     Game,
 }
 
@@ -36,6 +37,9 @@ public class StageManager
                 break;
             case Stage.MainMenu:
                 CurrentScene = new MainMenuStage();
+                break;
+            case Stage.Intro:
+                CurrentScene = new IntroStage();
                 break;
             case Stage.Game:
                 CurrentScene = new GameStage();

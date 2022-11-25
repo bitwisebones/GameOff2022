@@ -1,11 +1,10 @@
-
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Raymath;
 using static Raylib_cs.ShaderLocationIndex;
 
-public class MainMenuStage : IStage
+public class IntroStage : IStage
 {
     private Camera3D _camera = new Camera3D()
     {
@@ -19,33 +18,31 @@ public class MainMenuStage : IStage
     private List<Entity> Entities { get; set; } = new List<Entity>();
     private RenderTexture2D _renderTexture = LoadRenderTexture(ScreenInfo.RenderWidth, ScreenInfo.RenderHeight);
 
-    private static float _speed = 0.005f;
-    private List<CameraMovement> _moves = new List<CameraMovement>
+    private Texture2D _cursor;
+
+    private static List<string> _text = new List<string>
     {
-        new CameraMovement{
-            StartPosition = new Vector3(1, 5, 19),
-            EndPosition = new Vector3(3, 5, 19),
-            Target = new Vector3(3, 5, 19),
-            Delta = new Vector3(_speed, 0, 0),
-        },
-        new CameraMovement{
-            StartPosition = new Vector3(15, 0, 16),
-            EndPosition = new Vector3(15, 0, 14),
-            Target = new Vector3(15, 4, 10),
-            Delta = new Vector3(0, 0, -_speed),
-        },
-        new CameraMovement{
-            StartPosition = new Vector3(14, 1, 20),
-            EndPosition = new Vector3(12, 1, 20),
-            Target = new Vector3(14, 1, 22),
-            Delta = new Vector3(-_speed, 0, 0),
-            IsPan = true,
-        }
+        "The full moon beckons...",
+        "The pale yellow disk reminds you that you must feed.",
+        "FEED ON CHEESE.",
+        "As a weremouse, you must feed to survive.",
+        "And you've arrived here in Cheeseshire to do just that.",
+        "Find the cheese. Feed. Survive.",
     };
 
-    private int _currentMoveIndex = 0;
+    private static List<int> _delay = new List<int>
+    {
+        4,
+        5,
+        3,
+        3,
+        5,
+        4,
+    };
 
-    private Texture2D _cursor;
+    private int _currentTextIndex = 0;
+    private double _nextTextTime = GetTime() + _delay[0];
+    private float _transitionElapsed = 0;
 
     public void Init()
     {
@@ -57,91 +54,52 @@ public class MainMenuStage : IStage
         var s = SceneFactory.Build(TownSceneData.GetData());
         Entities = s.Entities;
 
-        var initialMovement = _moves[_currentMoveIndex];
-        _camera.position = initialMovement.StartPosition;
-        _camera.target = initialMovement.Target;
+        var moonModel = ResourceManager.Instance.Models["moon"];
+        var moonTexture = ResourceManager.Instance.Textures["moon"];
+        SetMaterialTexture(ref moonModel, 0, MaterialMapIndex.MATERIAL_MAP_DIFFUSE, ref moonTexture);
+        var shader = ResourceManager.Instance.Shader;
+        SetMaterialShader(ref moonModel, 0, ref shader);
+
+        Entities.Add(new Terrain
+        {
+            Model = moonModel,
+            Texture = moonTexture,
+            Position = new Vector3(30, 25, 10),
+        });
+
+        _camera.position = new Vector3(10, 0.1f, 18);
+        _camera.target = new Vector3(19, 12, 8);
 
         var fogDensityLoc = GetShaderLocation(ResourceManager.Instance.Shader, "fogDensity");
         var fogColorLoc = GetShaderLocation(ResourceManager.Instance.Shader, "fogColor");
 
         var fogColor = new Vector4(0.3f, 0.3f, 0.3f, 1);
-        var fogDensity = 0.02f;
+        var fogDensity = 0.01f;
 
         SetShaderValue(ResourceManager.Instance.Shader, fogColorLoc, fogColor, ShaderUniformDataType.SHADER_UNIFORM_VEC4);
         SetShaderValue(ResourceManager.Instance.Shader, fogDensityLoc, fogDensity, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
 
-        PlayMusicStream(ResourceManager.Instance.Music["1_iCutMyself"]);
+        PlayMusicStream(ResourceManager.Instance.Music["4_mittelalter"]);
     }
 
     public void Update(float deltaTime)
     {
-        UpdateMusicStream(ResourceManager.Instance.Music["1_iCutMyself"]);
-        var font = ResourceManager.Instance.Fonts["alagard"];
-        UpdateCamera(deltaTime);
+        UpdateMusicStream(ResourceManager.Instance.Music["4_mittelalter"]);
+        if (_currentTextIndex > 0 && IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
+        {
+            StageManager.Instance.GoTo(Stage.Game);
+        }
+
+        _camera.position.X += 0.001f;
         BeginDrawing();
         {
             Render(deltaTime);
         }
         EndDrawing();
-
-        if (IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
-        {
-            StageManager.Instance.GoTo(Stage.Intro);
-        }
-    }
-
-    public void Deinit()
-    {
-        StopMusicStream(ResourceManager.Instance.Music["1_iCutMyself"]);
-    }
-
-    private void UpdateCamera(float deltaTime)
-    {
-        var movement = _moves[_currentMoveIndex];
-        _camera.position += movement.Delta;
-
-        if (movement.IsPan)
-        {
-            _camera.target += movement.Delta;
-        }
-
-        if (movement.Delta.X < 0 && _camera.position.X < movement.EndPosition.X)
-        {
-            NextMovement();
-        }
-
-        if (movement.Delta.X > 0 && _camera.position.X > movement.EndPosition.X)
-        {
-            NextMovement();
-        }
-
-        if (movement.Delta.Z < 0 && _camera.position.Z < movement.EndPosition.Z)
-        {
-            NextMovement();
-        }
-
-        if (movement.Delta.Z > 0 && _camera.position.Z > movement.EndPosition.Z)
-        {
-            NextMovement();
-        }
-    }
-
-    private void NextMovement()
-    {
-        _currentMoveIndex += 1;
-        if (_currentMoveIndex >= _moves.Count)
-        {
-            _currentMoveIndex = 0;
-        }
-
-        _camera.position = _moves[_currentMoveIndex].StartPosition;
-        _camera.target = _moves[_currentMoveIndex].Target;
     }
 
     private unsafe void Render(float deltaTime)
     {
-        var font = ResourceManager.Instance.Fonts["alagard"];
-
         BeginTextureMode(_renderTexture);
         {
             ClearBackground(Color.BLACK);
@@ -186,14 +144,34 @@ public class MainMenuStage : IStage
                     }
                 }
                 EndShaderMode();
+
             }
             EndMode3D();
 
-            DrawTextEx(font, "MOUSE OR MAN?", new Vector2(33, 33), 90, 1, Color.BLACK);
-            DrawTextEx(font, "MOUSE OR MAN?", new Vector2(30, 30), 90, 1, Color.RED);
+            var text = GetText(deltaTime);
 
-            DrawTextEx(font, "CLICK TO START", new Vector2(33, 923), 60, 1, Color.BLACK);
-            DrawTextEx(font, "CLICK TO START", new Vector2(30, 920), 60, 1, Color.WHITE);
+            DrawTextEx(
+                ResourceManager.Instance.Fonts["alagard"],
+                text,
+                new Vector2(52, 52),
+                40,
+                1,
+                Color.BLACK
+            );
+
+            DrawTextEx(
+                ResourceManager.Instance.Fonts["alagard"],
+                text,
+                new Vector2(50, 50),
+                40,
+                1,
+                Color.WHITE
+            );
+
+            if (_currentTextIndex > 0)
+            {
+                DrawTextEx(ResourceManager.Instance.Fonts["alagard"], "CLICK TO SKIP", new Vector2(1650, 1000), 30, 1, Color.WHITE);
+            }
 
             DrawTextureEx(_cursor, new Vector2(ScreenInfo.MouseX, ScreenInfo.MouseY), 0.0f, 2f, Color.WHITE);
         }
@@ -209,13 +187,33 @@ public class MainMenuStage : IStage
         );
 
     }
-}
 
-public class CameraMovement
-{
-    public Vector3 StartPosition { get; set; }
-    public Vector3 EndPosition { get; set; }
-    public Vector3 Target { get; set; }
-    public Vector3 Delta { get; set; }
-    public bool IsPan { get; set; } = false;
+    private string GetText(float deltaTime)
+    {
+        _transitionElapsed += deltaTime;
+
+        if (GetTime() > _nextTextTime)
+        {
+            _currentTextIndex += 1;
+            _transitionElapsed = 0;
+            if (_currentTextIndex >= _text.Count)
+            {
+                StageManager.Instance.GoTo(Stage.Game);
+                return "";
+            }
+            _nextTextTime = GetTime() + _delay[_currentTextIndex];
+        }
+
+        var text = _text[_currentTextIndex];
+        var percent = _transitionElapsed / 2f;
+        var strLen = (int)Math.Floor((float)text.Length * percent);
+        strLen = strLen > text.Length ? text.Length : strLen;
+
+        return text.Substring(0, strLen);
+    }
+
+    public void Deinit()
+    {
+        StopMusicStream(ResourceManager.Instance.Music["4_mittelalter"]);
+    }
 }

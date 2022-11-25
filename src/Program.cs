@@ -14,13 +14,10 @@ namespace GameOff2022
             SetTargetFPS(60);
 
             float deltaTime = 0;
-            float lastFrameTime = 0;
             while (!WindowShouldClose())
             {
                 StageManager.Instance.CurrentScene.Update(deltaTime);
-
-                deltaTime = GetFrameTime() - lastFrameTime;
-                lastFrameTime = GetFrameTime();
+                deltaTime = GetFrameTime();
             }
 
             CloseWindow();
