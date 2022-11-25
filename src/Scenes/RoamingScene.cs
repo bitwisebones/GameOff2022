@@ -222,7 +222,7 @@ public class RoamingScene : IScene
                 DrawTexture(ResourceManager.Instance.Textures["cheese"], 235, 0, Color.WHITE);
                 if (GetTime() > _nextCheese + 0.1)
                 {
-                    _nextCheese = GetTime() + (int)Math.Floor(_rnd.NextSingle() * (5 * 60));
+                    _nextCheese = GetTime() + (int)Math.Floor((_rnd.NextSingle() * 60) + 180);
                     _playCheeseSound = true;
                 }
             }
