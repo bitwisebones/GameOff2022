@@ -13,7 +13,7 @@
     - Sewers (entrance)
 
 ## People
-- Lord Apodemus (BIG CHEESE, is a weremouse)
+- Magnus Apodemus (BIG CHEESE, is a weremouse)
     - Oliver Wells - Butler
 - Meredith Farnsby - Inn keeper
 - Liam Farnsby - Inn keeper's husband (sewer scavenger)

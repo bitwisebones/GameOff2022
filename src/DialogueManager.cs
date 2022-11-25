@@ -34,6 +34,7 @@ public class DialogueManager
         DialogueCache[PersonKind.Tailor] = Dialogue.TailorDialogue.ToDictionary(i => i.Id);
         DialogueCache[PersonKind.Blacksmith] = Dialogue.BlacksmithDialogue.ToDictionary(i => i.Id);
         DialogueCache[PersonKind.Butler] = Dialogue.ButlerDialogue.ToDictionary(i => i.Id);
+        DialogueCache[PersonKind.Lord] = Dialogue.LordDialogue.ToDictionary(i => i.Id);
     }
 
     public DialogueNode StartDialogue(PersonKind person)

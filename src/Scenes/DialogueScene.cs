@@ -49,6 +49,13 @@ public class DialogueScene : IScene
                         return;
                     }
 
+                    if (_validLinks[i].DestinationId == -2)
+                    {
+                        SceneManager.Instance.Pop();
+                        SceneManager.Instance.Push(new LockScene());
+                        return;
+                    }
+
                     var nextId = _validLinks[i].DestinationId;
                     _currentNode = DialogueManager.Instance.ContinueDialogue(RootGameState.Instance.CurrentConversationTarget, nextId);
                     _validLinks = new List<DialogueLink>();

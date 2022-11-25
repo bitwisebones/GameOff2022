@@ -13,7 +13,7 @@ public partial class Dialogue
             L(4, "What can you tell me about the local cheese?")),
         D(4, "Well lad, the Apodemus family has been making cheese here...", Continue(5)),
         D(5, "...for many generations. *hiccup*", Continue(6)),
-        D(6, "That is, until Lord Apodemus disappeared recently.", Continue(7)),
+        D(6, "That is, until Magnus Apodemus disappeared recently.", Continue(7)),
         D(7, "Twas not but a few months ago, just after the priest arrived.", Continue(8)),
         D(8, "There's something not right about that priest, I tell you.", Continue(9)),
         D(9, "Others will say it's just a coincidence, but I know better.", Continue(10)),

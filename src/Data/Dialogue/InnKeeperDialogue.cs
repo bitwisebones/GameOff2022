@@ -16,7 +16,7 @@ public partial class Dialogue
         D(5, "...my dear husband Liam knows everything about cheese!",
             L(6, "Is that so?")),
         D(6, "He was the Big Cheese at the cheesery in town...", Continue(7)),
-        D(7, "...until Lord Apodemus disappeared and it closed down.", Continue(8)),
+        D(7, "...until Magnus Apodemus disappeared and it closed down.", Continue(8)),
         D(8, "Now he just drinks away his problems here in the tavern", Continue(9)),
         D(9, "Probably won't even talk to you unless you buy him an ale!",
             L(10, "[continue]", () => DialogueManager.Instance.NextNode[PersonKind.InnKeeper] = 10)),
