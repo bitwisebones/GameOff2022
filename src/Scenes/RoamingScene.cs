@@ -16,6 +16,9 @@ public class RoamingScene : IScene
     private bool _isActive => SceneManager.Instance.Peek() == this;
     private bool _isDebug = false;
 
+    private double _nextCheese = GetTime() + 60;
+    private bool _playCheeseSound = true;
+
     private Entity? _hovered;
     private bool _isInventoryOpen;
     private RenderTexture2D _renderTexture = LoadRenderTexture(ScreenInfo.RenderWidth, ScreenInfo.RenderHeight);
@@ -206,6 +209,23 @@ public class RoamingScene : IScene
             {
                 DrawFPS(10, 10);
             }
+
+
+            if (GetTime() > _nextCheese)
+            {
+                if (_playCheeseSound)
+                {
+                    PlaySound(ResourceManager.Instance.Sounds["cheese"]);
+                    _playCheeseSound = false;
+                }
+
+                DrawTexture(ResourceManager.Instance.Textures["cheese"], 235, 0, Color.WHITE);
+                if (GetTime() > _nextCheese + 0.1)
+                {
+                    _nextCheese = GetTime() + (int)Math.Floor(_rnd.NextSingle() * (5 * 60));
+                    _playCheeseSound = true;
+                }
+            }
         }
         EndTextureMode();
 
@@ -324,14 +344,6 @@ public class RoamingScene : IScene
             }
         }
 
-        // this turned out to be pretty annoying
-        // if (moved)
-        // {
-        //     var sounds = new string[] { "walk_grass_1", "walk_grass_2" };
-        //     var x = 1 - (int)Math.Floor((_rnd.NextSingle() * 2f));
-        //     PlaySound(ResourceManager.Instance.Sounds[sounds[x]]);
-        // }
-
         if (moved && _isInventoryOpen)
         {
             _isInventoryOpen = false;
@@ -436,7 +448,6 @@ public class RoamingScene : IScene
                         var newArea = Scenes.GetAreaFromDoor(d.DoorKind);
                         if (newArea != AreaKind.None)
                         {
-                            PlaySound(ResourceManager.Instance.Sounds["door"]);
                             SceneManager.Instance.TransitionTo(newArea);
                         }
                     }
