@@ -9,6 +9,7 @@ public partial class Dialogue
                 () => {
                     RootGameState.Instance.Inventory.Remove(ItemKind.LoveLetter);
                 }),
+            L(7, "What can you tell me about Magnus?"),
             Goodbye()),
         D(1, "What do you mean?",
             L(2, "Just read it, and you'll see what I mean.")),
@@ -23,5 +24,8 @@ public partial class Dialogue
             })),
 
         D(6, "Oh, was I reading aloud? How embarrassing!", Continue(5)),
+        D(7, "He's been missing for several weeks now I'm afraid.", Continue(8)),
+        D(8, "It's not unlike him to take an unexpected trip...", Continue(9)),
+        D(9, "...but he always lets us know. This time is different.", Goodbye()),
     };
 }
