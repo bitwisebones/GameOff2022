@@ -2,8 +2,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Raymath;
-using static Raylib_cs.ShaderLocationIndex;
 
 public class LockScene : IScene
 {
@@ -28,6 +26,9 @@ public class LockScene : IScene
         if (solved)
         {
             SceneManager.Instance.Pop();
+            RootGameState.Instance.CurrentConversationTarget = PersonKind.Lord;
+            SceneManager.Instance.Push(new DialogueScene());
+            return;
         }
         _hoveredIndex = -1;
         for (var i = 0; i < 5; i++)
