@@ -2,6 +2,12 @@
 
 ## _Mouse or Man?_
 
+This game was made in ~1 month for the Github Game Off 2022 game jam.
+
+You can find it on [itch.io](https://bitwisebones.itch.io/mouse-or-man).
+
+There's also a postmortem in the repo [here](https://github.com/bitwisebones/GameOff2022/blob/main/postmortem.md).
+
 Repo contents:
 - /src (the game's source code and resources)
 - /design (design docs/notes - !! WARNING ~~ SPOLIERS !!)
@@ -31,5 +37,3 @@ Repo contents:
 - https://opengameart.org/content/darksad-piano
 - http://kitfox.com/projects/perlinNoiseMaker/
 - https://www.fantasynamegenerators.com/
-
-Work in progress!
