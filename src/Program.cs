@@ -7,7 +7,7 @@ namespace GameOff2022
         static void Main(string[] args)
         {
             SetConfigFlags(Raylib_cs.ConfigFlags.FLAG_WINDOW_RESIZABLE);
-            InitWindow(1920, 1080, "Mouse or Man?");
+            InitWindow(1920 / 2, 1080 / 2, "Mouse or Man?");
             InitAudioDevice();
 
             SetExitKey(0);
