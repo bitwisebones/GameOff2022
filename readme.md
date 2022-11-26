@@ -21,6 +21,7 @@ Repo contents:
 - [RenderDoc](https://renderdoc.org/)
 
 ### Resources
+- https://www.dafont.com/alagard.font
 - https://bedroomcoders.co.uk/raylib-billboards-advanced-use/
 - https://opengameart.org/content/villagers-sprite-sheets-pixel-art-pack
 - https://opengameart.org/content/tree-21
