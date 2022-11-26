@@ -16,7 +16,7 @@ public class RoamingScene : IScene
     private bool _isActive => SceneManager.Instance.Peek() == this;
     private bool _isDebug = false;
 
-    private double _nextCheese = GetTime() + 60;
+    private double _nextCheese;
     private bool _playCheeseSound = true;
 
     private Entity? _hovered;
@@ -35,6 +35,8 @@ public class RoamingScene : IScene
 
     public void Init()
     {
+        _nextCheese = GetTime() + 60;
+
         var fogDensityLoc = GetShaderLocation(ResourceManager.Instance.Shader, "fogDensity");
         var fogColorLoc = GetShaderLocation(ResourceManager.Instance.Shader, "fogColor");
 

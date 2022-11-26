@@ -8,7 +8,12 @@ public class LoadingStage : IStage
 
     public void Update(float deltaTime)
     {
-        var progress = ResourceManager.Instance.LoadNext();
+        Progress progress;
+        for (var i = 0; i < 150; i++)
+        {
+            progress = ResourceManager.Instance.LoadNext();
+        }
+        progress = ResourceManager.Instance.LoadNext();
 
         BeginDrawing();
         {
